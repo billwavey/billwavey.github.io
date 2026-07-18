@@ -24,14 +24,16 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Table UI */
-    .tier-table { width: 100%; border-collapse: collapse; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; }
-    .tier-table th, .tier-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+    .table-wrapper { width: 100%; overflow-x: auto; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 30px; }
+    .tier-table { width: 100%; border-collapse: collapse; }
+    .tier-table th, .tier-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; white-space: nowrap; }
     .tier-table th { background-color: #0b0b0d; color: var(--brand-accent); font-size: 13px; text-transform: uppercase; position: sticky; top: 70px; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
     .tier-table tr:hover { background-color: var(--bg-card-hover); }
     .tier-table td:nth-child(1) { width: 40px; text-align: center; font-weight: 900; font-size: 16px; color: var(--text-primary); }
-    .tier-table td:nth-child(2) { width: 160px; font-weight: bold; color: #c9a0dc; }
-    .tier-table td:nth-child(3) { width: 240px; color: var(--text-primary); font-family: monospace; font-size: 13px; }
-    .tier-table td:nth-child(4) { color: var(--text-secondary); line-height: 1.4; }
+    .tier-table td:nth-child(2) { font-weight: bold; color: #c9a0dc; }
+    .tier-table td:last-child { white-space: normal; min-width: 300px; color: var(--text-secondary); line-height: 1.4; }
+    
+    .section-title { font-size: 20px; color: var(--text-primary); margin: 30px 0 15px 0; padding-left: 10px; border-left: 4px solid var(--brand-purple); font-weight: bold; }
   </style>
 </head>
 <body>
@@ -56,377 +58,463 @@
       <button class="tab-btn" onclick="openTab('vassal')">Vassals</button>
       <button class="tab-btn" onclick="openTab('alley')">Alley Leaders</button>
       <button class="tab-btn" onclick="openTab('combat')">Combat Specialists</button>
+      <button class="tab-btn" onclick="openTab('special')">Party Roles</button>
     </div>
 
     <!-- Governors Tab -->
     <div id="gov" class="tab-pane active">
-      <table class="tier-table">
-        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>1</td><td>The Scholar</td><td>Eng:136 Stw:127 Med:98 Chm:117 Ldr:59</td><td>The ultimate governor. Elite build speed, prosperity generation, and loyalty management in one package.</td></tr>
-        <tr><td>2</td><td>The Knowing</td><td>Eng:81 Stw:113 Med:108 Chm:101 Ldr:81</td><td>Perfectly balanced. High prosperity, excellent loyalty, and starts with enough Medicine to secure the hearth growth perk.</td></tr>
-        <tr><td>3</td><td>The Surgeon</td><td>Eng:73 Stw:100 Med:169 Chm:92 Ldr:61</td><td>His 169 Medicine unlocks massive loyalty, prosperity, and hearth growth perks instantly, backed by 100 Steward.</td></tr>
-        <tr><td>4</td><td>The Engineer</td><td>Eng:160 Stw:90 Med:63 Chm:77 Ldr:70</td><td>The fastest builder in the game. Will max out a settlement's projects incredibly fast while maintaining good prosperity.</td></tr>
-        <tr><td>5</td><td>The Wainwright</td><td>Eng:133 Stw:103 Med:53 Chm:70 Ldr:69</td><td>Elite build speed and great prosperity. The absolute best choice for managing Vlandian fiefs.</td></tr>
-        <tr><td>6</td><td>The Scholar (Ase)</td><td>Eng:127 Stw:78 Med:94 Chm:80 Ldr:30</td><td>Excellent builder with high enough Medicine to reach the 100-level hearth perk quickly.</td></tr>
-        <tr><td>7</td><td>The Spicevendor</td><td>Eng:50 Stw:116 Med:55 Chm:103 Ldr:71</td><td>Top-tier Steward for prosperity and high Charm for loyalty, with enough Engineering to help build speed slightly.</td></tr>
-        <tr><td>8</td><td>The Prince</td><td>Eng:0 Stw:118 Med:64 Chm:147 Ldr:157</td><td>Zero build speed, but his 147 Charm and 157 Leadership ensure massive, cheap, garrisons.</td></tr>
-        <tr><td>9</td><td>Fairhair</td><td>Eng:0 Stw:109 Med:53 Chm:144 Ldr:153</td><td>Identical utility to The Prince, but for Battanian settlements. Elite loyalty and garrison management.</td></tr>
-        <tr><td>10</td><td>Bitterdraught</td><td>Eng:0 Stw:73 Med:155 Chm:25 Ldr:58</td><td>Poor loyalty manager, but his 155 Medicine gives instant access to the prosperity and hearth growth perks.</td></tr>
-        <tr><td>11</td><td>The Healer</td><td>Eng:0 Stw:50 Med:163 Chm:29 Ldr:58</td><td>Carried entirely by his 163 Medicine, allowing instant access to top-tier governor perks to offset low Steward.</td></tr>
-        <tr><td>12</td><td>Willowbark</td><td>Eng:0 Stw:50 Med:153 Chm:32 Ldr:45</td><td>The Sturgian equivalent of The Healer. Instant access to the +1 Prosperity/day Medicine perk.</td></tr>
-        <tr><td>13</td><td>The She-Wolf</td><td>Eng:68 Stw:92 Med:64 Chm:95 Ldr:92</td><td>Highly competent backup governor. Very balanced across build speed, prosperity, and loyalty.</td></tr>
-        <tr><td>14</td><td>The Golden</td><td>Eng:58 Stw:88 Med:52 Chm:100 Ldr:97</td><td>Great loyalty and garrison manager with passable Steward for maintaining stable towns.</td></tr>
-        <tr><td>15</td><td>The Grizzled</td><td>Eng:49 Stw:83 Med:69 Chm:70 Ldr:127</td><td>Good Steward and excellent Leadership keeps Vlandian garrisons cheap and morale high.</td></tr>
-        <tr><td>16</td><td>Frostbeard</td><td>Eng:46 Stw:89 Med:58 Chm:64 Ldr:64</td><td>The best overall Sturgian choice for maintaining prosperity and slow-but-steady project building.</td></tr>
-        <tr><td>17</td><td>The Shieldmaiden</td><td>Eng:43 Stw:72 Med:81 Chm:102 Ldr:41</td><td>Sturgia lacks great administrators. Her 102 Charm makes her the safest bet to keep Sturgian loyalty positive.</td></tr>
-        <tr><td>18</td><td>The Dispossessed</td><td>Eng:54 Stw:83 Med:65 Chm:79 Ldr:53</td><td>A very solid mid-tier governor who provides a little bit of everything for Empire fiefs.</td></tr>
-        <tr><td>19</td><td>The Hyena</td><td>Eng:41 Stw:88 Med:50 Chm:47 Ldr:59</td><td>Respectable Steward, but low Charm means he will struggle to keep recently captured towns loyal.</td></tr>
-        <tr><td>20</td><td>The Loud</td><td>Eng:35 Stw:69 Med:40 Chm:132 Ldr:124</td><td>Slow builder, but his elite Charm and Leadership will pacify angry Vlandian towns recently taken in sieges.</td></tr>
-        <tr><td>21</td><td>The Wanderer (Ase)</td><td>Eng:0 Stw:80 Med:67 Chm:67 Ldr:67</td><td>A completely average baseline. Won't excel, but won't ruin the settlement.</td></tr>
-        <tr><td>22</td><td>The Fish</td><td>Eng:0 Stw:75 Med:49 Chm:86 Ldr:52</td><td>Decent Steward and Charm makes him a usable stopgap for Sturgian castles.</td></tr>
-        <tr><td>23</td><td>The Wanderer (Emp)</td><td>Eng:37 Stw:73 Med:45 Chm:48 Ldr:59</td><td>Passable Steward, but low Medicine and Charm limit his long-term effectiveness.</td></tr>
-        <tr><td>24</td><td>The Hawk</td><td>Eng:0 Stw:72 Med:59 Chm:50 Ldr:63</td><td>Average prosperity manager with no build speed.</td></tr>
-        <tr><td>25</td><td>The Leopardess</td><td>Eng:0 Stw:67 Med:53 Chm:148 Ldr:60</td><td>Her 148 Charm makes her excellent at stopping rebellions, but low Steward hurts the town's food supply.</td></tr>
-        <tr><td>26</td><td>The Outcast</td><td>Eng:0 Stw:67 Med:40 Chm:126 Ldr:52</td><td>High Charm keeps loyalty up, but he provides nothing for prosperity or build speed.</td></tr>
-        <tr><td>27</td><td>The Wanderer (Bat)</td><td>Eng:0 Stw:65 Med:52 Chm:55 Ldr:60</td><td>Mediocre across the board. Use only if desperate for a Battanian culture match.</td></tr>
-        <tr><td>28</td><td>Ironeye</td><td>Eng:0 Stw:62 Med:45 Chm:55 Ldr:51</td><td>Too old to level up, and his base stats are too low to be a dedicated governor.</td></tr>
-        <tr><td>29</td><td>The Alone</td><td>Eng:0 Stw:58 Med:80 Chm:115 Ldr:47</td><td>High Charm and decent Medicine, but 58 Steward will stall the settlement's growth.</td></tr>
-        <tr><td>30</td><td>The Falcon</td><td>Eng:0 Stw:57 Med:59 Chm:50 Ldr:68</td><td>Below average in all necessary administrative fields.</td></tr>
-        <tr><td>31</td><td>of The Wastes</td><td>Eng:0 Stw:55 Med:73 Chm:64 Ldr:68</td><td>Good Medicine, but terrible Steward.</td></tr>
-        <tr><td>32</td><td>The Tracker</td><td>Eng:0 Stw:54 Med:60 Chm:63 Ldr:64</td><td>Borderline unviable for administration due to low Steward.</td></tr>
-        <tr><td>33</td><td>The Swift</td><td>Eng:0 Stw:52 Med:61 Chm:99 Ldr:57</td><td>Good Charm, but his 52 Steward will cause food shortages in large towns.</td></tr>
-        <tr><td>34</td><td>The Huntress</td><td>Eng:0 Stw:51 Med:71 Chm:47 Ldr:59</td><td>Low Steward and bad Charm. A poor choice.</td></tr>
-        <tr><td>35</td><td>The Bloodaxe</td><td>Eng:0 Stw:37 Med:55 Chm:51 Ldr:66</td><td>We are now entering the pure combatants. Assigning him will actively harm town prosperity.</td></tr>
-        <tr><td>36</td><td>Horsethief</td><td>Eng:0 Stw:77 Med:36 Chm:148 Ldr:56</td><td>Great Charm, but 36 Medicine and zero Engineering makes him a highly flawed administrator.</td></tr>
-        <tr><td>37</td><td>of The Hills (Vla)</td><td>Eng:0 Stw:54 Med:65 Chm:60 Ldr:70</td><td>Combat stats only.</td></tr>
-        <tr><td>38</td><td>The Black (Vla)</td><td>Eng:0 Stw:51 Med:52 Chm:67 Ldr:61</td><td>Combat stats only.</td></tr>
-        <tr><td>39</td><td>The Lucky</td><td>Eng:0 Stw:38 Med:42 Chm:140 Ldr:90</td><td>His Charm/Leadership is entirely wasted on a 38 Steward rating. He cannot feed a garrison.</td></tr>
-        <tr><td>40</td><td>The Ragged (Bat)</td><td>Eng:0 Stw:42 Med:58 Chm:93 Ldr:93</td><td>High Leadership, but no administrative capability.</td></tr>
-        <tr><td>41</td><td>The Ragged (Khu)</td><td>Eng:0 Stw:46 Med:71 Chm:87 Ldr:87</td><td>Marginally better Medicine than the Battanian, but still a terrible governor.</td></tr>
-        <tr><td>42</td><td>The Fatherless</td><td>Eng:0 Stw:48 Med:59 Chm:78 Ldr:78</td><td>Purely a combat archer.</td></tr>
-        <tr><td>43</td><td>of The Hills (Bat)</td><td>Eng:0 Stw:39 Med:68 Chm:47 Ldr:47</td><td>Will starve the town.</td></tr>
-        <tr><td>44</td><td>The Shark</td><td>Eng:0 Stw:49 Med:48 Chm:55 Ldr:85</td><td>Pure combatant.</td></tr>
-        <tr><td>45</td><td>The Accursed</td><td>Eng:0 Stw:26 Med:49 Chm:132 Ldr:50</td><td>His 26 Steward means the town will immediately begin starving and losing prosperity.</td></tr>
-        <tr><td>46</td><td>The Silent</td><td>Eng:0 Stw:26 Med:51 Chm:137 Ldr:33</td><td>Same as The Accursed. 26 Steward is fatal to a town's economy.</td></tr>
-        <tr><td>47</td><td>The Robber</td><td>Eng:0 Stw:42 Med:35 Chm:155 Ldr:92</td><td>Massive Charm, but 42 Steward and 35 Medicine makes him an economic liability.</td></tr>
-        <tr><td>48</td><td>The Brave</td><td>Eng:0 Stw:46 Med:41 Chm:82 Ldr:107</td><td>Pure combatant.</td></tr>
-        <tr><td>49</td><td>The Exile</td><td>Eng:0 Stw:31 Med:54 Chm:39 Ldr:39</td><td>Pure combatant.</td></tr>
-        <tr><td>50</td><td>The Black (Emp)</td><td>Eng:0 Stw:21 Med:57 Chm:43 Ldr:43</td><td>21 Steward. Do not put him in charge of a settlement.</td></tr>
-        <tr><td>51</td><td>The Smith</td><td>Eng:0 Stw:59 Med:113 Chm:67 Ldr:67</td><td>Keep him in your party to forge weapons; he is wasted in a town.</td></tr>
-        <tr><td>52</td><td>The Swordsman</td><td>Eng:0 Stw:50 Med:51 Chm:79 Ldr:79</td><td>Pure combatant.</td></tr>
-        <tr><td>53</td><td>Blacktooth</td><td>Eng:0 Stw:36 Med:50 Chm:47 Ldr:47</td><td>Pure combatant.</td></tr>
-        <tr><td>54</td><td>The Butcher</td><td>Eng:0 Stw:46 Med:41 Chm:30 Ldr:30</td><td>Pure combatant.</td></tr>
-        <tr><td>55</td><td>The Mad</td><td>Eng:0 Stw:31 Med:48 Chm:44 Ldr:43</td><td>Front-line berserker. No administrative skills.</td></tr>
-        <tr><td>56</td><td>Breakskull</td><td>Eng:0 Stw:38 Med:45 Chm:34 Ldr:61</td><td>Front-line berserker. No administrative skills.</td></tr>
-        <tr><td>57</td><td>The Red</td><td>Eng:0 Stw:35 Med:44 Chm:25 Ldr:50</td><td>Pure combatant.</td></tr>
-        <tr><td>58</td><td>Barrelchest</td><td>Eng:0 Stw:50 Med:58 Chm:65 Ldr:95</td><td>Pure combatant.</td></tr>
-        <tr><td>59</td><td>Longknife</td><td>Eng:0 Stw:44 Med:55 Chm:54 Ldr:57</td><td>Pure combatant.</td></tr>
-        <tr><td>60</td><td>Cowthief</td><td>Eng:0 Stw:44 Med:54 Chm:88 Ldr:88</td><td>Pure combatant.</td></tr>
-        <tr><td>61</td><td>The Boar</td><td>Eng:0 Stw:28 Med:48 Chm:28 Ldr:34</td><td>28 Steward and too old to level.</td></tr>
-        <tr><td>62</td><td>Bellowsbreath</td><td>Eng:0 Stw:43 Med:51 Chm:53 Ldr:49</td><td>Pure combatant.</td></tr>
-        <tr><td>63</td><td>Coalbiter</td><td>Eng:0 Stw:48 Med:65 Chm:31 Ldr:61</td><td>Pure combatant.</td></tr>
-        <tr><td>64</td><td>The Bull</td><td>Eng:0 Stw:27 Med:32 Chm:35 Ldr:69</td><td>27 Steward and 32 Medicine.</td></tr>
-        <tr><td>65</td><td>Ironbelly</td><td>Eng:0 Stw:51 Med:66 Chm:47 Ldr:70</td><td>Pure combatant.</td></tr>
-        <tr><td>66</td><td>Empty-Pockets</td><td>Eng:0 Stw:0 Med:0 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>67</td><td>Wave-Breaker</td><td>Eng:0 Stw:0 Med:0 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>68</td><td>Trolldaughter</td><td>Eng:0 Stw:0 Med:42 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>69</td><td>The Fisherman</td><td>Eng:0 Stw:0 Med:56 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>70</td><td>The Shipwright</td><td>Eng:0 Stw:0 Med:39 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>71</td><td>The Navigator</td><td>Eng:0 Stw:0 Med:48 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>72</td><td>The Restless</td><td>Eng:0 Stw:0 Med:26 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-        <tr><td>73</td><td>of The River</td><td>Eng:0 Stw:0 Med:48 Chm:0 Ldr:0</td><td>Blank stats in all administrative fields.</td></tr>
-      </table>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Eng</th><th>Steward</th><th>Medicine</th><th>Charm</th><th>Leadership</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Scholar</td><td>Empire</td><td>136</td><td>127</td><td>98</td><td>117</td><td>59</td><td>The ultimate governor. Elite build speed, prosperity generation, and loyalty management in one package.</td></tr>
+          <tr><td>2</td><td>The Knowing</td><td>Khuzait</td><td>81</td><td>113</td><td>108</td><td>101</td><td>81</td><td>Perfectly balanced. High prosperity, excellent loyalty, and starts with enough Medicine to secure the hearth growth perk.</td></tr>
+          <tr><td>3</td><td>The Surgeon</td><td>Empire</td><td>73</td><td>100</td><td>169</td><td>92</td><td>61</td><td>His 169 Medicine unlocks massive loyalty, prosperity, and hearth growth perks instantly, backed by 100 Steward.</td></tr>
+          <tr><td>4</td><td>The Engineer</td><td>Aserai</td><td>160</td><td>90</td><td>63</td><td>77</td><td>70</td><td>The fastest builder in the game. Will max out a settlement's projects incredibly fast while maintaining good prosperity.</td></tr>
+          <tr><td>5</td><td>The Wainwright</td><td>Vlandia</td><td>133</td><td>103</td><td>53</td><td>70</td><td>69</td><td>Elite build speed and great prosperity. The absolute best choice for managing Vlandian fiefs.</td></tr>
+          <tr><td>6</td><td>The Scholar</td><td>Aserai</td><td>127</td><td>78</td><td>94</td><td>80</td><td>30</td><td>Excellent builder with high enough Medicine to reach the 100-level hearth perk quickly.</td></tr>
+          <tr><td>7</td><td>The Spicevendor</td><td>Aserai</td><td>50</td><td>116</td><td>55</td><td>103</td><td>71</td><td>Top-tier Steward for prosperity and high Charm for loyalty, with enough Engineering to help build speed slightly.</td></tr>
+          <tr><td>8</td><td>The Prince</td><td>Aserai</td><td>0</td><td>118</td><td>64</td><td>147</td><td>157</td><td>Zero build speed, but his 147 Charm and 157 Leadership ensure massive, cheap, garrisons.</td></tr>
+          <tr><td>9</td><td>Fairhair</td><td>Battania</td><td>0</td><td>109</td><td>53</td><td>144</td><td>153</td><td>Identical utility to The Prince, but for Battanian settlements. Elite loyalty and garrison management.</td></tr>
+          <tr><td>10</td><td>Bitterdraught</td><td>Vlandia</td><td>0</td><td>73</td><td>155</td><td>25</td><td>58</td><td>Poor loyalty manager, but his 155 Medicine gives instant access to the prosperity and hearth growth perks.</td></tr>
+          <tr><td>11</td><td>The Healer</td><td>Battania</td><td>0</td><td>50</td><td>163</td><td>29</td><td>58</td><td>Carried entirely by his 163 Medicine, allowing instant access to top-tier governor perks to offset low Steward.</td></tr>
+          <tr><td>12</td><td>Willowbark</td><td>Sturgia</td><td>0</td><td>50</td><td>153</td><td>32</td><td>45</td><td>The Sturgian equivalent of The Healer. Instant access to the +1 Prosperity/day Medicine perk.</td></tr>
+          <tr><td>13</td><td>The She-Wolf</td><td>Khuzait</td><td>68</td><td>92</td><td>64</td><td>95</td><td>92</td><td>Highly competent backup governor. Very balanced across build speed, prosperity, and loyalty.</td></tr>
+          <tr><td>14</td><td>The Golden</td><td>Aserai</td><td>58</td><td>88</td><td>52</td><td>100</td><td>97</td><td>Great loyalty and garrison manager with passable Steward for maintaining stable towns.</td></tr>
+          <tr><td>15</td><td>The Grizzled</td><td>Vlandia</td><td>49</td><td>83</td><td>69</td><td>70</td><td>127</td><td>Good Steward and excellent Leadership keeps Vlandian garrisons cheap and morale high.</td></tr>
+          <tr><td>16</td><td>Frostbeard</td><td>Sturgia</td><td>46</td><td>89</td><td>58</td><td>64</td><td>64</td><td>The best overall Sturgian choice for maintaining prosperity and slow-but-steady project building.</td></tr>
+          <tr><td>17</td><td>The Shieldmaiden</td><td>Sturgia</td><td>43</td><td>72</td><td>81</td><td>102</td><td>41</td><td>Sturgia lacks great administrators. Her 102 Charm makes her the safest bet to keep Sturgian loyalty positive.</td></tr>
+          <tr><td>18</td><td>The Dispossessed</td><td>Empire</td><td>54</td><td>83</td><td>65</td><td>79</td><td>53</td><td>A very solid mid-tier governor who provides a little bit of everything for Empire fiefs.</td></tr>
+          <tr><td>19</td><td>The Hyena</td><td>Aserai</td><td>41</td><td>88</td><td>50</td><td>47</td><td>59</td><td>Respectable Steward, but low Charm means he will struggle to keep recently captured towns loyal.</td></tr>
+          <tr><td>20</td><td>The Loud</td><td>Vlandia</td><td>35</td><td>69</td><td>40</td><td>132</td><td>124</td><td>Slow builder, but his elite Charm and Leadership will pacify angry Vlandian towns recently taken in sieges.</td></tr>
+          <tr><td>21</td><td>The Wanderer</td><td>Aserai</td><td>0</td><td>80</td><td>67</td><td>67</td><td>67</td><td>A completely average baseline. Won't excel, but won't ruin the settlement.</td></tr>
+          <tr><td>22</td><td>The Fish</td><td>Sturgia</td><td>0</td><td>75</td><td>49</td><td>86</td><td>52</td><td>Decent Steward and Charm makes him a usable stopgap for Sturgian castles.</td></tr>
+          <tr><td>23</td><td>The Wanderer</td><td>Empire</td><td>37</td><td>73</td><td>45</td><td>48</td><td>59</td><td>Passable Steward, but low Medicine and Charm limit his long-term effectiveness.</td></tr>
+          <tr><td>24</td><td>The Hawk</td><td>Khuzait</td><td>0</td><td>72</td><td>59</td><td>50</td><td>63</td><td>Average prosperity manager with no build speed.</td></tr>
+          <tr><td>25</td><td>The Leopardess</td><td>Aserai</td><td>0</td><td>67</td><td>53</td><td>148</td><td>60</td><td>Her 148 Charm makes her excellent at stopping rebellions, but low Steward hurts the town's food supply.</td></tr>
+          <tr><td>26</td><td>The Outcast</td><td>Khuzait</td><td>0</td><td>67</td><td>40</td><td>126</td><td>52</td><td>High Charm keeps loyalty up, but he provides nothing for prosperity or build speed.</td></tr>
+          <tr><td>27</td><td>The Wanderer</td><td>Battania</td><td>0</td><td>65</td><td>52</td><td>55</td><td>60</td><td>Mediocre across the board. Use only if desperate for a Battanian culture match.</td></tr>
+          <tr><td>28</td><td>Ironeye</td><td>Khuzait</td><td>0</td><td>62</td><td>45</td><td>55</td><td>51</td><td>Too old to level up, and his base stats are too low to be a dedicated governor.</td></tr>
+          <tr><td>29</td><td>The Alone</td><td>Khuzait</td><td>0</td><td>58</td><td>80</td><td>115</td><td>47</td><td>High Charm and decent Medicine, but 58 Steward will stall the settlement's growth.</td></tr>
+          <tr><td>30</td><td>The Falcon</td><td>Aserai</td><td>0</td><td>57</td><td>59</td><td>50</td><td>68</td><td>Below average in all necessary administrative fields.</td></tr>
+          <tr><td>31</td><td>of The Wastes</td><td>Aserai</td><td>0</td><td>55</td><td>73</td><td>64</td><td>68</td><td>Good Medicine, but terrible Steward.</td></tr>
+          <tr><td>32</td><td>The Tracker</td><td>Vlandia</td><td>0</td><td>54</td><td>60</td><td>63</td><td>64</td><td>Borderline unviable for administration due to low Steward.</td></tr>
+          <tr><td>33</td><td>The Swift</td><td>Khuzait</td><td>0</td><td>52</td><td>61</td><td>99</td><td>57</td><td>Good Charm, but his 52 Steward will cause food shortages in large towns.</td></tr>
+          <tr><td>34</td><td>The Huntress</td><td>Vlandia</td><td>0</td><td>51</td><td>71</td><td>47</td><td>59</td><td>Low Steward and bad Charm. A poor choice.</td></tr>
+          <tr><td>35</td><td>The Bloodaxe</td><td>Sturgia</td><td>0</td><td>37</td><td>55</td><td>51</td><td>66</td><td>We are now entering the pure combatants. Assigning him will actively harm town prosperity.</td></tr>
+          <tr><td>36</td><td>Horsethief</td><td>Battania</td><td>0</td><td>77</td><td>36</td><td>148</td><td>56</td><td>Great Charm, but 36 Medicine and zero Engineering makes him a highly flawed administrator.</td></tr>
+          <tr><td>37</td><td>of The Hills</td><td>Vlandia</td><td>0</td><td>54</td><td>65</td><td>60</td><td>70</td><td>Combat stats only.</td></tr>
+          <tr><td>38</td><td>The Black</td><td>Vlandia</td><td>0</td><td>51</td><td>52</td><td>67</td><td>61</td><td>Combat stats only.</td></tr>
+          <tr><td>39</td><td>The Lucky</td><td>Sturgia</td><td>0</td><td>38</td><td>42</td><td>140</td><td>90</td><td>His Charm/Leadership is entirely wasted on a 38 Steward rating. He cannot feed a garrison.</td></tr>
+          <tr><td>40</td><td>The Ragged</td><td>Battania</td><td>0</td><td>42</td><td>58</td><td>93</td><td>93</td><td>High Leadership, but no administrative capability.</td></tr>
+          <tr><td>41</td><td>The Ragged</td><td>Khuzait</td><td>0</td><td>46</td><td>71</td><td>87</td><td>87</td><td>Marginally better Medicine than the Battanian, but still a terrible governor.</td></tr>
+          <tr><td>42</td><td>The Fatherless</td><td>Khuzait</td><td>0</td><td>48</td><td>59</td><td>78</td><td>78</td><td>Purely a combat archer.</td></tr>
+          <tr><td>43</td><td>of The Hills</td><td>Battania</td><td>0</td><td>39</td><td>68</td><td>47</td><td>47</td><td>Will starve the town.</td></tr>
+          <tr><td>44</td><td>The Shark</td><td>Vlandia</td><td>0</td><td>49</td><td>48</td><td>55</td><td>85</td><td>Pure combatant.</td></tr>
+          <tr><td>45</td><td>The Accursed</td><td>Sturgia</td><td>0</td><td>26</td><td>49</td><td>132</td><td>50</td><td>His 26 Steward means the town will immediately begin starving and losing prosperity.</td></tr>
+          <tr><td>46</td><td>The Silent</td><td>Empire</td><td>0</td><td>26</td><td>51</td><td>137</td><td>33</td><td>Same as The Accursed. 26 Steward is fatal to a town's economy.</td></tr>
+          <tr><td>47</td><td>The Robber</td><td>Empire</td><td>0</td><td>42</td><td>35</td><td>155</td><td>92</td><td>Massive Charm, but 42 Steward and 35 Medicine makes him an economic liability.</td></tr>
+          <tr><td>48</td><td>The Brave</td><td>Vlandia</td><td>0</td><td>46</td><td>41</td><td>82</td><td>107</td><td>Pure combatant.</td></tr>
+          <tr><td>49</td><td>The Exile</td><td>Empire</td><td>0</td><td>31</td><td>54</td><td>39</td><td>39</td><td>Pure combatant.</td></tr>
+          <tr><td>50</td><td>The Black</td><td>Empire</td><td>0</td><td>21</td><td>57</td><td>43</td><td>43</td><td>21 Steward. Do not put him in charge of a settlement.</td></tr>
+          <tr><td>51</td><td>The Smith</td><td>Vlandia</td><td>0</td><td>59</td><td>113</td><td>67</td><td>67</td><td>Keep him in your party to forge weapons; he is wasted in a town.</td></tr>
+          <tr><td>52</td><td>The Swordsman</td><td>Aserai</td><td>0</td><td>50</td><td>51</td><td>79</td><td>79</td><td>Pure combatant.</td></tr>
+          <tr><td>53</td><td>Blacktooth</td><td>Battania</td><td>0</td><td>36</td><td>50</td><td>47</td><td>47</td><td>Pure combatant.</td></tr>
+          <tr><td>54</td><td>The Butcher</td><td>Empire</td><td>0</td><td>46</td><td>41</td><td>30</td><td>30</td><td>Pure combatant.</td></tr>
+          <tr><td>55</td><td>The Mad</td><td>Khuzait</td><td>0</td><td>31</td><td>48</td><td>44</td><td>43</td><td>Front-line berserker. No administrative skills.</td></tr>
+          <tr><td>56</td><td>Breakskull</td><td>Sturgia</td><td>0</td><td>38</td><td>45</td><td>34</td><td>61</td><td>Front-line berserker. No administrative skills.</td></tr>
+          <tr><td>57</td><td>The Red</td><td>Battania</td><td>0</td><td>35</td><td>44</td><td>25</td><td>50</td><td>Pure combatant.</td></tr>
+          <tr><td>58</td><td>Barrelchest</td><td>Vlandia</td><td>0</td><td>50</td><td>58</td><td>65</td><td>95</td><td>Pure combatant.</td></tr>
+          <tr><td>59</td><td>Longknife</td><td>Sturgia</td><td>0</td><td>44</td><td>55</td><td>54</td><td>57</td><td>Pure combatant.</td></tr>
+          <tr><td>60</td><td>Cowthief</td><td>Battania</td><td>0</td><td>44</td><td>54</td><td>88</td><td>88</td><td>Pure combatant.</td></tr>
+          <tr><td>61</td><td>The Boar</td><td>Empire</td><td>0</td><td>28</td><td>48</td><td>28</td><td>34</td><td>28 Steward and too old to level.</td></tr>
+          <tr><td>62</td><td>Bellowsbreath</td><td>Vlandia</td><td>0</td><td>43</td><td>51</td><td>53</td><td>49</td><td>Pure combatant.</td></tr>
+          <tr><td>63</td><td>Coalbiter</td><td>Sturgia</td><td>0</td><td>48</td><td>65</td><td>31</td><td>61</td><td>Pure combatant.</td></tr>
+          <tr><td>64</td><td>The Bull</td><td>Empire</td><td>0</td><td>27</td><td>32</td><td>35</td><td>69</td><td>27 Steward and 32 Medicine.</td></tr>
+          <tr><td>65</td><td>Ironbelly</td><td>Battania</td><td>0</td><td>51</td><td>66</td><td>47</td><td>70</td><td>Pure combatant.</td></tr>
+          <tr><td>66</td><td>Empty-Pockets</td><td>Nord</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>67</td><td>Wave-Breaker</td><td>Nord</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>68</td><td>Trolldaughter</td><td>Nord</td><td>0</td><td>0</td><td>42</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>69</td><td>The Fisherman</td><td>Vlandia</td><td>0</td><td>0</td><td>56</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>70</td><td>The Shipwright</td><td>Empire</td><td>0</td><td>0</td><td>39</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>71</td><td>The Navigator</td><td>Aserai</td><td>0</td><td>0</td><td>48</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>72</td><td>The Restless</td><td>Nord</td><td>0</td><td>0</td><td>26</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+          <tr><td>73</td><td>of The River</td><td>Nord</td><td>0</td><td>0</td><td>48</td><td>0</td><td>0</td><td>Blank stats in all administrative fields.</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Party Leaders Tab -->
     <div id="party" class="tab-pane">
-      <table class="tier-table">
-        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>1</td><td>The Prince</td><td>Tac:128 Stw:118 Med:64 Ldr:157 Sct:77</td><td>Unmatched starting base in both Tactics and Leadership, with high Steward. The ultimate AI general.</td></tr>
-        <tr><td>2</td><td>Fairhair</td><td>Tac:115 Stw:109 Med:53 Ldr:153 Sct:66</td><td>Nearly identical to The Prince. Elite Tactics and Leadership for auto-calc dominance and party size.</td></tr>
-        <tr><td>3</td><td>The Knowing</td><td>Tac:93 Stw:113 Med:108 Ldr:81 Sct:87</td><td>Perfectly balanced high-tier stats across every single party-leading category.</td></tr>
-        <tr><td>4</td><td>The Scholar (Ase)</td><td>Tac:80 Stw:127 Med:102 Ldr:78 Sct:76</td><td>Massive Steward and Medicine caps ensure maximum party size and troop survival.</td></tr>
-        <tr><td>5</td><td>The Grizzled</td><td>Tac:118 Stw:83 Med:69 Ldr:127 Sct:79</td><td>Exceptional Tactics and Leadership makes him a lethal auto-resolve combatant.</td></tr>
-        <tr><td>6</td><td>The Golden</td><td>Tac:94 Stw:88 Med:58 Ldr:97 Sct:100</td><td>Strong Tactics, Leadership, and Scouting. Starts young enough to secure extra attribute points.</td></tr>
-        <tr><td>7</td><td>The Grey Falcon</td><td>Tac:94 Stw:75 Med:63 Ldr:101 Sct:121</td><td>Outstanding combat leader with high Scouting to outmaneuver enemy AI parties.</td></tr>
-        <tr><td>8</td><td>The Loud</td><td>Tac:97 Stw:69 Med:40 Ldr:124 Sct:57</td><td>High Tactics and Leadership give him a massive advantage in simulations.</td></tr>
-        <tr><td>9</td><td>The She-Wolf</td><td>Tac:95 Stw:71 Med:68 Ldr:92 Sct:104</td><td>Elite combat stats backed by excellent Tactics, Leadership, and Scouting.</td></tr>
-        <tr><td>10</td><td>The Surgeon</td><td>Tac:42 Stw:100 Med:169 Ldr:61 Sct:48</td><td>Carried heavily by his 169 Medicine and 100 Steward; his troops rarely die.</td></tr>
-        <tr><td>11</td><td>The Engineer</td><td>Tac:89 Stw:90 Med:63 Ldr:70 Sct:78</td><td>Very solid Tactics and Steward foundation with room to grow by level 25.</td></tr>
-        <tr><td>12</td><td>The Spicevendor</td><td>Tac:57 Stw:116 Med:55 Ldr:71 Sct:86</td><td>Top-tier Steward for party size, though Tactics are slightly below average.</td></tr>
-        <tr><td>13</td><td>Bitterdraught</td><td>Tac:49 Stw:73 Med:155 Ldr:58 Sct:64</td><td>Incredible Medicine for troop retention, but stalled by low starting Tactics.</td></tr>
-        <tr><td>14</td><td>The Scholar (Emp)</td><td>Tac:18 Stw:98 Med:136 Ldr:51 Sct:69</td><td>Massive Medicine and Steward, but terrible base Tactics means high auto-calc losses.</td></tr>
-        <tr><td>15</td><td>The Wanderer (Ase)</td><td>Tac:74 Stw:80 Med:67 Ldr:67 Sct:144</td><td>The most balanced of the Wanderers; good party size and great map speed.</td></tr>
-        <tr><td>16</td><td>The Healer</td><td>Tac:48 Stw:50 Med:163 Ldr:58 Sct:81</td><td>Keeps troops alive flawlessly, but lacks the Tactics and Steward to lead massive armies.</td></tr>
-        <tr><td>17</td><td>Willowbark</td><td>Tac:41 Stw:50 Med:153 Ldr:45 Sct:71</td><td>Similar to The Healer; a pure medic who will struggle in AI vs AI auto-resolve.</td></tr>
-        <tr><td>18</td><td>of The Wastes</td><td>Tac:76 Stw:55 Med:73 Ldr:68 Sct:146</td><td>High Scouting and decent Medicine/Tactics makes for a highly survivable AI party.</td></tr>
-        <tr><td>19</td><td>The Tracker</td><td>Tac:81 Stw:54 Med:60 Ldr:64 Sct:159</td><td>Excellent map speed and respectable Tactics will win him favorable engagements.</td></tr>
-        <tr><td>20</td><td>The Swift</td><td>Tac:78 Stw:52 Med:61 Ldr:57 Sct:157</td><td>High Scouting allows him to catch smaller parties and flee from larger ones.</td></tr>
-        <tr><td>21</td><td>The Leopardess</td><td>Tac:77 Stw:67 Med:53 Ldr:60 Sct:138</td><td>Solid map movement and acceptable Tactics, but severely limited by age/level stall.</td></tr>
-        <tr><td>22</td><td>The Wanderer (Bat)</td><td>Tac:73 Stw:65 Med:52 Ldr:60 Sct:151</td><td>Excellent scout leader with just enough Tactics to hold his own.</td></tr>
-        <tr><td>23</td><td>The Wanderer (Emp)</td><td>Tac:66 Stw:73 Med:45 Ldr:59 Sct:158</td><td>Good map speed and decent Steward, but Tactics and Medicine are weak.</td></tr>
-        <tr><td>24</td><td>The Huntress</td><td>Tac:72 Stw:51 Med:71 Ldr:59 Sct:137</td><td>Great Scout and good Medicine, ensuring she escapes bad fights intact.</td></tr>
-        <tr><td>25</td><td>The Outcast</td><td>Tac:76 Stw:67 Med:40 Ldr:52 Sct:132</td><td>Competent scout and tactician, but troops will suffer heavy casualties.</td></tr>
-        <tr><td>26</td><td>The Falcon</td><td>Tac:71 Stw:57 Med:59 Ldr:68 Sct:127</td><td>A highly average spread across all party-leading necessities.</td></tr>
-        <tr><td>27</td><td>The Hyena</td><td>Tac:60 Stw:88 Med:50 Ldr:59 Sct:134</td><td>Respectable Steward rating for an otherwise combat-focused companion.</td></tr>
-        <tr><td>28</td><td>The Dispossessed</td><td>Tac:55 Stw:83 Med:65 Ldr:53 Sct:118</td><td>Good party size potential, but mediocre auto-resolve capability.</td></tr>
-        <tr><td>29</td><td>The Fish</td><td>Tac:72 Stw:75 Med:49 Ldr:52 Sct:122</td><td>A completely middle-of-the-road captain; won't excel, but won't immediately fail.</td></tr>
-        <tr><td>30</td><td>The Hawk</td><td>Tac:75 Stw:72 Med:59 Ldr:63 Sct:115</td><td>Acceptable baseline across the board, though outclassed by specialized leaders.</td></tr>
-        <tr><td>31</td><td>The Alone</td><td>Tac:71 Stw:58 Med:80 Ldr:47 Sct:137</td><td>Above-average Medicine for a scout, helping his party recover faster.</td></tr>
-        <tr><td>32</td><td>Frostbeard</td><td>Tac:57 Stw:89 Med:58 Ldr:64 Sct:68</td><td>Good Steward, but poor map speed and Tactics will result in him getting caught and beaten.</td></tr>
-        <tr><td>33</td><td>The Shieldmaiden</td><td>Tac:45 Stw:72 Med:81 Ldr:41 Sct:123</td><td>Decent Medicine, but her abysmal Tactics will ruin her in simulation battles.</td></tr>
-        <tr><td>34</td><td>Ironeye</td><td>Tac:68 Stw:62 Med:45 Ldr:51 Sct:111</td><td>Usable in a pinch, but his age (32) guarantees he won't level up much further.</td></tr>
-        <tr><td>35</td><td>Horsethief</td><td>Tac:60 Stw:77 Med:36 Ldr:56 Sct:122</td><td>Decent party size, but atrocious Medicine will lead to constant party wipes.</td></tr>
-        <tr><td>36</td><td>The Bloodaxe</td><td>Tac:89 Stw:37 Med:55 Ldr:66 Sct:51</td><td>Good Tactics, but terrible Steward means his party will be too small to survive.</td></tr>
-        <tr><td>37</td><td>The Silent</td><td>Tac:55 Stw:26 Med:51 Ldr:33 Sct:146</td><td>Incredible map speed, but completely lacks the skills to actually win fights.</td></tr>
-        <tr><td>38</td><td>The Butcher</td><td>Tac:74 Stw:46 Med:41 Ldr:30 Sct:39</td><td>Pure combatant. Very poor party leader.</td></tr>
-        <tr><td>39</td><td>of The Hills (Vla)</td><td>Tac:77 Stw:54 Med:65 Ldr:70 Sct:131</td><td>Average scout, heavily lacking in Steward and Medicine.</td></tr>
-        <tr><td>40</td><td>of The Hills (Bat)</td><td>Tac:74 Stw:39 Med:68 Ldr:47 Sct:149</td><td>Great map speed, but his party will be tiny due to sub-40 Steward.</td></tr>
-        <tr><td>41</td><td>The Robber</td><td>Tac:47 Stw:42 Med:35 Ldr:92 Sct:127</td><td>High Leadership, but ruined by terrible Tactics and Steward.</td></tr>
-        <tr><td>42</td><td>The Accursed</td><td>Tac:55 Stw:26 Med:49 Ldr:50 Sct:125</td><td>Combat-focused; lacks the INT/SOC base to lead armies.</td></tr>
-        <tr><td>43</td><td>The Ragged (Bat)</td><td>Tac:49 Stw:42 Med:58 Ldr:93 Sct:117</td><td>High Leadership is wasted on a character with 42 Steward and 49 Tactics.</td></tr>
-        <tr><td>44</td><td>The Ragged (Khu)</td><td>Tac:52 Stw:46 Med:71 Ldr:87 Sct:116</td><td>Slightly better Medicine than his Battanian counterpart, but still a bad leader.</td></tr>
-        <tr><td>45</td><td>The Fatherless</td><td>Tac:64 Stw:48 Med:59 Ldr:78 Sct:125</td><td>Too low across all critical fields; strictly a caravan guard or personal archer.</td></tr>
-        <tr><td>46</td><td>The Black (Emp)</td><td>Tac:60 Stw:21 Med:57 Ldr:43 Sct:144</td><td>Very poor leader; strictly an aggressive combat specialist.</td></tr>
-        <tr><td>47</td><td>The Black (Vla)</td><td>Tac:75 Stw:51 Med:52 Ldr:61 Sct:121</td><td>Slightly better than the Empire version, but still inadequate for leading.</td></tr>
-        <tr><td>48</td><td>The Lucky</td><td>Tac:50 Stw:38 Med:42 Ldr:90 Sct:114</td><td>High Leadership but terrible Tactics and Steward.</td></tr>
-        <tr><td>49</td><td>The Exile</td><td>Tac:76 Stw:31 Med:54 Ldr:39 Sct:111</td><td>Too few points in INT/SOC skills to be viable.</td></tr>
-        <tr><td>50</td><td>The Brave</td><td>Tac:100 Stw:51 Med:41 Ldr:107 Sct:71</td><td>Surprisingly high Tactics/Leadership for a combatant, but 51 Steward ruins his viability.</td></tr>
-        <tr><td>51</td><td>The Smith</td><td>Tac:56 Stw:59 Med:113 Ldr:67 Sct:54</td><td>High Medicine, but you want him in your party smithing, not leading armies.</td></tr>
-        <tr><td>52</td><td>Blacktooth</td><td>Tac:76 Stw:36 Med:50 Ldr:47 Sct:74</td><td>Pure combat beast; absolutely zero party leader utility.</td></tr>
-        <tr><td>53</td><td>The Shark</td><td>Tac:93 Stw:49 Med:48 Ldr:85 Sct:68</td><td>Okay Tactics, but party size is too small to matter.</td></tr>
-        <tr><td>54</td><td>The Mad</td><td>Tac:68 Stw:31 Med:48 Ldr:43 Sct:72</td><td>Built entirely for Vigor; terrible intelligence stats.</td></tr>
-        <tr><td>55</td><td>Breakskull</td><td>Tac:83 Stw:38 Med:45 Ldr:61 Sct:46</td><td>Same as The Mad; a front-line bruiser, not a general.</td></tr>
-        <tr><td>56</td><td>The Red</td><td>Tac:82 Stw:33 Med:44 Ldr:50 Sct:51</td><td>Massive Vigor stats; terrible at everything else.</td></tr>
-        <tr><td>57</td><td>The Boar</td><td>Tac:94 Stw:28 Med:48 Ldr:34 Sct:40</td><td>Too old to level, terrible Steward.</td></tr>
-        <tr><td>58</td><td>Barrelchest</td><td>Tac:89 Stw:50 Med:58 Ldr:95 Sct:58</td><td>Good Leadership, but 50 Steward means his party will be wiped out constantly.</td></tr>
-        <tr><td>59</td><td>Longknife</td><td>Tac:71 Stw:44 Med:55 Ldr:57 Sct:119</td><td>Pure combat stats; no INT/SOC focus.</td></tr>
-        <tr><td>60</td><td>Cowthief</td><td>Tac:55 Stw:44 Med:54 Ldr:88 Sct:120</td><td>No Tactics, no Steward; completely unqualified to lead.</td></tr>
-        <tr><td>61</td><td>Bellowsbreath</td><td>Tac:61 Stw:43 Med:51 Ldr:59 Sct:114</td><td>Smithing/Combat companion.</td></tr>
-        <tr><td>62</td><td>Coalbiter</td><td>Tac:76 Stw:42 Med:65 Ldr:61 Sct:55</td><td>Smithing companion; keep in your party.</td></tr>
-        <tr><td>63</td><td>The Bull</td><td>Tac:79 Stw:27 Med:32 Ldr:69 Sct:35</td><td>Abysmal Steward and Medicine.</td></tr>
-        <tr><td>64</td><td>The Wainwright</td><td>Tac:61 Stw:103 Med:35 Ldr:69 Sct:79</td><td>Engineer/Smith; not a party leader.</td></tr>
-        <tr><td>65</td><td>The Swordsman</td><td>Tac:80 Stw:50 Med:51 Ldr:79 Sct:64</td><td>Too old, low Steward.</td></tr>
-        <tr><td>66</td><td>Empty-Pockets</td><td>Tac:0 Stw:0 Med:0 Ldr:0 Sct:104</td><td>Rogue/Scout; zero Tactics or Leadership.</td></tr>
-        <tr><td>67</td><td>Wave-Breaker</td><td>Tac:46 Stw:0 Med:0 Ldr:0 Sct:45</td><td>Zero Steward means base party size; will be destroyed instantly.</td></tr>
-        <tr><td>68</td><td>Trolldaughter</td><td>Tac:0 Stw:0 Med:42 Ldr:0 Sct:0</td><td>Completely barren INT/SOC stats.</td></tr>
-        <tr><td>69</td><td>The Fisherman</td><td>Tac:0 Stw:0 Med:56 Ldr:0 Sct:0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
-        <tr><td>70</td><td>The Shipwright</td><td>Tac:0 Stw:0 Med:39 Ldr:0 Sct:0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
-        <tr><td>71</td><td>The Navigator</td><td>Tac:0 Stw:0 Med:48 Ldr:0 Sct:0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
-        <tr><td>72</td><td>The Restless</td><td>Tac:0 Stw:0 Med:26 Ldr:0 Sct:0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
-        <tr><td>73</td><td>of The River</td><td>Tac:0 Stw:0 Med:48 Ldr:0 Sct:0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
-      </table>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Tactics</th><th>Steward</th><th>Medicine</th><th>Leadership</th><th>Scouting</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Prince</td><td>Aserai</td><td>21</td><td>20</td><td>128</td><td>118</td><td>64</td><td>157</td><td>77</td><td>Unmatched starting base in both Tactics and Leadership, with high Steward. The ultimate AI general.</td></tr>
+          <tr><td>2</td><td>Fairhair</td><td>Battania</td><td>25</td><td>18</td><td>115</td><td>109</td><td>53</td><td>153</td><td>66</td><td>Nearly identical to The Prince. Elite Tactics and Leadership for auto-calc dominance and party size.</td></tr>
+          <tr><td>3</td><td>The Knowing</td><td>Khuzait</td><td>28</td><td>17</td><td>93</td><td>113</td><td>108</td><td>81</td><td>87</td><td>Perfectly balanced high-tier stats across every single party-leading category.</td></tr>
+          <tr><td>4</td><td>The Scholar</td><td>Aserai</td><td>22</td><td>17</td><td>80</td><td>127</td><td>102</td><td>78</td><td>76</td><td>Massive Steward and Medicine caps ensure maximum party size and troop survival.</td></tr>
+          <tr><td>5</td><td>The Grizzled</td><td>Vlandia</td><td>27</td><td>19</td><td>118</td><td>83</td><td>69</td><td>127</td><td>79</td><td>Exceptional Tactics and Leadership makes him a lethal auto-resolve combatant.</td></tr>
+          <tr><td>6</td><td>The Golden</td><td>Aserai</td><td>20</td><td>19</td><td>94</td><td>88</td><td>58</td><td>97</td><td>100</td><td>Strong Tactics, Leadership, and Scouting. Starts young enough to secure extra attribute points.</td></tr>
+          <tr><td>7</td><td>The Grey Falcon</td><td>Khuzait</td><td>18</td><td>19</td><td>94</td><td>75</td><td>63</td><td>101</td><td>121</td><td>Outstanding combat leader with high Scouting to outmaneuver enemy AI parties.</td></tr>
+          <tr><td>8</td><td>The Loud</td><td>Vlandia</td><td>21</td><td>18</td><td>97</td><td>69</td><td>40</td><td>124</td><td>57</td><td>High Tactics and Leadership give him a massive advantage in simulations.</td></tr>
+          <tr><td>9</td><td>The She-Wolf</td><td>Khuzait</td><td>24</td><td>19</td><td>95</td><td>71</td><td>68</td><td>92</td><td>104</td><td>Elite combat stats backed by excellent Tactics, Leadership, and Scouting.</td></tr>
+          <tr><td>10</td><td>The Surgeon</td><td>Empire</td><td>30</td><td>16</td><td>42</td><td>100</td><td>169</td><td>61</td><td>48</td><td>Carried heavily by his 169 Medicine and 100 Steward; his troops rarely die.</td></tr>
+          <tr><td>11</td><td>The Engineer</td><td>Aserai</td><td>21</td><td>18</td><td>89</td><td>90</td><td>63</td><td>70</td><td>78</td><td>Very solid Tactics and Steward foundation with room to grow by level 25.</td></tr>
+          <tr><td>12</td><td>The Spicevendor</td><td>Aserai</td><td>24</td><td>17</td><td>57</td><td>116</td><td>55</td><td>71</td><td>86</td><td>Top-tier Steward for party size, though Tactics are slightly below average.</td></tr>
+          <tr><td>13</td><td>Bitterdraught</td><td>Vlandia</td><td>29</td><td>16</td><td>49</td><td>73</td><td>155</td><td>58</td><td>64</td><td>Incredible Medicine for troop retention, but stalled by low starting Tactics.</td></tr>
+          <tr><td>14</td><td>The Scholar</td><td>Empire</td><td>25</td><td>16</td><td>18</td><td>98</td><td>136</td><td>51</td><td>69</td><td>Massive Medicine and Steward, but terrible base Tactics means high auto-calc losses.</td></tr>
+          <tr><td>15</td><td>The Wanderer</td><td>Aserai</td><td>20</td><td>18</td><td>74</td><td>80</td><td>67</td><td>67</td><td>144</td><td>The most balanced of the Wanderers; good party size and great map speed.</td></tr>
+          <tr><td>16</td><td>The Healer</td><td>Battania</td><td>28</td><td>16</td><td>48</td><td>50</td><td>163</td><td>58</td><td>81</td><td>Keeps troops alive flawlessly, but lacks the Tactics and Steward to lead massive armies.</td></tr>
+          <tr><td>17</td><td>Willowbark</td><td>Sturgia</td><td>23</td><td>15</td><td>41</td><td>50</td><td>153</td><td>45</td><td>71</td><td>Similar to The Healer; a pure medic who will struggle in AI vs AI auto-resolve.</td></tr>
+          <tr><td>18</td><td>of The Wastes</td><td>Aserai</td><td>29</td><td>19</td><td>76</td><td>55</td><td>73</td><td>68</td><td>146</td><td>High Scouting and decent Medicine/Tactics makes for a highly survivable AI party.</td></tr>
+          <tr><td>19</td><td>The Tracker</td><td>Vlandia</td><td>23</td><td>18</td><td>81</td><td>54</td><td>60</td><td>64</td><td>159</td><td>Excellent map speed and respectable Tactics will win him favorable engagements.</td></tr>
+          <tr><td>20</td><td>The Swift</td><td>Khuzait</td><td>20</td><td>19</td><td>78</td><td>52</td><td>61</td><td>57</td><td>157</td><td>High Scouting allows him to catch smaller parties and flee from larger ones.</td></tr>
+          <tr><td>21</td><td>The Leopardess</td><td>Aserai</td><td>19</td><td>20</td><td>77</td><td>67</td><td>53</td><td>60</td><td>138</td><td>Solid map movement and acceptable Tactics, but severely limited by age/level stall.</td></tr>
+          <tr><td>22</td><td>The Wanderer</td><td>Battania</td><td>18</td><td>18</td><td>73</td><td>65</td><td>52</td><td>60</td><td>151</td><td>Excellent scout leader with just enough Tactics to hold his own.</td></tr>
+          <tr><td>23</td><td>The Wanderer</td><td>Empire</td><td>20</td><td>18</td><td>66</td><td>73</td><td>45</td><td>59</td><td>158</td><td>Good map speed and decent Steward, but Tactics and Medicine are weak.</td></tr>
+          <tr><td>24</td><td>The Huntress</td><td>Vlandia</td><td>21</td><td>19</td><td>72</td><td>51</td><td>71</td><td>59</td><td>137</td><td>Great Scout and good Medicine, ensuring she escapes bad fights intact.</td></tr>
+          <tr><td>25</td><td>The Outcast</td><td>Khuzait</td><td>19</td><td>19</td><td>76</td><td>67</td><td>40</td><td>52</td><td>132</td><td>Competent scout and tactician, but troops will suffer heavy casualties.</td></tr>
+          <tr><td>26</td><td>The Falcon</td><td>Aserai</td><td>20</td><td>18</td><td>71</td><td>57</td><td>59</td><td>68</td><td>127</td><td>A highly average spread across all party-leading necessities.</td></tr>
+          <tr><td>27</td><td>The Hyena</td><td>Aserai</td><td>22</td><td>19</td><td>60</td><td>88</td><td>50</td><td>59</td><td>134</td><td>Respectable Steward rating for an otherwise combat-focused companion.</td></tr>
+          <tr><td>28</td><td>The Dispossessed</td><td>Empire</td><td>23</td><td>17</td><td>55</td><td>83</td><td>65</td><td>53</td><td>118</td><td>Good party size potential, but mediocre auto-resolve capability.</td></tr>
+          <tr><td>29</td><td>The Fish</td><td>Sturgia</td><td>20</td><td>18</td><td>72</td><td>75</td><td>49</td><td>52</td><td>122</td><td>A completely middle-of-the-road captain; won't excel, but won't immediately fail.</td></tr>
+          <tr><td>30</td><td>The Hawk</td><td>Khuzait</td><td>22</td><td>18</td><td>75</td><td>72</td><td>59</td><td>63</td><td>115</td><td>Acceptable baseline across the board, though outclassed by specialized leaders.</td></tr>
+          <tr><td>31</td><td>The Alone</td><td>Khuzait</td><td>22</td><td>19</td><td>71</td><td>58</td><td>80</td><td>47</td><td>137</td><td>Above-average Medicine for a scout, helping his party recover faster.</td></tr>
+          <tr><td>32</td><td>Frostbeard</td><td>Sturgia</td><td>21</td><td>18</td><td>57</td><td>89</td><td>58</td><td>64</td><td>68</td><td>Good Steward, but poor map speed and Tactics will result in him getting caught and beaten.</td></tr>
+          <tr><td>33</td><td>The Shieldmaiden</td><td>Sturgia</td><td>24</td><td>17</td><td>45</td><td>72</td><td>81</td><td>41</td><td>123</td><td>Decent Medicine, but her abysmal Tactics will ruin her in simulation battles.</td></tr>
+          <tr><td>34</td><td>Ironeye</td><td>Khuzait</td><td>32</td><td>18</td><td>68</td><td>62</td><td>45</td><td>51</td><td>111</td><td>Usable in a pinch, but his age (32) guarantees he won't level up much further.</td></tr>
+          <tr><td>35</td><td>Horsethief</td><td>Battania</td><td>22</td><td>19</td><td>60</td><td>77</td><td>36</td><td>56</td><td>122</td><td>Decent party size, but atrocious Medicine will lead to constant party wipes.</td></tr>
+          <tr><td>36</td><td>The Bloodaxe</td><td>Sturgia</td><td>32</td><td>18</td><td>89</td><td>37</td><td>55</td><td>66</td><td>51</td><td>Good Tactics, but terrible Steward means his party will be too small to survive.</td></tr>
+          <tr><td>37</td><td>The Silent</td><td>Empire</td><td>22</td><td>18</td><td>55</td><td>26</td><td>51</td><td>33</td><td>146</td><td>Incredible map speed, but completely lacks the skills to actually win fights.</td></tr>
+          <tr><td>38</td><td>The Butcher</td><td>Empire</td><td>28</td><td>17</td><td>74</td><td>46</td><td>41</td><td>30</td><td>39</td><td>Pure combatant. Very poor party leader.</td></tr>
+          <tr><td>39</td><td>of The Hills</td><td>Vlandia</td><td>24</td><td>19</td><td>77</td><td>54</td><td>65</td><td>70</td><td>131</td><td>Average scout, heavily lacking in Steward and Medicine.</td></tr>
+          <tr><td>40</td><td>of The Hills</td><td>Battania</td><td>19</td><td>18</td><td>74</td><td>39</td><td>68</td><td>47</td><td>149</td><td>Great map speed, but his party will be tiny due to sub-40 Steward.</td></tr>
+          <tr><td>41</td><td>The Robber</td><td>Empire</td><td>19</td><td>18</td><td>47</td><td>42</td><td>35</td><td>92</td><td>127</td><td>High Leadership, but ruined by terrible Tactics and Steward.</td></tr>
+          <tr><td>42</td><td>The Accursed</td><td>Sturgia</td><td>20</td><td>17</td><td>55</td><td>26</td><td>49</td><td>50</td><td>125</td><td>Combat-focused; lacks the INT/SOC base to lead armies.</td></tr>
+          <tr><td>43</td><td>The Ragged</td><td>Battania</td><td>20</td><td>17</td><td>49</td><td>42</td><td>58</td><td>93</td><td>117</td><td>High Leadership is wasted on a character with 42 Steward and 49 Tactics.</td></tr>
+          <tr><td>44</td><td>The Ragged</td><td>Khuzait</td><td>20</td><td>18</td><td>52</td><td>46</td><td>71</td><td>87</td><td>116</td><td>Slightly better Medicine than his Battanian counterpart, but still a bad leader.</td></tr>
+          <tr><td>45</td><td>The Fatherless</td><td>Khuzait</td><td>18</td><td>18</td><td>64</td><td>48</td><td>59</td><td>78</td><td>125</td><td>Too low across all critical fields; strictly a caravan guard or personal archer.</td></tr>
+          <tr><td>46</td><td>The Black</td><td>Empire</td><td>18</td><td>19</td><td>60</td><td>21</td><td>57</td><td>43</td><td>144</td><td>Very poor leader; strictly an aggressive combat specialist.</td></tr>
+          <tr><td>47</td><td>The Black</td><td>Vlandia</td><td>20</td><td>19</td><td>75</td><td>51</td><td>52</td><td>61</td><td>121</td><td>Slightly better than the Empire version, but still inadequate for leading.</td></tr>
+          <tr><td>48</td><td>The Lucky</td><td>Sturgia</td><td>18</td><td>17</td><td>50</td><td>38</td><td>42</td><td>90</td><td>114</td><td>High Leadership but terrible Tactics and Steward.</td></tr>
+          <tr><td>49</td><td>The Exile</td><td>Empire</td><td>20</td><td>18</td><td>76</td><td>31</td><td>54</td><td>39</td><td>111</td><td>Too few points in INT/SOC skills to be viable.</td></tr>
+          <tr><td>50</td><td>The Brave</td><td>Vlandia</td><td>18</td><td>19</td><td>100</td><td>51</td><td>41</td><td>107</td><td>71</td><td>Surprisingly high Tactics/Leadership for a combatant, but 51 Steward ruins his viability.</td></tr>
+          <tr><td>51</td><td>The Smith</td><td>Vlandia</td><td>20</td><td>18</td><td>56</td><td>59</td><td>113</td><td>67</td><td>54</td><td>High Medicine, but you want him in your party smithing, not leading armies.</td></tr>
+          <tr><td>52</td><td>Blacktooth</td><td>Battania</td><td>18</td><td>18</td><td>76</td><td>36</td><td>50</td><td>47</td><td>74</td><td>Pure combat beast; absolutely zero party leader utility.</td></tr>
+          <tr><td>53</td><td>The Shark</td><td>Vlandia</td><td>24</td><td>19</td><td>93</td><td>49</td><td>48</td><td>85</td><td>68</td><td>Okay Tactics, but party size is too small to matter.</td></tr>
+          <tr><td>54</td><td>The Mad</td><td>Khuzait</td><td>18</td><td>18</td><td>68</td><td>31</td><td>48</td><td>43</td><td>72</td><td>Built entirely for Vigor; terrible intelligence stats.</td></tr>
+          <tr><td>55</td><td>Breakskull</td><td>Sturgia</td><td>22</td><td>17</td><td>83</td><td>38</td><td>45</td><td>61</td><td>46</td><td>Same as The Mad; a front-line bruiser, not a general.</td></tr>
+          <tr><td>56</td><td>The Red</td><td>Battania</td><td>24</td><td>18</td><td>82</td><td>33</td><td>44</td><td>50</td><td>51</td><td>Massive Vigor stats; terrible at everything else.</td></tr>
+          <tr><td>57</td><td>The Boar</td><td>Empire</td><td>33</td><td>18</td><td>94</td><td>28</td><td>48</td><td>34</td><td>40</td><td>Too old to level, terrible Steward.</td></tr>
+          <tr><td>58</td><td>Barrelchest</td><td>Vlandia</td><td>20</td><td>19</td><td>89</td><td>50</td><td>58</td><td>95</td><td>58</td><td>Good Leadership, but 50 Steward means his party will be wiped out constantly.</td></tr>
+          <tr><td>59</td><td>Longknife</td><td>Sturgia</td><td>22</td><td>18</td><td>71</td><td>44</td><td>55</td><td>57</td><td>119</td><td>Pure combat stats; no INT/SOC focus.</td></tr>
+          <tr><td>60</td><td>Cowthief</td><td>Battania</td><td>18</td><td>18</td><td>55</td><td>44</td><td>54</td><td>88</td><td>120</td><td>No Tactics, no Steward; completely unqualified to lead.</td></tr>
+          <tr><td>61</td><td>Bellowsbreath</td><td>Vlandia</td><td>21</td><td>17</td><td>61</td><td>43</td><td>51</td><td>59</td><td>114</td><td>Smithing/Combat companion.</td></tr>
+          <tr><td>62</td><td>Coalbiter</td><td>Sturgia</td><td>28</td><td>17</td><td>76</td><td>42</td><td>65</td><td>61</td><td>55</td><td>Smithing companion; keep in your party.</td></tr>
+          <tr><td>63</td><td>The Bull</td><td>Empire</td><td>24</td><td>17</td><td>79</td><td>27</td><td>32</td><td>69</td><td>35</td><td>Abysmal Steward and Medicine.</td></tr>
+          <tr><td>64</td><td>The Wainwright</td><td>Vlandia</td><td>21</td><td>18</td><td>61</td><td>103</td><td>35</td><td>69</td><td>79</td><td>Engineer/Smith; not a party leader.</td></tr>
+          <tr><td>65</td><td>The Swordsman</td><td>Aserai</td><td>32</td><td>18</td><td>80</td><td>50</td><td>51</td><td>79</td><td>64</td><td>Too old, low Steward.</td></tr>
+          <tr><td>66</td><td>Empty-Pockets</td><td>Nord</td><td>25</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0</td><td>104</td><td>Rogue/Scout; zero Tactics or Leadership.</td></tr>
+          <tr><td>67</td><td>Wave-Breaker</td><td>Nord</td><td>28</td><td>14</td><td>46</td><td>0</td><td>0</td><td>0</td><td>45</td><td>Zero Steward means base party size; will be destroyed instantly.</td></tr>
+          <tr><td>68</td><td>Trolldaughter</td><td>Nord</td><td>27</td><td>13</td><td>0</td><td>0</td><td>42</td><td>0</td><td>0</td><td>Completely barren INT/SOC stats.</td></tr>
+          <tr><td>69</td><td>The Fisherman</td><td>Vlandia</td><td>22</td><td>13</td><td>0</td><td>0</td><td>56</td><td>0</td><td>0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
+          <tr><td>70</td><td>The Shipwright</td><td>Empire</td><td>28</td><td>12</td><td>0</td><td>0</td><td>39</td><td>0</td><td>0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
+          <tr><td>71</td><td>The Navigator</td><td>Aserai</td><td>28</td><td>12</td><td>0</td><td>0</td><td>48</td><td>0</td><td>0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
+          <tr><td>72</td><td>The Restless</td><td>Nord</td><td>24</td><td>11</td><td>0</td><td>0</td><td>26</td><td>0</td><td>0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
+          <tr><td>73</td><td>of The River</td><td>Nord</td><td>26</td><td>11</td><td>0</td><td>0</td><td>48</td><td>0</td><td>0</td><td>Zero Tactics, Steward, or Leadership.</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Caravans Tab -->
     <div id="caravan" class="tab-pane">
-      <table class="tier-table">
-        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>1</td><td>The Spicevendor</td><td>Trade:158 Sct:86 Tac:57</td><td>The undisputed best caravan leader. Unmatched Trade ensures maximum profit margins, and good Scouting keeps the caravan out of trouble.</td></tr>
-        <tr><td>2</td><td>The Knowing</td><td>Trade:113 Sct:87 Tac:93</td><td>Incredible balance. Extremely high profit generation combined with excellent survival and auto-resolve battle stats.</td></tr>
-        <tr><td>3</td><td>The Engineer</td><td>Trade:100 Sct:78 Tac:89</td><td>Capable of generating top-tier profits while having the Tactics required to survive most ambushes by minor factions or bandits.</td></tr>
-        <tr><td>4</td><td>The Prince</td><td>Trade:97 Sct:77 Tac:128</td><td>High Trade for great profits, backed by an elite Tactics score that will win almost any auto-calculated fight his caravan gets pulled into.</td></tr>
-        <tr><td>5</td><td>The Scholar</td><td>Trade:94 Sct:76 Tac:80</td><td>A highly profitable merchant who is perfectly capable of spotting danger early and handling themselves if caught.</td></tr>
-        <tr><td>6</td><td>Bitterdraught</td><td>Trade:92 Sct:64 Tac:49</td><td>Highly profitable, though vulnerable to being caught. His 155 Medicine ensures that even if he loses troops in an ambush, they will likely recover quickly.</td></tr>
-        <tr><td>7</td><td>The Golden</td><td>Trade:84 Sct:70 Tac:94</td><td>Solid merchant with great tactical ability, making him a very reliable, low-risk, high-reward caravan operator.</td></tr>
-        <tr><td>8</td><td>Fairhair</td><td>Trade:84 Sct:66 Tac:115</td><td>Generates excellent income and has the immense Tactics required to blast through bandit blockades in auto-resolve.</td></tr>
-        <tr><td>9</td><td>The Dispossessed</td><td>Trade:83 Sct:118 Tac:55</td><td>Excellent profit margins paired with high map vision, allowing him to easily outrun threats before they become a problem.</td></tr>
-        <tr><td>10</td><td>The Wanderer</td><td>Trade:80 Sct:144 Tac:74</td><td>Highly profitable and effectively uncatchable. His massive Scouting ensures he will always dictate when and where he travels.</td></tr>
-        <tr><td>11</td><td>The Alone</td><td>Trade:76 Sct:137 Tac:71</td><td>A very strong baseline of Trade paired with elite map speed and enough Tactics to hold his own.</td></tr>
-        <tr><td>12</td><td>The Fish</td><td>Trade:75 Sct:122 Tac:72</td><td>A perfectly balanced mid-tier operator. Profitable, fast, and capable in a fight.</td></tr>
-        <tr><td>13</td><td>The Swift</td><td>Trade:72 Sct:157 Tac:78</td><td>Good profit generation with nearly peerless map vision. He will rarely, if ever, lose your initial investment to an ambush.</td></tr>
-        <tr><td>14</td><td>of The Wastes</td><td>Trade:72 Sct:146 Tac:76</td><td>Functions identically to The Swift; very high survival rate with respectable daily returns.</td></tr>
-        <tr><td>15</td><td>The Tracker</td><td>Trade:68 Sct:159 Tac:81</td><td>The highest base Scouting on the list combined with good Tactics. While profits are slightly lower, his caravan is virtually indestructible.</td></tr>
-      </table>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Trade</th><th>Scouting</th><th>Tactics</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Spicevendor</td><td>Aserai</td><td>158</td><td>86</td><td>57</td><td>The undisputed best caravan leader. Unmatched Trade ensures maximum profit margins, and good Scouting keeps the caravan out of trouble.</td></tr>
+          <tr><td>2</td><td>The Knowing</td><td>Khuzait</td><td>113</td><td>87</td><td>93</td><td>Incredible balance. Extremely high profit generation combined with excellent survival and auto-resolve battle stats.</td></tr>
+          <tr><td>3</td><td>The Engineer</td><td>Aserai</td><td>100</td><td>78</td><td>89</td><td>Capable of generating top-tier profits while having the Tactics required to survive most ambushes by minor factions or bandits.</td></tr>
+          <tr><td>4</td><td>The Prince</td><td>Aserai</td><td>97</td><td>77</td><td>128</td><td>High Trade for great profits, backed by an elite Tactics score that will win almost any auto-calculated fight his caravan gets pulled into.</td></tr>
+          <tr><td>5</td><td>The Scholar</td><td>Aserai</td><td>94</td><td>76</td><td>80</td><td>A highly profitable merchant who is perfectly capable of spotting danger early and handling themselves if caught.</td></tr>
+          <tr><td>6</td><td>Bitterdraught</td><td>Vlandia</td><td>92</td><td>64</td><td>49</td><td>Highly profitable, though vulnerable to being caught. His 155 Medicine ensures that even if he loses troops in an ambush, they will likely recover quickly.</td></tr>
+          <tr><td>7</td><td>The Golden</td><td>Aserai</td><td>84</td><td>70</td><td>94</td><td>Solid merchant with great tactical ability, making him a very reliable, low-risk, high-reward caravan operator.</td></tr>
+          <tr><td>8</td><td>Fairhair</td><td>Battania</td><td>84</td><td>66</td><td>115</td><td>Generates excellent income and has the immense Tactics required to blast through bandit blockades in auto-resolve.</td></tr>
+          <tr><td>9</td><td>The Dispossessed</td><td>Empire</td><td>83</td><td>118</td><td>55</td><td>Excellent profit margins paired with high map vision, allowing him to easily outrun threats before they become a problem.</td></tr>
+          <tr><td>10</td><td>The Wanderer</td><td>Aserai</td><td>80</td><td>144</td><td>74</td><td>Highly profitable and effectively uncatchable. His massive Scouting ensures he will always dictate when and where he travels.</td></tr>
+          <tr><td>11</td><td>The Alone</td><td>Khuzait</td><td>76</td><td>137</td><td>71</td><td>A very strong baseline of Trade paired with elite map speed and enough Tactics to hold his own.</td></tr>
+          <tr><td>12</td><td>The Fish</td><td>Sturgia</td><td>75</td><td>122</td><td>72</td><td>A perfectly balanced mid-tier operator. Profitable, fast, and capable in a fight.</td></tr>
+          <tr><td>13</td><td>The Swift</td><td>Khuzait</td><td>72</td><td>157</td><td>78</td><td>Good profit generation with nearly peerless map vision. He will rarely, if ever, lose your initial investment to an ambush.</td></tr>
+          <tr><td>14</td><td>of The Wastes</td><td>Aserai</td><td>72</td><td>146</td><td>76</td><td>Functions identically to The Swift; very high survival rate with respectable daily returns.</td></tr>
+          <tr><td>15</td><td>The Tracker</td><td>Vlandia</td><td>68</td><td>159</td><td>81</td><td>The highest base Scouting on the list combined with good Tactics. While profits are slightly lower, his caravan is virtually indestructible.</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Vassals Tab -->
     <div id="vassal" class="tab-pane">
-      <table class="tier-table">
-        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>1</td><td>The Prince</td><td>Chm:147 Ldr:157 Stw:118 Tac:128 Med:64</td><td>Unrivaled vassal. Massive Charm for influence/fief votes, combined with elite army-leading capabilities.</td></tr>
-        <tr><td>2</td><td>Fairhair</td><td>Chm:144 Ldr:153 Stw:109 Tac:115 Med:53</td><td>Nearly identical to The Prince. Will rapidly build influence and field large, highly successful armies.</td></tr>
-        <tr><td>3</td><td>The Golden</td><td>Chm:100 Ldr:97 Stw:88 Tac:94 Med:58</td><td>Outstanding baseline across all necessary vassal stats. Young enough to naturally push these even higher.</td></tr>
-        <tr><td>4</td><td>The Loud</td><td>Chm:132 Ldr:124 Stw:69 Tac:97 Med:40</td><td>Elite Charm and Leadership guarantees high clan tier progression, though party size is slightly smaller initially.</td></tr>
-        <tr><td>5</td><td>The Knowing</td><td>Chm:101 Ldr:81 Stw:113 Tac:93 Med:108</td><td>The perfect all-rounder. Excellent influence gain, large party size, great survival, and high auto-resolve capability.</td></tr>
-        <tr><td>6</td><td>The Scholar (Ase)</td><td>Chm:115 Ldr:78 Stw:127 Tac:80 Med:102</td><td>Massive Steward and Charm ensures his clan will be influential and field huge parties that rarely die.</td></tr>
-        <tr><td>7</td><td>The Grizzled</td><td>Chm:70 Ldr:127 Stw:83 Tac:118 Med:69</td><td>Elite tactician and leader. Will win almost all AI vs AI engagements, though influence gain is average.</td></tr>
-        <tr><td>8</td><td>The She-Wolf</td><td>Chm:85 Ldr:92 Stw:71 Tac:95 Med:68</td><td>Very well-balanced warlord. Will comfortably maintain her fiefs and armies.</td></tr>
-        <tr><td>9</td><td>The Spicevendor</td><td>Chm:103 Ldr:71 Stw:116 Tac:57 Med:55</td><td>Top-tier Steward means a massive party size, and high Charm builds influence fast to offset mediocre Tactics.</td></tr>
-        <tr><td>10</td><td>The Grey Falcon</td><td>Chm:71 Ldr:101 Stw:75 Tac:94 Med:63</td><td>Strong combat leader with enough Leadership and Tactics to reliably win engagements as a vassal.</td></tr>
-        <tr><td>11</td><td>The Engineer</td><td>Chm:77 Ldr:70 Stw:90 Tac:89 Med:63</td><td>Highly competent across the board. Will manage fiefs well and field a reasonably strong army.</td></tr>
-        <tr><td>12</td><td>The Surgeon</td><td>Chm:92 Ldr:61 Stw:100 Tac:42 Med:169</td><td>Excellent Charm and Steward, but his terrible Tactics means his massive, unkillable army will lose auto-resolves.</td></tr>
-        <tr><td>13</td><td>The Scholar (Emp)</td><td>Chm:117 Ldr:51 Stw:98 Tac:18 Med:136</td><td>Will gain immense influence and field large parties, but an 18 in Tactics means he needs to be babysat in wars.</td></tr>
-        <tr><td>14</td><td>The Wanderer (Ase)</td><td>Chm:67 Ldr:67 Stw:80 Tac:74 Med:67</td><td>The most balanced of the lower-tier leaders. No glaring weaknesses.</td></tr>
-        <tr><td>15</td><td>The Dispossessed</td><td>Chm:79 Ldr:53 Stw:83 Tac:55 Med:65</td><td>Good Steward and Charm will help him establish his clan quickly.</td></tr>
-        <tr><td>16</td><td>The Hyena</td><td>Chm:47 Ldr:59 Stw:88 Tac:60 Med:50</td><td>Decent party size, but lack of Charm will make it hard for him to gain clan influence.</td></tr>
-        <tr><td>17</td><td>The Fish</td><td>Chm:86 Ldr:52 Stw:75 Tac:72 Med:49</td><td>Passable. Will function adequately as a minor vassal clan.</td></tr>
-        <tr><td>18</td><td>The Hawk</td><td>Chm:50 Ldr:63 Stw:72 Tac:75 Med:59</td><td>Capable of leading armies, but will struggle to gain political traction without Charm.</td></tr>
-        <tr><td>19</td><td>The Leopardess</td><td>Chm:148 Ldr:60 Stw:67 Tac:77 Med:53</td><td>Amazing Charm, but her party size will be too small to make a major impact in wars.</td></tr>
-        <tr><td>20</td><td>The Tracker</td><td>Chm:63 Ldr:64 Stw:54 Tac:81 Med:60</td><td>Will win small skirmishes thanks to Tactics, but won't field enough troops to take fiefs.</td></tr>
-        <tr><td>21</td><td>The Alone</td><td>Chm:115 Ldr:47 Stw:58 Tac:71 Med:80</td><td>High Charm helps, but poor Leadership restricts his ability to form armies.</td></tr>
-        <tr><td>22</td><td>The Wanderer (Bat)</td><td>Chm:55 Ldr:60 Stw:65 Tac:73 Med:52</td><td>Average tactician with a small party size.</td></tr>
-        <tr><td>23</td><td>The Wanderer (Emp)</td><td>Chm:48 Ldr:59 Stw:73 Tac:66 Med:45</td><td>Average party size with poor auto-resolve capability.</td></tr>
-        <tr><td>24</td><td>The Huntress</td><td>Chm:47 Ldr:59 Stw:51 Tac:72 Med:71</td><td>Survives well, but zero political influence capability.</td></tr>
-        <tr><td>25</td><td>The Outcast</td><td>Chm:126 Ldr:52 Stw:67 Tac:76 Med:40</td><td>High Charm, but low Leadership and Medicine make his armies fragile.</td></tr>
-        <tr><td>26</td><td>The Falcon</td><td>Chm:50 Ldr:68 Stw:57 Tac:71 Med:59</td><td>Underwhelming across the board.</td></tr>
-        <tr><td>27</td><td>of The Wastes</td><td>Chm:64 Ldr:68 Stw:55 Tac:76 Med:73</td><td>Medicine and Tactics help, but terrible Steward severely limits his impact.</td></tr>
-        <tr><td>28</td><td>The Healer</td><td>Chm:29 Ldr:58 Stw:50 Tac:48 Med:163</td><td>Will struggle to maintain fiefs or field armies despite troops never dying.</td></tr>
-        <tr><td>29</td><td>Bitterdraught</td><td>Chm:25 Ldr:58 Stw:73 Tac:49 Med:155</td><td>Similar to The Healer, but with slightly better Steward and zero Charm.</td></tr>
-        <tr><td>30</td><td>Willowbark</td><td>Chm:32 Ldr:45 Stw:50 Tac:41 Med:153</td><td>Too low in Leadership/Tactics to be a viable independent lord.</td></tr>
-        <tr><td>31</td><td>The Swift</td><td>Chm:99 Ldr:57 Stw:52 Tac:78 Med:61</td><td>Good Charm, but his parties will be too small to accomplish anything.</td></tr>
-        <tr><td>32</td><td>Frostbeard</td><td>Chm:64 Ldr:64 Stw:89 Tac:57 Med:58</td><td>Decent Steward, but poor Tactics and Charm will keep his clan at the bottom.</td></tr>
-        <tr><td>33</td><td>The Shieldmaiden</td><td>Chm:102 Ldr:41 Stw:72 Tac:45 Med:81</td><td>Good Charm, but her armies will instantly die in auto-resolve due to 45 Tactics.</td></tr>
-        <tr><td>34</td><td>Ironeye</td><td>Chm:55 Ldr:51 Stw:62 Tac:68 Med:45</td><td>Too old to level, and stats are too low to compensate.</td></tr>
-        <tr><td>35</td><td>The Bloodaxe</td><td>Chm:51 Ldr:66 Stw:37 Tac:89 Med:55</td><td>Good tactician, but 37 Steward guarantees his party size is a non-factor.</td></tr>
-        <tr><td>36</td><td>of The Hills (Vla)</td><td>Chm:60 Ldr:70 Stw:54 Tac:77 Med:65</td><td>Combat-focused. Lacks the INT/SOC stats to run a clan.</td></tr>
-        <tr><td>37</td><td>Horsethief</td><td>Chm:148 Ldr:56 Stw:77 Tac:60 Med:36</td><td>Amazing Charm, but 36 Medicine means his troops die instantly.</td></tr>
-        <tr><td>38</td><td>of The Hills (Bat)</td><td>Chm:47 Ldr:47 Stw:39 Tac:74 Med:68</td><td>Abysmal Steward rating.</td></tr>
-        <tr><td>39</td><td>The Robber</td><td>Chm:155 Ldr:92 Stw:42 Tac:47 Med:35</td><td>Incredible Charm and Leadership completely wasted by 42 Steward and 47 Tactics.</td></tr>
-        <tr><td>40</td><td>The Accursed</td><td>Chm:132 Ldr:50 Stw:26 Tac:55 Med:49</td><td>26 Steward means he cannot lead a party.</td></tr>
-        <tr><td>41</td><td>The Ragged (Bat)</td><td>Chm:93 Ldr:93 Stw:42 Tac:49 Med:58</td><td>Good Leadership wasted by terrible Steward and Tactics.</td></tr>
-        <tr><td>42</td><td>The Ragged (Khu)</td><td>Chm:87 Ldr:87 Stw:46 Tac:52 Med:71</td><td>Marginally better than the Battanian, still completely unviable.</td></tr>
-        <tr><td>43</td><td>The Lucky</td><td>Chm:140 Ldr:90 Stw:38 Tac:50 Med:42</td><td>38 Steward ruins his high Charm/Leadership setup.</td></tr>
-        <tr><td>44</td><td>The Silent</td><td>Chm:137 Ldr:33 Stw:26 Tac:55 Med:51</td><td>26 Steward.</td></tr>
-        <tr><td>45</td><td>The Fatherless</td><td>Chm:78 Ldr:78 Stw:48 Tac:64 Med:59</td><td>48 Steward.</td></tr>
-        <tr><td>46</td><td>The Black (Emp)</td><td>Chm:43 Ldr:43 Stw:21 Tac:60 Med:57</td><td>21 Steward.</td></tr>
-        <tr><td>47</td><td>The Black (Vla)</td><td>Chm:67 Ldr:61 Stw:51 Tac:75 Med:52</td><td>Slightly better Steward, but still awful.</td></tr>
-        <tr><td>48</td><td>The Exile</td><td>Chm:39 Ldr:39 Stw:31 Tac:76 Med:54</td><td>31 Steward.</td></tr>
-        <tr><td>49</td><td>The Brave</td><td>Chm:82 Ldr:107 Stw:51 Tac:100 Med:41</td><td>Good Tactics/Leadership ruined by 46 Steward.</td></tr>
-        <tr><td>50</td><td>The Shark</td><td>Chm:55 Ldr:85 Stw:49 Tac:93 Med:48</td><td>49 Steward.</td></tr>
-        <tr><td>51</td><td>The Smith</td><td>Chm:67 Ldr:67 Stw:59 Tac:56 Med:113</td><td>Pure crafter.</td></tr>
-        <tr><td>52</td><td>The Butcher</td><td>Chm:30 Ldr:30 Stw:46 Tac:74 Med:41</td><td>Pure combatant.</td></tr>
-        <tr><td>53</td><td>Blacktooth</td><td>Chm:47 Ldr:47 Stw:36 Tac:76 Med:50</td><td>Pure combatant.</td></tr>
-        <tr><td>54</td><td>The Mad</td><td>Chm:44 Ldr:43 Stw:31 Tac:68 Med:48</td><td>Pure combatant.</td></tr>
-        <tr><td>55</td><td>Breakskull</td><td>Chm:34 Ldr:61 Stw:38 Tac:83 Med:45</td><td>Pure combatant.</td></tr>
-        <tr><td>56</td><td>The Red</td><td>Chm:25 Ldr:50 Stw:35 Tac:82 Med:44</td><td>Pure combatant.</td></tr>
-        <tr><td>57</td><td>The Boar</td><td>Chm:28 Ldr:34 Stw:28 Tac:94 Med:48</td><td>Pure combatant.</td></tr>
-        <tr><td>58</td><td>Barrelchest</td><td>Chm:65 Ldr:95 Stw:50 Tac:89 Med:58</td><td>Pure combatant.</td></tr>
-        <tr><td>59</td><td>Longknife</td><td>Chm:54 Ldr:57 Stw:44 Tac:71 Med:55</td><td>Pure combatant.</td></tr>
-        <tr><td>60</td><td>Cowthief</td><td>Chm:88 Ldr:88 Stw:44 Tac:55 Med:54</td><td>44 Steward.</td></tr>
-        <tr><td>61</td><td>Bellowsbreath</td><td>Chm:53 Ldr:49 Stw:43 Tac:61 Med:51</td><td>Crafter/Fighter.</td></tr>
-        <tr><td>62</td><td>Coalbiter</td><td>Chm:31 Ldr:61 Stw:48 Tac:76 Med:65</td><td>Crafter/Fighter.</td></tr>
-        <tr><td>63</td><td>The Bull</td><td>Chm:35 Ldr:69 Stw:27 Tac:79 Med:32</td><td>27 Steward.</td></tr>
-        <tr><td>64</td><td>The Wainwright</td><td>Chm:70 Ldr:69 Stw:103 Tac:61 Med:35</td><td>Low Tactics, Zero Charm.</td></tr>
-        <tr><td>65</td><td>The Swordsman</td><td>Chm:79 Ldr:79 Stw:50 Tac:80 Med:51</td><td>50 Steward.</td></tr>
-        <tr><td>66</td><td>Empty-Pockets</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:0</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>67</td><td>Wave-Breaker</td><td>Chm:0 Ldr:0 Stw:0 Tac:46 Med:0</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>68</td><td>Trolldaughter</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:42</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>69</td><td>The Fisherman</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:56</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>70</td><td>The Shipwright</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:39</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>71</td><td>The Navigator</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:48</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>72</td><td>The Restless</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:26</td><td>Zero INT/SOC base stats.</td></tr>
-        <tr><td>73</td><td>of The River</td><td>Chm:0 Ldr:0 Stw:0 Tac:0 Med:48</td><td>Zero INT/SOC base stats.</td></tr>
-      </table>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Level</th><th>Charm</th><th>Leadership</th><th>Steward</th><th>Tactics</th><th>Medicine</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Prince</td><td>Aserai</td><td>20</td><td>147</td><td>157</td><td>118</td><td>128</td><td>64</td><td>Unrivaled vassal. Massive Charm for influence/fief votes, combined with elite army-leading capabilities.</td></tr>
+          <tr><td>2</td><td>Fairhair</td><td>Battania</td><td>18</td><td>144</td><td>153</td><td>109</td><td>115</td><td>53</td><td>Nearly identical to The Prince. Will rapidly build influence and field large, highly successful armies.</td></tr>
+          <tr><td>3</td><td>The Golden</td><td>Aserai</td><td>19</td><td>100</td><td>97</td><td>88</td><td>94</td><td>58</td><td>Outstanding baseline across all necessary vassal stats. Young enough to naturally push these even higher.</td></tr>
+          <tr><td>4</td><td>The Loud</td><td>Vlandia</td><td>18</td><td>132</td><td>124</td><td>69</td><td>97</td><td>40</td><td>Elite Charm and Leadership guarantees high clan tier progression, though party size is slightly smaller initially.</td></tr>
+          <tr><td>5</td><td>The Knowing</td><td>Khuzait</td><td>17</td><td>101</td><td>81</td><td>113</td><td>93</td><td>108</td><td>The perfect all-rounder. Excellent influence gain, large party size, great survival, and high auto-resolve capability.</td></tr>
+          <tr><td>6</td><td>The Scholar</td><td>Aserai</td><td>17</td><td>115</td><td>78</td><td>127</td><td>80</td><td>102</td><td>Massive Steward and Charm ensures his clan will be influential and field huge parties that rarely die.</td></tr>
+          <tr><td>7</td><td>The Grizzled</td><td>Vlandia</td><td>19</td><td>70</td><td>127</td><td>83</td><td>118</td><td>69</td><td>Elite tactician and leader. Will win almost all AI vs AI engagements, though influence gain is average.</td></tr>
+          <tr><td>8</td><td>The She-Wolf</td><td>Khuzait</td><td>19</td><td>85</td><td>92</td><td>71</td><td>95</td><td>68</td><td>Very well-balanced warlord. Will comfortably maintain her fiefs and armies.</td></tr>
+          <tr><td>9</td><td>The Spicevendor</td><td>Aserai</td><td>17</td><td>103</td><td>71</td><td>116</td><td>57</td><td>55</td><td>Top-tier Steward means a massive party size, and high Charm builds influence fast to offset mediocre Tactics.</td></tr>
+          <tr><td>10</td><td>The Grey Falcon</td><td>Khuzait</td><td>19</td><td>71</td><td>101</td><td>75</td><td>94</td><td>63</td><td>Strong combat leader with enough Leadership and Tactics to reliably win engagements as a vassal.</td></tr>
+          <tr><td>11</td><td>The Engineer</td><td>Aserai</td><td>18</td><td>77</td><td>70</td><td>90</td><td>89</td><td>63</td><td>Highly competent across the board. Will manage fiefs well and field a reasonably strong army.</td></tr>
+          <tr><td>12</td><td>The Surgeon</td><td>Empire</td><td>16</td><td>92</td><td>61</td><td>100</td><td>42</td><td>169</td><td>Excellent Charm and Steward, but his terrible Tactics means his massive, unkillable army will lose auto-resolves.</td></tr>
+          <tr><td>13</td><td>The Scholar</td><td>Empire</td><td>16</td><td>117</td><td>51</td><td>98</td><td>18</td><td>136</td><td>Will gain immense influence and field large parties, but an 18 in Tactics means he needs to be babysat in wars.</td></tr>
+          <tr><td>14</td><td>The Wanderer</td><td>Aserai</td><td>18</td><td>67</td><td>67</td><td>80</td><td>74</td><td>67</td><td>The most balanced of the lower-tier leaders. No glaring weaknesses.</td></tr>
+          <tr><td>15</td><td>The Dispossessed</td><td>Empire</td><td>17</td><td>79</td><td>53</td><td>83</td><td>55</td><td>65</td><td>Good Steward and Charm will help him establish his clan quickly.</td></tr>
+          <tr><td>16</td><td>The Hyena</td><td>Aserai</td><td>19</td><td>47</td><td>59</td><td>88</td><td>60</td><td>50</td><td>Decent party size, but lack of Charm will make it hard for him to gain clan influence.</td></tr>
+          <tr><td>17</td><td>The Fish</td><td>Sturgia</td><td>18</td><td>86</td><td>52</td><td>75</td><td>72</td><td>49</td><td>Passable. Will function adequately as a minor vassal clan.</td></tr>
+          <tr><td>18</td><td>The Hawk</td><td>Khuzait</td><td>18</td><td>50</td><td>63</td><td>72</td><td>75</td><td>59</td><td>Capable of leading armies, but will struggle to gain political traction without Charm.</td></tr>
+          <tr><td>19</td><td>The Leopardess</td><td>Aserai</td><td>20</td><td>148</td><td>60</td><td>67</td><td>77</td><td>53</td><td>Amazing Charm, but her party size will be too small to make a major impact in wars.</td></tr>
+          <tr><td>20</td><td>The Tracker</td><td>Vlandia</td><td>18</td><td>63</td><td>64</td><td>54</td><td>81</td><td>60</td><td>Will win small skirmishes thanks to Tactics, but won't field enough troops to take fiefs.</td></tr>
+          <tr><td>21</td><td>The Alone</td><td>Khuzait</td><td>19</td><td>115</td><td>47</td><td>58</td><td>71</td><td>80</td><td>High Charm helps, but poor Leadership restricts his ability to form armies.</td></tr>
+          <tr><td>22</td><td>The Wanderer</td><td>Battania</td><td>18</td><td>55</td><td>60</td><td>65</td><td>73</td><td>52</td><td>Average tactician with a small party size.</td></tr>
+          <tr><td>23</td><td>The Wanderer</td><td>Empire</td><td>18</td><td>48</td><td>59</td><td>73</td><td>66</td><td>45</td><td>Average party size with poor auto-resolve capability.</td></tr>
+          <tr><td>24</td><td>The Huntress</td><td>Vlandia</td><td>19</td><td>47</td><td>59</td><td>51</td><td>72</td><td>71</td><td>Survives well, but zero political influence capability.</td></tr>
+          <tr><td>25</td><td>The Outcast</td><td>Khuzait</td><td>19</td><td>126</td><td>52</td><td>67</td><td>76</td><td>40</td><td>High Charm, but low Leadership and Medicine make his armies fragile.</td></tr>
+          <tr><td>26</td><td>The Falcon</td><td>Aserai</td><td>18</td><td>50</td><td>68</td><td>57</td><td>71</td><td>59</td><td>Underwhelming across the board.</td></tr>
+          <tr><td>27</td><td>of The Wastes</td><td>Aserai</td><td>19</td><td>64</td><td>68</td><td>55</td><td>76</td><td>73</td><td>Medicine and Tactics help, but terrible Steward severely limits his impact.</td></tr>
+          <tr><td>28</td><td>The Healer</td><td>Battania</td><td>16</td><td>29</td><td>58</td><td>50</td><td>48</td><td>163</td><td>Will struggle to maintain fiefs or field armies despite troops never dying.</td></tr>
+          <tr><td>29</td><td>Bitterdraught</td><td>Vlandia</td><td>16</td><td>25</td><td>58</td><td>73</td><td>49</td><td>155</td><td>Similar to The Healer, but with slightly better Steward and zero Charm.</td></tr>
+          <tr><td>30</td><td>Willowbark</td><td>Sturgia</td><td>15</td><td>32</td><td>45</td><td>50</td><td>41</td><td>153</td><td>Too low in Leadership/Tactics to be a viable independent lord.</td></tr>
+          <tr><td>31</td><td>The Swift</td><td>Khuzait</td><td>19</td><td>99</td><td>57</td><td>52</td><td>78</td><td>61</td><td>Good Charm, but his parties will be too small to accomplish anything.</td></tr>
+          <tr><td>32</td><td>Frostbeard</td><td>Sturgia</td><td>18</td><td>64</td><td>64</td><td>89</td><td>57</td><td>58</td><td>Decent Steward, but poor Tactics and Charm will keep his clan at the bottom.</td></tr>
+          <tr><td>33</td><td>The Shieldmaiden</td><td>Sturgia</td><td>17</td><td>102</td><td>41</td><td>72</td><td>45</td><td>81</td><td>Good Charm, but her armies will instantly die in auto-resolve due to 45 Tactics.</td></tr>
+          <tr><td>34</td><td>Ironeye</td><td>Khuzait</td><td>18</td><td>55</td><td>51</td><td>62</td><td>68</td><td>45</td><td>Too old to level, and stats are too low to compensate.</td></tr>
+          <tr><td>35</td><td>The Bloodaxe</td><td>Sturgia</td><td>18</td><td>51</td><td>66</td><td>37</td><td>89</td><td>55</td><td>Good tactician, but 37 Steward guarantees his party size is a non-factor.</td></tr>
+          <tr><td>36</td><td>of The Hills</td><td>Vlandia</td><td>19</td><td>60</td><td>70</td><td>54</td><td>77</td><td>65</td><td>Combat-focused. Lacks the INT/SOC stats to run a clan.</td></tr>
+          <tr><td>37</td><td>Horsethief</td><td>Battania</td><td>19</td><td>148</td><td>56</td><td>77</td><td>60</td><td>36</td><td>Amazing Charm, but 36 Medicine means his troops die instantly.</td></tr>
+          <tr><td>38</td><td>of The Hills</td><td>Battania</td><td>18</td><td>52</td><td>47</td><td>39</td><td>74</td><td>68</td><td>Abysmal Steward rating.</td></tr>
+          <tr><td>39</td><td>The Robber</td><td>Empire</td><td>18</td><td>155</td><td>92</td><td>42</td><td>47</td><td>35</td><td>Incredible Charm and Leadership completely wasted by 42 Steward and 47 Tactics.</td></tr>
+          <tr><td>40</td><td>The Accursed</td><td>Sturgia</td><td>17</td><td>132</td><td>50</td><td>26</td><td>55</td><td>49</td><td>26 Steward means he cannot lead a party.</td></tr>
+          <tr><td>41</td><td>The Ragged</td><td>Battania</td><td>17</td><td>129</td><td>93</td><td>42</td><td>49</td><td>58</td><td>Good Leadership wasted by terrible Steward and Tactics.</td></tr>
+          <tr><td>42</td><td>The Ragged</td><td>Khuzait</td><td>18</td><td>131</td><td>87</td><td>46</td><td>52</td><td>71</td><td>Marginally better than the Battanian, still completely unviable.</td></tr>
+          <tr><td>43</td><td>The Lucky</td><td>Sturgia</td><td>17</td><td>140</td><td>90</td><td>38</td><td>50</td><td>42</td><td>38 Steward ruins his high Charm/Leadership setup.</td></tr>
+          <tr><td>44</td><td>The Silent</td><td>Empire</td><td>18</td><td>137</td><td>33</td><td>26</td><td>55</td><td>51</td><td>26 Steward.</td></tr>
+          <tr><td>45</td><td>The Fatherless</td><td>Khuzait</td><td>18</td><td>148</td><td>78</td><td>48</td><td>64</td><td>59</td><td>48 Steward.</td></tr>
+          <tr><td>46</td><td>The Black</td><td>Empire</td><td>19</td><td>153</td><td>43</td><td>21</td><td>60</td><td>57</td><td>21 Steward.</td></tr>
+          <tr><td>47</td><td>The Black</td><td>Vlandia</td><td>19</td><td>138</td><td>61</td><td>51</td><td>75</td><td>52</td><td>Slightly better Steward, but still awful.</td></tr>
+          <tr><td>48</td><td>The Exile</td><td>Empire</td><td>18</td><td>118</td><td>39</td><td>31</td><td>76</td><td>54</td><td>31 Steward.</td></tr>
+          <tr><td>49</td><td>The Brave</td><td>Vlandia</td><td>19</td><td>82</td><td>107</td><td>51</td><td>100</td><td>41</td><td>Good Tactics/Leadership ruined by 46 Steward.</td></tr>
+          <tr><td>50</td><td>The Shark</td><td>Vlandia</td><td>19</td><td>55</td><td>85</td><td>49</td><td>93</td><td>48</td><td>49 Steward.</td></tr>
+          <tr><td>51</td><td>The Smith</td><td>Vlandia</td><td>18</td><td>35</td><td>67</td><td>59</td><td>56</td><td>113</td><td>Pure crafter.</td></tr>
+          <tr><td>52</td><td>The Butcher</td><td>Empire</td><td>17</td><td>74</td><td>30</td><td>46</td><td>74</td><td>41</td><td>Pure combatant.</td></tr>
+          <tr><td>53</td><td>Blacktooth</td><td>Battania</td><td>18</td><td>88</td><td>47</td><td>36</td><td>76</td><td>50</td><td>Pure combatant.</td></tr>
+          <tr><td>54</td><td>The Mad</td><td>Khuzait</td><td>18</td><td>104</td><td>43</td><td>31</td><td>68</td><td>48</td><td>Pure combatant.</td></tr>
+          <tr><td>55</td><td>Breakskull</td><td>Sturgia</td><td>17</td><td>34</td><td>61</td><td>38</td><td>83</td><td>45</td><td>Pure combatant.</td></tr>
+          <tr><td>56</td><td>The Red</td><td>Battania</td><td>18</td><td>25</td><td>50</td><td>35</td><td>82</td><td>44</td><td>Pure combatant.</td></tr>
+          <tr><td>57</td><td>The Boar</td><td>Empire</td><td>18</td><td>28</td><td>34</td><td>28</td><td>94</td><td>48</td><td>Pure combatant.</td></tr>
+          <tr><td>58</td><td>Barrelchest</td><td>Vlandia</td><td>19</td><td>65</td><td>95</td><td>50</td><td>89</td><td>58</td><td>Pure combatant.</td></tr>
+          <tr><td>59</td><td>Longknife</td><td>Sturgia</td><td>18</td><td>102</td><td>57</td><td>44</td><td>71</td><td>55</td><td>Pure combatant.</td></tr>
+          <tr><td>60</td><td>Cowthief</td><td>Battania</td><td>18</td><td>137</td><td>88</td><td>44</td><td>55</td><td>54</td><td>44 Steward.</td></tr>
+          <tr><td>61</td><td>Bellowsbreath</td><td>Vlandia</td><td>17</td><td>49</td><td>59</td><td>43</td><td>61</td><td>51</td><td>Crafter/Fighter.</td></tr>
+          <tr><td>62</td><td>Coalbiter</td><td>Sturgia</td><td>17</td><td>31</td><td>61</td><td>48</td><td>76</td><td>65</td><td>Crafter/Fighter.</td></tr>
+          <tr><td>63</td><td>The Bull</td><td>Empire</td><td>17</td><td>35</td><td>69</td><td>27</td><td>79</td><td>32</td><td>27 Steward.</td></tr>
+          <tr><td>64</td><td>The Wainwright</td><td>Vlandia</td><td>18</td><td>70</td><td>69</td><td>103</td><td>61</td><td>35</td><td>Low Tactics, Zero Charm.</td></tr>
+          <tr><td>65</td><td>The Swordsman</td><td>Aserai</td><td>18</td><td>71</td><td>79</td><td>50</td><td>80</td><td>51</td><td>50 Steward.</td></tr>
+          <tr><td>66</td><td>Empty-Pockets</td><td>Nord</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>67</td><td>Wave-Breaker</td><td>Nord</td><td>14</td><td>0</td><td>0</td><td>0</td><td>46</td><td>0</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>68</td><td>Trolldaughter</td><td>Nord</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0</td><td>42</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>69</td><td>The Fisherman</td><td>Vlandia</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0</td><td>56</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>70</td><td>The Shipwright</td><td>Empire</td><td>12</td><td>0</td><td>0</td><td>0</td><td>0</td><td>39</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>71</td><td>The Navigator</td><td>Aserai</td><td>12</td><td>0</td><td>0</td><td>0</td><td>0</td><td>48</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>72</td><td>The Restless</td><td>Nord</td><td>11</td><td>0</td><td>0</td><td>0</td><td>0</td><td>26</td><td>Zero INT/SOC base stats.</td></tr>
+          <tr><td>73</td><td>of The River</td><td>Nord</td><td>11</td><td>0</td><td>0</td><td>0</td><td>0</td><td>48</td><td>Zero INT/SOC base stats.</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Alley Leaders Tab -->
     <div id="alley" class="tab-pane">
-      <table class="tier-table">
-        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>1</td><td>The Robber</td><td>Rog:155</td><td>The highest starting Roguery in the data. Young with great combat potential.</td></tr>
-        <tr><td>2</td><td>The Silent</td><td>Rog:137</td><td>Elite Roguery base. Extremely effective at squeezing profit out of urban crime.</td></tr>
-        <tr><td>3</td><td>Horsethief</td><td>Rog:148</td><td>Massive Roguery and strong combat stats. Perfect for Battanian backstreets.</td></tr>
-        <tr><td>4</td><td>The Black</td><td>Rog:153</td><td>Exceptional hybrid of top-tier Roguery and high-tier combat capability.</td></tr>
-        <tr><td>5</td><td>The Mad</td><td>Rog:104</td><td>Lower Roguery than the "Tier 1" criminals, but his elite combat stats make him unkillable in alley brawls.</td></tr>
-        <tr><td>6</td><td>The Prince</td><td>Rog:147</td><td>Very high Roguery, though his personal combat ceiling is slightly lower than the brawlers.</td></tr>
-        <tr><td>7</td><td>The Spicevendor</td><td>Rog:103</td><td>High base Roguery. A very profitable choice for Aserai cities.</td></tr>
-        <tr><td>8</td><td>The Alone</td><td>Rog:115</td><td>Solid middle-ground with good starting Roguery and Tier 3 combat.</td></tr>
-        <tr><td>9</td><td>The Tracker</td><td>Rog:81</td><td>Respectable Roguery for a Vlandian specialist with great fighting potential.</td></tr>
-        <tr><td>10</td><td>of The Hills</td><td>Rog:52</td><td>Lower Roguery, but very young with plenty of room to grow if the alley stays active.</td></tr>
-        <tr><td>11</td><td>The Swift</td><td>Rog:99</td><td>High map-scout stats that translate well into urban "watching the street" roles.</td></tr>
-        <tr><td>12</td><td>The Knowing</td><td>Rog:101</td><td>High starting Roguery, but his combat stats are average for high-risk brawls.</td></tr>
-        <tr><td>13</td><td>The Hyena</td><td>Rog:59</td><td>Strong Aserai combatant who can reliably defend his turf.</td></tr>
-        <tr><td>14</td><td>The Falcon</td><td>Rog:50</td><td>Balanced Aserai option with enough Roguery to be profitable.</td></tr>
-        <tr><td>15</td><td>The Golden</td><td>Rog:44</td><td>Lower Roguery, but high combat skill ensures the alley isn't easily taken back.</td></tr>
-        <tr><td>16</td><td>The Black</td><td>Rog:71</td><td>Decent Vlandian thug; reliable in a fight.</td></tr>
-        <tr><td>17</td><td>The Shark</td><td>Rog:80</td><td>Strong Vlandian fighter with respectable starting Roguery.</td></tr>
-        <tr><td>18</td><td>of The Wastes</td><td>Rog:64</td><td>Older, but has a solid starting Roguery base for an alley.</td></tr>
-        <tr><td>19</td><td>The Accursed</td><td>Rog:37</td><td>The best Sturgian criminal option due to high combat attributes.</td></tr>
-        <tr><td>20</td><td>The She-Wolf</td><td>Rog:79</td><td>Good Roguery base and lethal in a brawl.</td></tr>
-      </table>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Roguery</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Robber</td><td>Empire</td><td>19</td><td>18</td><td>155</td><td>The highest starting Roguery in the data. Young with great combat potential.</td></tr>
+          <tr><td>2</td><td>The Silent</td><td>Empire</td><td>22</td><td>18</td><td>137</td><td>Elite Roguery base. Extremely effective at squeezing profit out of urban crime.</td></tr>
+          <tr><td>3</td><td>Horsethief</td><td>Battania</td><td>22</td><td>19</td><td>148</td><td>Massive Roguery and strong combat stats. Perfect for Battanian backstreets.</td></tr>
+          <tr><td>4</td><td>The Black</td><td>Empire</td><td>18</td><td>19</td><td>153</td><td>Exceptional hybrid of top-tier Roguery and high-tier combat capability.</td></tr>
+          <tr><td>5</td><td>The Mad</td><td>Khuzait</td><td>18</td><td>18</td><td>104</td><td>Lower Roguery than the "Tier 1" criminals, but his elite combat stats make him unkillable in alley brawls.</td></tr>
+          <tr><td>6</td><td>The Prince</td><td>Aserai</td><td>21</td><td>20</td><td>147</td><td>Very high Roguery, though his personal combat ceiling is slightly lower than the brawlers.</td></tr>
+          <tr><td>7</td><td>The Spicevendor</td><td>Aserai</td><td>24</td><td>17</td><td>103</td><td>High base Roguery. A very profitable choice for Aserai cities.</td></tr>
+          <tr><td>8</td><td>The Alone</td><td>Khuzait</td><td>22</td><td>19</td><td>115</td><td>Solid middle-ground with good starting Roguery and Tier 3 combat.</td></tr>
+          <tr><td>9</td><td>The Tracker</td><td>Vlandia</td><td>23</td><td>18</td><td>81</td><td>Respectable Roguery for a Vlandian specialist with great fighting potential.</td></tr>
+          <tr><td>10</td><td>of The Hills</td><td>Battania</td><td>19</td><td>18</td><td>52</td><td>Lower Roguery, but very young with plenty of room to grow if the alley stays active.</td></tr>
+          <tr><td>11</td><td>The Swift</td><td>Khuzait</td><td>20</td><td>19</td><td>99</td><td>High map-scout stats that translate well into urban "watching the street" roles.</td></tr>
+          <tr><td>12</td><td>The Knowing</td><td>Khuzait</td><td>28</td><td>17</td><td>101</td><td>High starting Roguery, but his combat stats are average for high-risk brawls.</td></tr>
+          <tr><td>13</td><td>The Hyena</td><td>Aserai</td><td>22</td><td>19</td><td>59</td><td>Strong Aserai combatant who can reliably defend his turf.</td></tr>
+          <tr><td>14</td><td>The Falcon</td><td>Aserai</td><td>20</td><td>18</td><td>50</td><td>Balanced Aserai option with enough Roguery to be profitable.</td></tr>
+          <tr><td>15</td><td>The Golden</td><td>Aserai</td><td>20</td><td>19</td><td>44</td><td>Lower Roguery, but high combat skill ensures the alley isn't easily taken back.</td></tr>
+          <tr><td>16</td><td>The Black</td><td>Vlandia</td><td>20</td><td>19</td><td>71</td><td>Decent Vlandian thug; reliable in a fight.</td></tr>
+          <tr><td>17</td><td>The Shark</td><td>Vlandia</td><td>24</td><td>19</td><td>80</td><td>Strong Vlandian fighter with respectable starting Roguery.</td></tr>
+          <tr><td>18</td><td>of The Wastes</td><td>Aserai</td><td>29</td><td>19</td><td>64</td><td>Older, but has a solid starting Roguery base for an alley.</td></tr>
+          <tr><td>19</td><td>The Accursed</td><td>Sturgia</td><td>20</td><td>17</td><td>37</td><td>The best Sturgian criminal option due to high combat attributes.</td></tr>
+          <tr><td>20</td><td>The She-Wolf</td><td>Khuzait</td><td>24</td><td>19</td><td>79</td><td>Good Roguery base and lethal in a brawl.</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Combat Specialists Tab -->
     <div id="combat" class="tab-pane">
-      <table class="tier-table">
-        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>1</td><td>The Mad</td><td>Base V:5 C:3 E:4 | Pot V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>2</td><td>The Boar</td><td>Base V:5 C:3 E:4 | Pot V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>3</td><td>The Red</td><td>Base V:5 C:3 E:4 | Pot V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>4</td><td>The Restless</td><td>Base V:3 C:3 E:4 | Pot V:7 C:7 E:8</td><td>10 base + 8 from levels (11 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>5</td><td>Barrelchest</td><td>Base V:5 C:2 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>6</td><td>The Bull</td><td>Base V:5 C:2 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>7</td><td>Bloodaxe</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>8</td><td>Longknife</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>9</td><td>The Exile</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>10</td><td>Blacktooth</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>11</td><td>The Accursed</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>12</td><td>The Shark</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>13</td><td>of The Hills (Vla)</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>14</td><td>The Ill-Starred</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>15</td><td>Breakskull</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>16</td><td>The Brave</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>17</td><td>The Hawk</td><td>Base V:3 C:4 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>18</td><td>Wave-Breaker</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (14 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>19</td><td>Empty-Pockets</td><td>Base V:3 C:3 E:4 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>20</td><td>Trolldaughter</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>21</td><td>The Fisherman</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>22</td><td>of The River</td><td>Base V:3 C:3 E:3 | Pot V:7 C:7 E:7</td><td>9 base + 8 from levels (11 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>23</td><td>The Smith</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:6</td><td>11 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent).</td></tr>
-        <tr><td>24</td><td>The Shieldmaiden</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>25</td><td>The Golden</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>26</td><td>The Black (Emp)</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>27</td><td>The Black (Vla)</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>28</td><td>The Butcher</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>29</td><td>The Wanderer (Bat)</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>30</td><td>The Wanderer (Ase)</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>31</td><td>of The Hills (Bat)</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>32</td><td>Ironeye</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>33</td><td>The Silent</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>34</td><td>Horsethief</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>35</td><td>Frostbeard</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>36</td><td>The Grizzled</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>37</td><td>The Loud</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>38</td><td>The She-Wolf</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>39</td><td>The Hyena</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>40</td><td>The Robber</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>41</td><td>The Swift</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>42</td><td>The Grey Falcon</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>43</td><td>The Huntress</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>44</td><td>The Swordsman</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>45</td><td>The Alone</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>46</td><td>Bellowsbreath</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>47</td><td>Coalbiter</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>48</td><td>The Falcon</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>49</td><td>The Tracker</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>50</td><td>Ironbelly</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>51</td><td>The Dispossessed</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>52</td><td>The Outcast</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>53</td><td>The Shipwright</td><td>Base V:3 C:3 E:3 | Pot V:6 C:7 E:7</td><td>9 base + 7 from levels (12 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>54</td><td>The Navigator</td><td>Base V:3 C:3 E:3 | Pot V:6 C:7 E:7</td><td>9 base + 7 from levels (12 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>55</td><td>of The Wastes</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>56</td><td>The Wainwright</td><td>Base V:3 C:3 E:4 | Pot V:6 C:6 E:7</td><td>10 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent).</td></tr>
-        <tr><td>57</td><td>Cowthief</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>58</td><td>The Fatherless</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>59</td><td>The Fish</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>60</td><td>The Lucky</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>61</td><td>The Spicevendor</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>62</td><td>The Ragged (Bat)</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>63</td><td>The Ragged (Khu)</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>64</td><td>The Wanderer (Emp)</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>65</td><td>The Engineer</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>66</td><td>Fairhair</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>67</td><td>Willowbark</td><td>Base V:2 C:3 E:3 | Pot V:6 C:6 E:7</td><td>8 base + 7 from levels (15 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>68</td><td>The Leopardess</td><td>Base V:4 C:3 E:3 | Pot V:7 C:6 E:6</td><td>10 base + 5 from levels (20 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>69</td><td>The Scholar (Ase)</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>70</td><td>The Prince</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:6</td><td>9 base + 5 from levels (20 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>71</td><td>The Healer</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>72</td><td>The Knowing</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>73</td><td>Bitterdraught</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>74</td><td>The Surgeon</td><td>Base V:2 C:2 E:3 | Pot V:5 C:5 E:7</td><td>7 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
-        <tr><td>75</td><td>The Scholar (Emp)</td><td>Base V:2 C:2 E:2 | Pot V:5 C:5 E:6</td><td>6 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
-      </table>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Base V, C, E</th><th>Pot. VCE</th><th>Ideal Breakdown</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Mad</td><td>Khuzait</td><td>18</td><td>18</td><td>V:5 C:3 E:4</td><td>22</td><td>V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>2</td><td>The Boar</td><td>Empire</td><td>33</td><td>18</td><td>V:5 C:3 E:4</td><td>22</td><td>V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>3</td><td>The Red</td><td>Battania</td><td>24</td><td>18</td><td>V:5 C:3 E:4</td><td>22</td><td>V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>4</td><td>The Restless</td><td>Nord</td><td>24</td><td>11</td><td>V:3 C:3 E:4</td><td>22</td><td>V:7 C:7 E:8</td><td>10 base + 8 from levels (11 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>5</td><td>Barrelchest</td><td>Vlandia</td><td>20</td><td>19</td><td>V:5 C:2 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>6</td><td>The Bull</td><td>Empire</td><td>24</td><td>17</td><td>V:5 C:2 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>7</td><td>Bloodaxe</td><td>Sturgia</td><td>32</td><td>18</td><td>V:4 C:3 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>8</td><td>Longknife</td><td>Sturgia</td><td>22</td><td>18</td><td>V:4 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>9</td><td>The Exile</td><td>Empire</td><td>20</td><td>18</td><td>V:4 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>10</td><td>Blacktooth</td><td>Battania</td><td>18</td><td>18</td><td>V:4 C:3 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>11</td><td>The Accursed</td><td>Sturgia</td><td>20</td><td>17</td><td>V:4 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>12</td><td>The Shark</td><td>Vlandia</td><td>24</td><td>19</td><td>V:4 C:3 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>13</td><td>of The Hills</td><td>Vlandia</td><td>24</td><td>19</td><td>V:4 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>14</td><td>The Ill-Starred</td><td>Battania</td><td>21</td><td>18</td><td>V:4 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>15</td><td>Breakskull</td><td>Sturgia</td><td>22</td><td>17</td><td>V:4 C:3 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>16</td><td>The Brave</td><td>Vlandia</td><td>18</td><td>19</td><td>V:4 C:3 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>17</td><td>The Hawk</td><td>Khuzait</td><td>22</td><td>18</td><td>V:3 C:4 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>18</td><td>Wave-Breaker</td><td>Nord</td><td>28</td><td>14</td><td>V:4 C:3 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>10 base + 7 from levels (14 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>19</td><td>Empty-Pockets</td><td>Nord</td><td>25</td><td>13</td><td>V:3 C:3 E:4</td><td>21</td><td>V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>20</td><td>Trolldaughter</td><td>Nord</td><td>27</td><td>13</td><td>V:3 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>21</td><td>The Fisherman</td><td>Vlandia</td><td>22</td><td>13</td><td>V:3 C:4 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>22</td><td>of The River</td><td>Nord</td><td>26</td><td>11</td><td>V:3 C:3 E:3</td><td>21</td><td>V:7 C:7 E:7</td><td>9 base + 8 from levels (11 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>23</td><td>The Smith</td><td>Vlandia</td><td>20</td><td>18</td><td>V:4 C:3 E:4</td><td>20</td><td>V:7 C:7 E:6</td><td>11 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent).</td></tr>
+          <tr><td>24</td><td>The Shieldmaiden</td><td>Sturgia</td><td>24</td><td>17</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>25</td><td>The Golden</td><td>Aserai</td><td>20</td><td>19</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>26</td><td>The Black</td><td>Empire</td><td>18</td><td>19</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>27</td><td>The Black</td><td>Vlandia</td><td>20</td><td>19</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>28</td><td>The Butcher</td><td>Empire</td><td>28</td><td>17</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>29</td><td>The Wanderer</td><td>Battania</td><td>18</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>30</td><td>The Wanderer</td><td>Aserai</td><td>20</td><td>18</td><td>V:3 C:3 E:4</td><td>20</td><td>V:6 C:7 E:7</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>31</td><td>of The Hills</td><td>Battania</td><td>19</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>32</td><td>Ironeye</td><td>Khuzait</td><td>32</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>33</td><td>The Silent</td><td>Empire</td><td>22</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>34</td><td>Horsethief</td><td>Battania</td><td>22</td><td>19</td><td>V:3 C:3 E:4</td><td>20</td><td>V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>35</td><td>Frostbeard</td><td>Sturgia</td><td>21</td><td>18</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>36</td><td>The Grizzled</td><td>Vlandia</td><td>27</td><td>19</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>37</td><td>The Loud</td><td>Vlandia</td><td>21</td><td>18</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>38</td><td>The She-Wolf</td><td>Khuzait</td><td>24</td><td>19</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>39</td><td>The Hyena</td><td>Aserai</td><td>22</td><td>19</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>40</td><td>The Robber</td><td>Empire</td><td>19</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>41</td><td>The Swift</td><td>Khuzait</td><td>20</td><td>19</td><td>V:3 C:3 E:4</td><td>20</td><td>V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>42</td><td>The Grey Falcon</td><td>Khuzait</td><td>18</td><td>19</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>43</td><td>The Huntress</td><td>Vlandia</td><td>21</td><td>19</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>44</td><td>The Swordsman</td><td>Aserai</td><td>32</td><td>18</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>45</td><td>The Alone</td><td>Khuzait</td><td>22</td><td>19</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>46</td><td>Bellowsbreath</td><td>Vlandia</td><td>21</td><td>17</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>47</td><td>Coalbiter</td><td>Sturgia</td><td>28</td><td>17</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>48</td><td>The Falcon</td><td>Aserai</td><td>20</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>49</td><td>The Tracker</td><td>Vlandia</td><td>23</td><td>18</td><td>V:3 C:4 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>50</td><td>Ironbelly</td><td>Battania</td><td>32</td><td>18</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>51</td><td>The Dispossessed</td><td>Empire</td><td>23</td><td>17</td><td>V:3 C:3 E:4</td><td>20</td><td>V:6 C:7 E:7</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>52</td><td>The Outcast</td><td>Khuzait</td><td>19</td><td>19</td><td>V:4 C:3 E:3</td><td>20</td><td>V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>53</td><td>The Shipwright</td><td>Empire</td><td>28</td><td>12</td><td>V:3 C:3 E:3</td><td>20</td><td>V:6 C:7 E:7</td><td>9 base + 7 from levels (12 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>54</td><td>The Navigator</td><td>Aserai</td><td>28</td><td>12</td><td>V:3 C:3 E:3</td><td>20</td><td>V:6 C:7 E:7</td><td>9 base + 7 from levels (12 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>55</td><td>of The Wastes</td><td>Aserai</td><td>29</td><td>19</td><td>V:3 C:3 E:4</td><td>20</td><td>V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>56</td><td>The Wainwright</td><td>Vlandia</td><td>21</td><td>18</td><td>V:3 C:3 E:4</td><td>19</td><td>V:6 C:6 E:7</td><td>10 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent).</td></tr>
+          <tr><td>57</td><td>Cowthief</td><td>Battania</td><td>18</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>58</td><td>The Fatherless</td><td>Khuzait</td><td>18</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>59</td><td>The Fish</td><td>Sturgia</td><td>20</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>60</td><td>The Lucky</td><td>Sturgia</td><td>18</td><td>17</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>61</td><td>The Spicevendor</td><td>Aserai</td><td>24</td><td>17</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>62</td><td>The Ragged</td><td>Battania</td><td>20</td><td>17</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>63</td><td>The Ragged</td><td>Khuzait</td><td>20</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>64</td><td>The Wanderer</td><td>Empire</td><td>20</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>65</td><td>The Engineer</td><td>Aserai</td><td>21</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>66</td><td>Fairhair</td><td>Battania</td><td>25</td><td>18</td><td>V:3 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>67</td><td>Willowbark</td><td>Sturgia</td><td>23</td><td>15</td><td>V:2 C:3 E:3</td><td>19</td><td>V:6 C:6 E:7</td><td>8 base + 7 from levels (15 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>68</td><td>The Leopardess</td><td>Aserai</td><td>19</td><td>20</td><td>V:4 C:3 E:3</td><td>19</td><td>V:7 C:6 E:6</td><td>10 base + 5 from levels (20 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>69</td><td>The Scholar</td><td>Aserai</td><td>22</td><td>17</td><td>V:2 C:3 E:3</td><td>18</td><td>V:5 C:6 E:7</td><td>8 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>70</td><td>The Prince</td><td>Aserai</td><td>21</td><td>20</td><td>V:3 C:3 E:3</td><td>18</td><td>V:6 C:6 E:6</td><td>9 base + 5 from levels (20 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>71</td><td>The Healer</td><td>Battania</td><td>28</td><td>16</td><td>V:2 C:3 E:3</td><td>18</td><td>V:5 C:6 E:7</td><td>8 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>72</td><td>The Knowing</td><td>Khuzait</td><td>28</td><td>17</td><td>V:2 C:3 E:3</td><td>18</td><td>V:5 C:6 E:7</td><td>8 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>73</td><td>Bitterdraught</td><td>Vlandia</td><td>29</td><td>16</td><td>V:2 C:3 E:3</td><td>18</td><td>V:5 C:6 E:7</td><td>8 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>74</td><td>The Surgeon</td><td>Empire</td><td>30</td><td>16</td><td>V:2 C:2 E:3</td><td>17</td><td>V:5 C:5 E:7</td><td>7 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+          <tr><td>75</td><td>The Scholar</td><td>Empire</td><td>25</td><td>16</td><td>V:2 C:2 E:2</td><td>16</td><td>V:5 C:5 E:6</td><td>6 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Specialists Roles Tab -->
+    <div id="special" class="tab-pane">
+      
+      <h2 class="section-title">Best Scouts</h2>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Scouting</th><th>Cunning</th><th>Pot. Cunning</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Tracker</td><td>Vlandia</td><td>23</td><td>18</td><td>159</td><td>4</td><td>9</td><td>Highest base Scouting. Reaches 7 Cunning by Level 30.</td></tr>
+          <tr><td>2</td><td>The Swift</td><td>Khuzait</td><td>20</td><td>19</td><td>157</td><td>4</td><td>9</td><td>Elite base skill. Reaches 7 Cunning by Level 31.</td></tr>
+          <tr><td>3</td><td>The Wanderer</td><td>Battania</td><td>18</td><td>18</td><td>151</td><td>3</td><td>8</td><td>High base and very young. Reaches 7 Cunning by Level 34.</td></tr>
+          <tr><td>4</td><td>of The Hills</td><td>Battania</td><td>19</td><td>18</td><td>149</td><td>4</td><td>9</td><td>Elite vision. Hits 7 Cunning by Level 30.</td></tr>
+          <tr><td>5</td><td>The Silent</td><td>Empire</td><td>22</td><td>18</td><td>146</td><td>5</td><td>10</td><td>Highest starting Cunning. Hits the 275 cap faster than anyone else.</td></tr>
+          <tr><td>6</td><td>of The Wastes</td><td>Aserai</td><td>29</td><td>19</td><td>146</td><td>3</td><td>8</td><td>Solid start. Reaches 8 Cunning by Level 40.</td></tr>
+          <tr><td>7</td><td>The Wanderer</td><td>Aserai</td><td>20</td><td>18</td><td>144</td><td>3</td><td>8</td><td>Strong baseline. Reaches 7 Cunning by Level 34.</td></tr>
+          <tr><td>8</td><td>The Black</td><td>Empire</td><td>18</td><td>19</td><td>144</td><td>5</td><td>10</td><td>Max starting Cunning and young. Very fast path to 275.</td></tr>
+          <tr><td>9</td><td>The Alone</td><td>Khuzait</td><td>22</td><td>19</td><td>137</td><td>4</td><td>9</td><td>Great starting skill. Reaches 7 Cunning by Level 31.</td></tr>
+          <tr><td>10</td><td>The Huntress</td><td>Vlandia</td><td>21</td><td>19</td><td>137</td><td>3</td><td>8</td><td>High starting base. Reaches 8 Cunning by Level 40.</td></tr>
+        </table>
+      </div>
+
+      <h2 class="section-title">Best Quartermasters</h2>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Steward</th><th>Intel</th><th>Pot. Intel</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Spicevendor</td><td>Aserai</td><td>24</td><td>17</td><td>116</td><td>4</td><td>9</td><td>Best starting profit/party size. Reaches 7 Intel by Level 29.</td></tr>
+          <tr><td>2</td><td>The Scholar</td><td>Aserai</td><td>22</td><td>17</td><td>127</td><td>4</td><td>9</td><td>Massive base. Hits 7 Intel requirement easily by Level 29.</td></tr>
+          <tr><td>3</td><td>The Prince</td><td>Aserai</td><td>21</td><td>20</td><td>118</td><td>3</td><td>8</td><td>High base skill. Reaches 8 Intel by Level 40.</td></tr>
+          <tr><td>4</td><td>The Knowing</td><td>Khuzait</td><td>28</td><td>17</td><td>113</td><td>4</td><td>9</td><td>Excellent all-rounder. Reaches 7 Intel by Level 29.</td></tr>
+          <tr><td>5</td><td>Fairhair</td><td>Battania</td><td>25</td><td>18</td><td>109</td><td>4</td><td>9</td><td>Great starting level. Reaches 7 Intel by Level 30.</td></tr>
+          <tr><td>6</td><td>The Wainwright</td><td>Vlandia</td><td>21</td><td>18</td><td>103</td><td>4</td><td>9</td><td>Strong base. Reaches 7 Intel by Level 30.</td></tr>
+          <tr><td>7</td><td>The Scholar</td><td>Empire</td><td>25</td><td>16</td><td>98</td><td>5</td><td>10</td><td>Highest starting Intel. Fastest path to 275 Steward.</td></tr>
+          <tr><td>8</td><td>The Engineer</td><td>Aserai</td><td>21</td><td>18</td><td>90</td><td>4</td><td>9</td><td>Solid base. Intel potential is very high for growth.</td></tr>
+          <tr><td>9</td><td>Frostbeard</td><td>Sturgia</td><td>21</td><td>18</td><td>89</td><td>3</td><td>8</td><td>High base for Sturgia. Reaches 7 Intel by Level 34.</td></tr>
+          <tr><td>10</td><td>The Golden</td><td>Aserai</td><td>20</td><td>19</td><td>88</td><td>3</td><td>8</td><td>Young and solid. Reaches 7 Intel by Level 35.</td></tr>
+        </table>
+      </div>
+
+      <h2 class="section-title">Best Surgeons</h2>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Medicine</th><th>Intel</th><th>Pot. Intel</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Surgeon</td><td>Empire</td><td>30</td><td>16</td><td>169</td><td>4</td><td>10</td><td>Highest Medicine in the game. Hits 7 Intel by Level 28.</td></tr>
+          <tr><td>2</td><td>The Healer</td><td>Battania</td><td>28</td><td>16</td><td>163</td><td>4</td><td>10</td><td>Massive base skill. Reaches 7 Intel by Level 28.</td></tr>
+          <tr><td>3</td><td>Bitterdraught</td><td>Vlandia</td><td>29</td><td>16</td><td>155</td><td>4</td><td>10</td><td>Best Vlandian medic. Reaches 7 Intel by Level 28.</td></tr>
+          <tr><td>4</td><td>Willowbark</td><td>Sturgia</td><td>23</td><td>15</td><td>153</td><td>4</td><td>10</td><td>Best Sturgian medic. Reaches 7 Intel by Level 27.</td></tr>
+          <tr><td>5</td><td>The Scholar</td><td>Empire</td><td>25</td><td>16</td><td>136</td><td>5</td><td>10</td><td>Exceptional Intel base. Will reach 275 Medicine very fast.</td></tr>
+          <tr><td>6</td><td>The Smith</td><td>Vlandia</td><td>20</td><td>18</td><td>113</td><td>4</td><td>9</td><td>Strong secondary skill. Hits 7 Intel by Level 30.</td></tr>
+          <tr><td>7</td><td>The Knowing</td><td>Khuzait</td><td>28</td><td>17</td><td>108</td><td>4</td><td>9</td><td>Solid starting base. Reaches 7 Intel by Level 29.</td></tr>
+          <tr><td>8</td><td>The Scholar</td><td>Aserai</td><td>22</td><td>17</td><td>102</td><td>4</td><td>9</td><td>Strong Aserai choice. Hits 7 Intel by Level 29.</td></tr>
+          <tr><td>9</td><td>The Shieldmaiden</td><td>Sturgia</td><td>24</td><td>17</td><td>81</td><td>3</td><td>8</td><td>Solid hybrid potential. Reaches 7 Intel by Level 33.</td></tr>
+          <tr><td>10</td><td>The Alone</td><td>Khuzait</td><td>22</td><td>19</td><td>80</td><td>3</td><td>8</td><td>Decent start. Reaches 7 Intel by Level 35.</td></tr>
+        </table>
+      </div>
+
+      <h2 class="section-title">Best Engineers</h2>
+      <div class="table-wrapper">
+        <table class="tier-table">
+          <tr><th>Rank</th><th>Companion</th><th>Culture</th><th>Age</th><th>Level</th><th>Engineering</th><th>Intel</th><th>Pot. Intel</th><th>Reasoning</th></tr>
+          <tr><td>1</td><td>The Engineer</td><td>Aserai</td><td>21</td><td>18</td><td>160</td><td>4</td><td>9</td><td>Master of sieges. Reaches 7 Intel by Level 30.</td></tr>
+          <tr><td>2</td><td>The Scholar</td><td>Empire</td><td>25</td><td>16</td><td>136</td><td>5</td><td>10</td><td>High base and max Intel. Fastest route to 275.</td></tr>
+          <tr><td>3</td><td>The Wainwright</td><td>Vlandia</td><td>21</td><td>18</td><td>133</td><td>4</td><td>9</td><td>Elite Vlandian builder. Hits 7 Intel by Level 30.</td></tr>
+          <tr><td>4</td><td>The Scholar</td><td>Aserai</td><td>22</td><td>17</td><td>95</td><td>4</td><td>9</td><td>Strong Aserai builder. Reaches 7 Intel by Level 29.</td></tr>
+          <tr><td>5</td><td>The Knowing</td><td>Khuzait</td><td>28</td><td>17</td><td>81</td><td>4</td><td>9</td><td>High base skill. Hits 7 Intel by Level 29.</td></tr>
+          <tr><td>6</td><td>The Surgeon</td><td>Empire</td><td>30</td><td>16</td><td>73</td><td>4</td><td>10</td><td>Excellent hybrid potential. Reaches 7 Intel by Level 28.</td></tr>
+          <tr><td>7</td><td>The Prince</td><td>Aserai</td><td>21</td><td>20</td><td>69</td><td>3</td><td>8</td><td>Solid base. Reaches 7 Intel by Level 36.</td></tr>
+          <tr><td>8</td><td>The She-Wolf</td><td>Khuzait</td><td>24</td><td>19</td><td>68</td><td>3</td><td>8</td><td>Strong base skill. Hits 7 Intel by Level 35.</td></tr>
+          <tr><td>9</td><td>The Dispossessed</td><td>Empire</td><td>23</td><td>17</td><td>54</td><td>3</td><td>8</td><td>Decent start. Reaches 7 Intel by Level 33.</td></tr>
+          <tr><td>10</td><td>The Golden</td><td>Aserai</td><td>20</td><td>19</td><td>52</td><td>3</td><td>8</td><td>Young and capable. Reaches 7 Intel by Level 35.</td></tr>
+        </table>
+      </div>
+
     </div>
 
   </main>
