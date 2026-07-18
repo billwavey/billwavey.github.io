@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Wavey's 1H Sword Grader</title>
+    <style>
+        :root {
+            --bg-main: #0b1120;
+            --bg-panel: #111827;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #f59e0b;
+            --border: #334155;
+            --s-tier: #a855f7;
+            --a-tier: #10b981;
+            --b-tier: #3b82f6;
+            --c-tier: #eab308;
+            --f-tier: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { background-color: var(--bg-main); color: var(--text-main); padding: 30px; display: flex; justify-content: center; }
+        .container { max-width: 850px; width: 100%; }
+
+        header { text-align: center; margin-bottom: 30px; padding: 20px; background: var(--bg-panel); border-radius: 8px; border: 1px solid var(--border); }
+        header h1 { font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
+        header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 25px; }
+        .panel h2 { font-size: 1.1rem; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; color: var(--accent); }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
+        .input-group input { width: 100%; background: var(--bg-main); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 4px; font-size: 1rem; }
+        .input-group input:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .checkbox-group input { width: auto; }
+
+        .result-box { text-align: center; margin-bottom: 25px; }
+        .tier-grade { font-size: 5rem; font-weight: 900; line-height: 1; margin: 5px 0; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .overall-score { font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 10px; }
+        .tier-label { font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+
+        .score-breakdown { display: flex; gap: 15px; }
+        .score-card { flex: 1; background: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; padding: 15px; text-align: center; }
+        .score-card h3 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .score-card .val { font-size: 1.5rem; font-weight: bold; color: #fff; }
+
+        .tips-box { margin-top: 20px; padding: 15px; background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--accent); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .tips-box h3 { color: var(--accent); margin-bottom: 5px; font-size: 0.9rem; }
+        .tips-box ul { list-style-position: inside; margin-top: 5px; }
+        .bonus-text { font-size: 0.85rem; color: var(--accent); margin-top: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Bill Wavey's 1H Sword Grader</h1>
+            <p>Kinetic Momentum Engine v2.9</p>
+        </header>
+
+        <div class="grid-layout">
+            <div class="panel">
+                <h2>Character Stats</h2>
+                <div class="input-group">
+                    <label>One Handed Level (0-330)</label>
+                    <input type="number" id="c_level" value="166" min="0" max="330" oninput="calculateGrade()">
+                    <div id="bonusDisplay" class="bonus-text">Speed: +11.62% | Damage: +24.90%</div>
+                </div>
+
+                <h2 style="margin-top: 30px;">Weapon Stats</h2>
+                <div class="input-group"><label>Swing Damage</label><input type="number" id="w_sd" value="100" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Swing Speed</label><input type="number" id="w_ss" value="95" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Handling</label><input type="number" id="w_h" value="90" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Weapon Reach</label><input type="number" id="w_r" value="105" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Weight</label><input type="number" step="0.01" id="w_w" value="1.45" oninput="calculateGrade()"></div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="w_hasThrust" onchange="toggleThrust()"> <label style="margin:0">Has Thrust Capability?</label>
+                </div>
+                <div id="thrustFields" style="display:none;">
+                    <div class="input-group"><label>Thrust Damage</label><input type="number" id="w_td" value="0" oninput="calculateGrade()"></div>
+                    <div class="input-group"><label>Thrust Speed</label><input type="number" id="w_ts" value="0" oninput="calculateGrade()"></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Overall Rating</h2>
+                <div class="result-box">
+                    <div class="tier-label">Godsword Tier</div>
+                    <div class="tier-grade" id="tierDisplay">S-</div>
+                    <div class="overall-score">Score: <span id="finalScoreDisplay">0</span>/100</div>
+                </div>
+
+                <div class="score-breakdown">
+                    <div class="score-card"><h3>Vs Light</h3><div class="val" id="scoreLight">0</div></div>
+                    <div class="score-card"><h3>Vs Heavy</h3><div class="val" id="scoreHeavy">0</div></div>
+                </div>
+
+                <div class="tips-box">
+                    <h3>Tips</h3>
+                    <ul>
+                        <li><strong>Thrust Penalty:</strong> Thrusting tips trigger an AI animation penalty (~23% efficiency loss). Only use thrust on weapons with high Thrust Dmg/Speed ratios.</li>
+                        <li><strong>Reach Collision:</strong> Exceeding 110 reach triggers collision penalties; the AI struggles with geometry and crowd density. 105-110 is the sweet spot.</li>
+                        <li><strong>One-Shot Threshold:</strong> If your damage output fails to one-shot heavy targets, that enemy remains active, allowing the crowd around your companion to multiply and stagger them.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PHYSICS = { scale: 13.38, armourPen: 0.52, dmgCurve: 1.50, staggerCurve: 0.79, reachCurve: 0.76, hndlCurve: 0.91, weightCurve: 0.20, thrustPenaltyBase: 0.77, enemyHP: 100.0 };
+        const ARMOUR_LIGHT = 15.0, ARMOUR_HEAVY = 45.0;
+        
+        const MAX_KILLS_LIGHT = 26.0; 
+        const MAX_KILLS_HEAVY = 20.0;
+
+        const LEVEL_SPD_MULT = 0.0007; 
+        const LEVEL_DMG_MULT = 0.0015;
+
+        function toggleThrust() { document.getElementById('thrustFields').style.display = document.getElementById('w_hasThrust').checked ? 'block' : 'none'; calculateGrade(); }
+        
+        function getBaseKills(sd, ss, h, r, w, td, ts, armour, hasThrust, modSpd, modDmg) {
+            let effSd = Math.max(1.0, (sd * modDmg) - (armour * PHYSICS.armourPen));
+            let thrustMult = hasThrust ? (PHYSICS.thrustPenaltyBase + ( (1.0 - PHYSICS.thrustPenaltyBase) * Math.min(1.0, (td / sd) * (ts / ss)) )) : 1.0;
+            let termStagger = Math.pow(Math.min(1.0, effSd / PHYSICS.enemyHP), PHYSICS.staggerCurve);
+            let reachPenalty = Math.max(0.5, 1 - (Math.max(0, r - 110) / 100));
+            return Math.max(1.0, PHYSICS.scale * Math.pow(effSd / 100, PHYSICS.dmgCurve) * Math.pow((r / 100) * reachPenalty, PHYSICS.reachCurve) * Math.pow((ss * modSpd) / 100, 1.0) * Math.pow((h / 100), PHYSICS.hndlCurve) * Math.pow(w / 1.5, PHYSICS.weightCurve) * termStagger * thrustMult);
+        }
+
+        function calculateGrade() {
+            let level = parseFloat(document.getElementById('c_level').value) || 0;
+            let bonusSpdPct = level * 0.07;
+            let bonusDmgPct = level * 0.15;
+            let modSpd = 1.0 + (level * LEVEL_SPD_MULT);
+            let modDmg = 1.0 + (level * LEVEL_DMG_MULT);
+
+            document.getElementById('bonusDisplay').innerText = `Speed: +${bonusSpdPct.toFixed(2)}% | Damage: +${bonusDmgPct.toFixed(2)}%`;
+
+            let sd = parseFloat(document.getElementById('w_sd').value) || 1;
+            let ss = parseFloat(document.getElementById('w_ss').value) || 1;
+            let h = parseFloat(document.getElementById('w_h').value) || 1;
+            let r = parseFloat(document.getElementById('w_r').value) || 1;
+            let w = parseFloat(document.getElementById('w_w').value) || 0.1;
+            let hasThrust = document.getElementById('w_hasThrust').checked;
+            let td = hasThrust ? (parseFloat(document.getElementById('w_td').value) || 0) : 0;
+            let ts = hasThrust ? (parseFloat(document.getElementById('w_ts').value) || 0) : 0;
+
+            let sL = Math.round((getBaseKills(sd, ss, h, r, w, td, ts, ARMOUR_LIGHT, hasThrust, modSpd, modDmg) / MAX_KILLS_LIGHT) * 100);
+            let sH = Math.round((getBaseKills(sd, ss, h, r, w, td, ts, ARMOUR_HEAVY, hasThrust, modSpd, modDmg) / MAX_KILLS_HEAVY) * 100);
+            let final = Math.round((sL * 0.3) + (sH * 0.7));
+            
+            document.getElementById('scoreLight').innerText = sL; 
+            document.getElementById('scoreHeavy').innerText = sH; 
+            document.getElementById('finalScoreDisplay').innerText = final;
+            
+            let tierData = [[86, 'S+'], [82, 'S'], [78, 'S-'], [74, 'A+'], [70, 'A'], [65, 'A-'], [60, 'B+'], [55, 'B'], [50, 'B-'], [45, 'C+'], [40, 'C'], [35, 'C-'], [25, 'D']];
+            let tier = 'F';
+            for(let t of tierData) { if(final >= t[0]) { tier = t[1]; break; } }
+            
+            let tierEl = document.getElementById('tierDisplay'); 
+            tierEl.innerText = tier; 
+            tierEl.style.color = (final >= 78) ? 'var(--s-tier)' : (final >= 65) ? 'var(--a-tier)' : (final >= 50) ? 'var(--b-tier)' : (final >= 35) ? 'var(--c-tier)' : 'var(--f-tier)';
+        }
+        calculateGrade();
+    </script>
+</body>
+</html>
