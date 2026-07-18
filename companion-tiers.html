@@ -55,7 +55,7 @@
       <button class="tab-btn" onclick="openTab('caravan')">Caravans</button>
       <button class="tab-btn" onclick="openTab('vassal')">Vassals</button>
       <button class="tab-btn" onclick="openTab('alley')">Alley Leaders</button>
-      <button class="tab-btn" onclick="openTab('special')">Specialists</button>
+      <button class="tab-btn" onclick="openTab('combat')">Combat Specialists</button>
     </div>
 
     <!-- Governors Tab -->
@@ -347,30 +347,85 @@
       </table>
     </div>
 
-    <!-- Specialists Tab -->
-    <div id="special" class="tab-pane">
+    <!-- Combat Specialists Tab -->
+    <div id="combat" class="tab-pane">
       <table class="tier-table">
-        <tr><th>Role</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
-        <tr><td>Scout</td><td>The Tracker</td><td>Sct:159 Cun:4/9</td><td>Highest base Scouting. Reaches 7 Cunning by Level 30.</td></tr>
-        <tr><td>Scout</td><td>The Swift</td><td>Sct:157 Cun:4/9</td><td>Elite base skill. Reaches 7 Cunning by Level 31.</td></tr>
-        <tr><td>Scout</td><td>The Wanderer (Bat)</td><td>Sct:151 Cun:3/8</td><td>High base and very young. Reaches 7 Cunning by Level 34.</td></tr>
-        <tr><td>Scout</td><td>of The Hills</td><td>Sct:149 Cun:4/9</td><td>Elite vision. Hits 7 Cunning by Level 30.</td></tr>
-        <tr><td>Scout</td><td>The Silent</td><td>Sct:146 Cun:5/10</td><td>Highest starting Cunning. Hits the 275 cap faster than anyone else.</td></tr>
-        <tr><td>QM</td><td>The Spicevendor</td><td>Stw:116 Int:4/9</td><td>Best starting profit/party size. Reaches 7 Intel by Level 29.</td></tr>
-        <tr><td>QM</td><td>The Scholar (Ase)</td><td>Stw:127 Int:4/9</td><td>Massive base. Hits 7 Intel requirement easily by Level 29.</td></tr>
-        <tr><td>QM</td><td>The Prince</td><td>Stw:118 Int:3/8</td><td>High base skill. Reaches 8 Intel by Level 40.</td></tr>
-        <tr><td>QM</td><td>The Knowing</td><td>Stw:113 Int:4/9</td><td>Excellent all-rounder. Reaches 7 Intel by Level 29.</td></tr>
-        <tr><td>QM</td><td>Fairhair</td><td>Stw:109 Int:4/9</td><td>Great starting level. Reaches 7 Intel by Level 30.</td></tr>
-        <tr><td>Surg</td><td>The Surgeon</td><td>Med:169 Int:4/10</td><td>Highest Medicine in the game. Hits 7 Intel by Level 28.</td></tr>
-        <tr><td>Surg</td><td>The Healer</td><td>Med:163 Int:4/10</td><td>Massive base skill. Reaches 7 Intel by Level 28.</td></tr>
-        <tr><td>Surg</td><td>Bitterdraught</td><td>Med:155 Int:4/10</td><td>Best Vlandian medic. Reaches 7 Intel by Level 28.</td></tr>
-        <tr><td>Surg</td><td>Willowbark</td><td>Med:153 Int:4/10</td><td>Best Sturgian medic. Reaches 7 Intel by Level 27.</td></tr>
-        <tr><td>Surg</td><td>The Scholar (Emp)</td><td>Med:136 Int:5/10</td><td>Exceptional Intel base. Will reach 275 Medicine very fast.</td></tr>
-        <tr><td>Eng</td><td>The Engineer</td><td>Eng:160 Int:4/9</td><td>Master of sieges. Reaches 7 Intel by Level 30.</td></tr>
-        <tr><td>Eng</td><td>The Scholar (Emp)</td><td>Eng:136 Int:5/10</td><td>High base and max Intel. Fastest route to 275.</td></tr>
-        <tr><td>Eng</td><td>The Wainwright</td><td>Eng:133 Int:4/9</td><td>Elite Vlandian builder. Hits 7 Intel by Level 30.</td></tr>
-        <tr><td>Eng</td><td>The Scholar (Ase)</td><td>Eng:95 Int:4/9</td><td>Strong Aserai builder. Reaches 7 Intel by Level 29.</td></tr>
-        <tr><td>Eng</td><td>The Knowing</td><td>Eng:81 Int:4/9</td><td>High base skill. Hits 7 Intel by Level 29.</td></tr>
+        <tr><th>Rank</th><th>Companion</th><th>Key Stats</th><th>Reasoning</th></tr>
+        <tr><td>1</td><td>The Mad</td><td>Base V:5 C:3 E:4 | Pot V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>2</td><td>The Boar</td><td>Base V:5 C:3 E:4 | Pot V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>3</td><td>The Red</td><td>Base V:5 C:3 E:4 | Pot V:7 C:7 E:8</td><td>12 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>4</td><td>The Restless</td><td>Base V:3 C:3 E:4 | Pot V:7 C:7 E:8</td><td>10 base + 8 from levels (11 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>5</td><td>Barrelchest</td><td>Base V:5 C:2 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>6</td><td>The Bull</td><td>Base V:5 C:2 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>7</td><td>Bloodaxe</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>8</td><td>Longknife</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>9</td><td>The Exile</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>10</td><td>Blacktooth</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>11</td><td>The Accursed</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>12</td><td>The Shark</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>13</td><td>of The Hills (Vla)</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>14</td><td>The Ill-Starred</td><td>Base V:4 C:4 E:3 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>15</td><td>Breakskull</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>16</td><td>The Brave</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>17</td><td>The Hawk</td><td>Base V:3 C:4 E:4 | Pot V:7 C:7 E:7</td><td>11 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>18</td><td>Wave-Breaker</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (14 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>19</td><td>Empty-Pockets</td><td>Base V:3 C:3 E:4 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>20</td><td>Trolldaughter</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>21</td><td>The Fisherman</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:7</td><td>10 base + 7 from levels (13 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>22</td><td>of The River</td><td>Base V:3 C:3 E:3 | Pot V:7 C:7 E:7</td><td>9 base + 8 from levels (11 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>23</td><td>The Smith</td><td>Base V:4 C:3 E:4 | Pot V:7 C:7 E:6</td><td>11 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent).</td></tr>
+        <tr><td>24</td><td>The Shieldmaiden</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>25</td><td>The Golden</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>26</td><td>The Black (Emp)</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>27</td><td>The Black (Vla)</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>28</td><td>The Butcher</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>29</td><td>The Wanderer (Bat)</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>30</td><td>The Wanderer (Ase)</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>31</td><td>of The Hills (Bat)</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>32</td><td>Ironeye</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>33</td><td>The Silent</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>34</td><td>Horsethief</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>35</td><td>Frostbeard</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>36</td><td>The Grizzled</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>37</td><td>The Loud</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>38</td><td>The She-Wolf</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>39</td><td>The Hyena</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>40</td><td>The Robber</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>41</td><td>The Swift</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>42</td><td>The Grey Falcon</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>43</td><td>The Huntress</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>44</td><td>The Swordsman</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>45</td><td>The Alone</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>46</td><td>Bellowsbreath</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>47</td><td>Coalbiter</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>48</td><td>The Falcon</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>49</td><td>The Tracker</td><td>Base V:3 C:4 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>50</td><td>Ironbelly</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>51</td><td>The Dispossessed</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>52</td><td>The Outcast</td><td>Base V:4 C:3 E:3 | Pot V:7 C:7 E:6</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>53</td><td>The Shipwright</td><td>Base V:3 C:3 E:3 | Pot V:6 C:7 E:7</td><td>9 base + 7 from levels (12 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>54</td><td>The Navigator</td><td>Base V:3 C:3 E:3 | Pot V:6 C:7 E:7</td><td>9 base + 7 from levels (12 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>55</td><td>of The Wastes</td><td>Base V:3 C:3 E:4 | Pot V:6 C:7 E:7</td><td>10 base + 6 from levels (19 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>56</td><td>The Wainwright</td><td>Base V:3 C:3 E:4 | Pot V:6 C:6 E:7</td><td>10 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent).</td></tr>
+        <tr><td>57</td><td>Cowthief</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>58</td><td>The Fatherless</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>59</td><td>The Fish</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>60</td><td>The Lucky</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>61</td><td>The Spicevendor</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>62</td><td>The Ragged (Bat)</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>63</td><td>The Ragged (Khu)</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>64</td><td>The Wanderer (Emp)</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>65</td><td>The Engineer</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>66</td><td>Fairhair</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:7</td><td>9 base + 6 from levels (18 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>67</td><td>Willowbark</td><td>Base V:2 C:3 E:3 | Pot V:6 C:6 E:7</td><td>8 base + 7 from levels (15 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>68</td><td>The Leopardess</td><td>Base V:4 C:3 E:3 | Pot V:7 C:6 E:6</td><td>10 base + 5 from levels (20 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>69</td><td>The Scholar (Ase)</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>70</td><td>The Prince</td><td>Base V:3 C:3 E:3 | Pot V:6 C:6 E:6</td><td>9 base + 5 from levels (20 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>71</td><td>The Healer</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>72</td><td>The Knowing</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (17 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>73</td><td>Bitterdraught</td><td>Base V:2 C:3 E:3 | Pot V:5 C:6 E:7</td><td>8 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>74</td><td>The Surgeon</td><td>Base V:2 C:2 E:3 | Pot V:5 C:5 E:7</td><td>7 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
+        <tr><td>75</td><td>The Scholar (Emp)</td><td>Base V:2 C:2 E:2 | Pot V:5 C:5 E:6</td><td>6 base + 6 from levels (16 to 40) + 4 unspent perks.</td></tr>
       </table>
     </div>
 
