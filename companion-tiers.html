@@ -1,97 +1,183 @@
-Companion Tier List | Bill Wavey Tools
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Companion Tier List | Bill Wavey Tools</title>
+  <style>
+    :root {
+      --bg-main: #0a0a0c;
+      --bg-card: #15151a;
+      --bg-card-hover: #1e1e24;
+      --border-color: #2a2a35;
+      --brand-purple: #3D1F5B;
+      --brand-accent: #9d5bdf;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0ab;
+    }
 
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+    }
 
+    nav {
+      background-color: #050505;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 30px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { height: 40px; width: 40px; border-radius: 50%; margin-right: 15px; }
+    .nav-title { font-size: 20px; font-weight: 800; text-transform: uppercase; text-decoration: none; color: var(--text-primary); }
 
-  
-    
-    Bill Wavey Tools
-  
+    .hero {
+      background: linear-gradient(to bottom, var(--brand-purple), var(--bg-main));
+      padding: 60px 20px 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .hero h1 { font-size: 42px; margin: 0 0 10px 0; font-weight: 900; }
 
-  
-    Companion Tier Lists
-  
+    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+    
+    .section-title {
+      font-size: 24px;
+      border-left: 4px solid var(--brand-accent);
+      padding-left: 12px;
+      margin: 40px 0 20px 0;
+    }
 
-  
-    
-    Best Governors (Top 3)
-    
-      
-        Rank
-        Companion
-        Key Stats
-        Reasoning
-      
-      
-        1
-        The Scholar
-        Eng: 136 | Stw: 127 | Med: 98
-        The ultimate governor. Elite build speed, prosperity generation, and loyalty management in one package.
-      
-      
-        2
-        The Knowing
-        Eng: 81 | Stw: 113 | Med: 108
-        Perfectly balanced. High prosperity, excellent loyalty, and starts with enough Medicine to secure the hearth growth perk.
-      
-      
-        3
-        The Surgeon
-        Eng: 73 | Stw: 100 | Med: 169
-        His 169 Medicine unlocks massive loyalty, prosperity, and hearth growth perks instantly, backed by 100 Steward.
-      
-    
+    .tier-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+    .tier-table th, .tier-table td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .tier-table th {
+      background-color: #0b0b0d;
+      color: var(--brand-accent);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .tier-table tr:last-child td { border-bottom: none; }
+    .tier-table tr:hover { background-color: var(--bg-card-hover); }
 
-    Best Party Leaders (Top 3)
-    
-      
-        Rank
-        Companion
-        Key Stats
-        Reasoning
-      
-      
-        1
-        The Prince
-        Tac: 128 | Stw: 118 | Ldr: 157
-        Unmatched starting base in both Tactics and Leadership, with high Steward. The ultimate AI general.
-      
-      
-        2
-        Fairhair
-        Tac: 115 | Stw: 109 | Ldr: 153
-        Nearly identical to The Prince. Elite Tactics and Leadership for auto-calc dominance and party size.
-      
-      
-        3
-        The Knowing
-        Tac: 93 | Stw: 113 | Ldr: 81
-        Perfectly balanced high-tier stats across every single party-leading category.
-      
-    
+    .rank-col { font-size: 20px; font-weight: 900; color: var(--text-primary); width: 60px; text-align: center; }
+    .name-col { font-weight: bold; color: #c9a0dc; font-size: 18px; width: 180px; }
+    .stats-col { color: var(--text-primary); font-size: 14px; width: 220px; }
+    .reason-col { color: var(--text-secondary); font-size: 14px; line-height: 1.5; }
+  </style>
+</head>
+<body>
 
-    Best Caravan Leaders (Top 3)
+  <nav>
+    <img src="logo.png" alt="Bill Wavey Logo" class="nav-logo">
+    <a href="index.html" class="nav-title">Bill Wavey Tools</a>
+  </nav>
+
+  <header class="hero">
+    <h1>Companion Tier Lists</h1>
+  </header>
+
+  <main class="container">
     
-      
-        Rank
-        Companion
-        Key Stats
-        Reasoning
-      
-      
-        1
-        The Spicevendor
-        Trade: 158 | Sct: 86 | Tac: 57
-        The undisputed best caravan leader. Unmatched Trade ensures maximum profit margins, and good Scouting keeps the caravan out of trouble.
-      
-      
-        2
-        The Knowing
-        Trade: 113 | Sct: 87 | Tac: 93
-        Incredible balance. Extremely high profit generation combined with excellent survival and auto-resolve battle stats.
-      
-      
-        3
-        The Engineer
-        Trade: 100 | Sct: 78 | Tac: 89
-        Capable of generating top-tier profits while having the Tactics required to survive most ambushes by minor factions or bandits.
+    <div class="section-title">Best Governors (Top 3)</div>
+    <table class="tier-table">
+      <tr>
+        <th>Rank</th>
+        <th>Companion</th>
+        <th>Key Stats</th>
+        <th>Reasoning</th>
+      </tr>
+      <tr>
+        <td class="rank-col">1</td>
+        <td class="name-col">The Scholar</td>
+        <td class="stats-col">Eng: 136 | Stw: 127 | Med: 98</td>
+        <td class="reason-col">The ultimate governor. Elite build speed, prosperity generation, and loyalty management in one package.</td>
+      </tr>
+      <tr>
+        <td class="rank-col">2</td>
+        <td class="name-col">The Knowing</td>
+        <td class="stats-col">Eng: 81 | Stw: 113 | Med: 108</td>
+        <td class="reason-col">Perfectly balanced. High prosperity, excellent loyalty, and starts with enough Medicine to secure the hearth growth perk.</td>
+      </tr>
+      <tr>
+        <td class="rank-col">3</td>
+        <td class="name-col">The Surgeon</td>
+        <td class="stats-col">Eng: 73 | Stw: 100 | Med: 169</td>
+        <td class="reason-col">His 169 Medicine unlocks massive loyalty, prosperity, and hearth growth perks instantly, backed by 100 Steward.</td>
+      </tr>
+    </table>
+
+    <div class="section-title">Best Party Leaders (Top 3)</div>
+    <table class="tier-table">
+      <tr>
+        <th>Rank</th>
+        <th>Companion</th>
+        <th>Key Stats</th>
+        <th>Reasoning</th>
+      </tr>
+      <tr>
+        <td class="rank-col">1</td>
+        <td class="name-col">The Prince</td>
+        <td class="stats-col">Tac: 128 | Stw: 118 | Ldr: 157</td>
+        <td class="reason-col">Unmatched starting base in both Tactics and Leadership, with high Steward. The ultimate AI general.</td>
+      </tr>
+      <tr>
+        <td class="rank-col">2</td>
+        <td class="name-col">Fairhair</td>
+        <td class="stats-col">Tac: 115 | Stw: 109 | Ldr: 153</td>
+        <td class="reason-col">Nearly identical to The Prince. Elite Tactics and Leadership for auto-calc dominance and party size.</td>
+      </tr>
+      <tr>
+        <td class="rank-col">3</td>
+        <td class="name-col">The Knowing</td>
+        <td class="stats-col">Tac: 93 | Stw: 113 | Ldr: 81</td>
+        <td class="reason-col">Perfectly balanced high-tier stats across every single party-leading category.</td>
+      </tr>
+    </table>
+
+    <div class="section-title">Best Caravan Leaders (Top 3)</div>
+    <table class="tier-table">
+      <tr>
+        <th>Rank</th>
+        <th>Companion</th>
+        <th>Key Stats</th>
+        <th>Reasoning</th>
+      </tr>
+      <tr>
+        <td class="rank-col">1</td>
+        <td class="name-col">The Spicevendor</td>
+        <td class="stats-col">Trade: 158 | Sct: 86 | Tac: 57</td>
+        <td class="reason-col">The undisputed best caravan leader. Unmatched Trade ensures maximum profit margins, and good Scouting keeps the caravan out of trouble.</td>
+      </tr>
+      <tr>
+        <td class="rank-col">2</td>
+        <td class="name-col">The Knowing</td>
+        <td class="stats-col">Trade: 113 | Sct: 87 | Tac: 93</td>
+        <td class="reason-col">Incredible balance. Extremely high profit generation combined with excellent survival and auto-resolve battle stats.</td>
+      </tr>
+      <tr>
+        <td class="rank-col">3</td>
+        <td class="name-col">The Engineer</td>
+        <td class="stats-col">Trade: 100 | Sct: 78 | Tac: 89</td>
+        <td class="reason-col">Capable of generating top-tier profits while having the Tactics required to survive most ambushes by minor factions or bandits.</td>
+      </tr>
+    </table>
+
+  </main>
+</body>
+</html>
