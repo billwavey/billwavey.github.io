@@ -1,75 +1,216 @@
-Bill Wavey Tools | Ultimate Bannerlord Database & Hub
-  
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Wavey Tools | Bannerlord Database & Hub</title>
+  <style>
+    :root {
+      --bg-main: #0a0a0c;
+      --bg-card: #15151a;
+      --bg-card-hover: #1e1e24;
+      --border-color: #2a2a35;
+      --brand-purple: #3D1F5B;
+      --brand-accent: #9d5bdf;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0ab;
+    }
 
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+    }
 
+    /* Navigation */
+    nav {
+      background-color: #050505;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 30px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .nav-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
-  
-  
-    
-      
-      BILL WAVEY TOOLS
-    
-    
-      Home
-      Tools
-      Tier Lists
-    
-  
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(to bottom, var(--brand-purple), var(--bg-main));
+      padding: 80px 20px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin: 0 0 15px 0;
+      font-weight: 900;
+    }
+    .hero p {
+      color: #d1d1d6;
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-  
-  
-    Bannerlord Database & Hub
-    Advanced min-maxing tools, hidden combat mechanics calculators, and data-driven strategy guides.
-  
+    /* Main Content Grid */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+    .section-title {
+      font-size: 24px;
+      border-left: 4px solid var(--brand-accent);
+      padding-left: 12px;
+      margin-bottom: 30px;
+    }
 
-  
-  
-    
-    
-    
-      Interactive Calculators
-      
-        
-        
-        
-          
-            1H Sword Grader Live
-            Calculate exact performance values, swing speeds, and damage scaling thresholds for custom smithing variables.
-          
-          Launch Calculator →
-        
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
 
-        
-        
-          
-            2H Weapon Tool In Development
-            Advanced handling calculators designed to optimize two-handed cleave mechanics and shield-breaking stat limits.
-          
-          Locked
-        
+    /* Cards */
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 25px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      background-color: var(--bg-card-hover);
+      border-color: var(--brand-accent);
+      transform: translateY(-4px);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0 0 25px 0;
+      flex-grow: 1;
+    }
 
-      
+    /* Badges */
+    .badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .badge.live {
+      background-color: rgba(157, 91, 223, 0.2);
+      color: var(--brand-accent);
+      border: 1px solid var(--brand-accent);
+    }
+    .badge.dev {
+      background-color: #2a2a35;
+      color: #888;
+    }
+
+    /* Action Text */
+    .action {
+      font-weight: bold;
+      color: var(--brand-accent);
+      font-size: 15px;
+    }
+    .card.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .card.disabled .action {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <img src="logo.png" alt="Bill Wavey Logo" class="nav-logo">
+    <span class="nav-title">Bill Wavey Tools</span>
+  </nav>
+
+  <header class="hero">
+    <h1>Bannerlord Database & Hub</h1>
+    <p>Advanced min-maxing tools, hidden combat mechanics calculators, and data-driven strategy guides.</p>
+  </header>
+
+  <main class="container">
     
+    <div class="section-title">Interactive Calculators</div>
+    <div class="grid">
+      <a href="sword-calc.html" class="card">
+        <div class="card-header">
+          <h3>1H Sword Grader</h3>
+          <span class="badge live">Live</span>
+        </div>
+        <p>Calculate exact performance values, swing speeds, and damage scaling thresholds for custom smithing variables.</p>
+        <div class="action">Launch Calculator →</div>
+      </a>
 
-    
-    
-      Databases & Tier Lists
-      
+      <div class="card disabled">
+        <div class="card-header">
+          <h3>2H Weapon Tool</h3>
+          <span class="badge dev">In Dev</span>
+        </div>
+        <p>Advanced handling calculators designed to optimize two-handed cleave mechanics and shield-breaking stat limits.</p>
+        <div class="action">Locked</div>
+      </div>
+    </div>
 
-        
-        
-          
-            Troop Tree Analytics Planned
-            Stat comparison tables breaking down raw DPS, armor protection values, and field efficiency across all faction trees.
-          
-          Locked
-        
+    <div class="section-title">Databases & Tier Lists</div>
+    <div class="grid">
+      <div class="card disabled">
+        <div class="card-header">
+          <h3>Troop Tree Analytics</h3>
+          <span class="badge dev">Planned</span>
+        </div>
+        <p>Stat comparison tables breaking down raw DPS, armor protection values, and field efficiency across all faction trees.</p>
+        <div class="action">Locked</div>
+      </div>
 
-        
-        
-          
-            Hidden Combat Math Planned
-            Breakdowns of underlying damage formulas, speed bonuses, and armor mitigation rules built directly from the game files.
-          
-          Locked
+      <div class="card disabled">
+        <div class="card-header">
+          <h3>Hidden Combat Math</h3>
+          <span class="badge dev">Planned</span>
+        </div>
+        <p>Breakdowns of underlying damage formulas, speed bonuses, and armor mitigation rules built directly from the game files.</p>
+        <div class="action">Locked</div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
