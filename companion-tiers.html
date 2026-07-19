@@ -7,85 +7,484 @@
   <style>
     :root { --bg-main: #0a0a0c; --bg-card: #15151a; --border-color: #2a2a35; --brand-purple: #3D1F5B; --brand-accent: #9d5bdf; --text-primary: #ffffff; --text-secondary: #a0a0ab; }
     body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background-color: var(--bg-main); color: var(--text-primary); }
+    nav { background-color: #050505; border-bottom: 1px solid var(--border-color); padding: 0 30px; height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { height: 40px; width: 40px; border-radius: 50%; margin-right: 15px; }
+    .nav-title { font-size: 20px; font-weight: 800; text-transform: uppercase; text-decoration: none; color: var(--text-primary); }
+    .hero { background: linear-gradient(to bottom, var(--brand-purple), var(--bg-main)); padding: 60px 20px 40px; text-align: center; border-bottom: 1px solid var(--border-color); }
+    .hero h1 { font-size: 42px; margin: 0 0 10px 0; font-weight: 900; }
+    .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
     
-    /* Layout */
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-    
-    /* Tab System */
     .tab-container { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
-    .tab-btn { background-color: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-    .tab-btn.active { background-color: var(--brand-purple); color: white; }
+    .tab-btn { background-color: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 15px; font-weight: bold; transition: all 0.2s; }
+    .tab-btn:hover { background-color: #1e1e24; color: var(--text-primary); transform: translateY(-2px); }
+    .tab-btn.active { background-color: var(--brand-purple); color: var(--text-primary); border-color: var(--brand-accent); }
     .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
+    .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Table & Sorting */
-    .table-wrapper { overflow-x: auto; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); }
+    .table-wrapper { width: 100%; overflow-x: auto; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 30px; }
     .tier-table { width: 100%; border-collapse: collapse; }
-    .tier-table th { background: #1c1c22; padding: 15px; text-align: left; cursor: pointer; color: var(--brand-accent); border-bottom: 2px solid var(--border-color); user-select: none; }
-    .tier-table th:hover { background: #2a2a35; }
-    .tier-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
-    .tier-table tr:hover { background: var(--bg-card-hover); }
+    .tier-table th, .tier-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; white-space: nowrap; }
+    .tier-table th { background-color: #0b0b0d; color: var(--brand-accent); font-size: 13px; text-transform: uppercase; position: sticky; top: 0; z-index: 10; cursor: pointer; user-select: none; }
+    .tier-table th:hover { background-color: #1c1c22; }
+    .tier-table tr:hover { background-color: #1e1e24; }
+    .tier-table td:nth-child(1) { width: 40px; text-align: center; font-weight: 900; font-size: 16px; color: var(--text-primary); }
+    .tier-table td:nth-child(2) { font-weight: bold; color: #c9a0dc; }
+    .tier-table td:last-child { white-space: normal; min-width: 300px; color: var(--text-secondary); line-height: 1.4; }
   </style>
 </head>
 <body>
 
-  <main class="container">
-    <div class="tab-container">
-      <button class="tab-btn active" onclick="openTab('gov')">Governors</button>
-      <button class="tab-btn" onclick="openTab('party')">Party Leaders</button>
-      <!-- Add other buttons here -->
-    </div>
+  <nav>
+    <img src="logo.png" alt="Bill Wavey Logo" class="nav-logo">
+    <a href="index.html" class="nav-title">Bill Wavey Tools</a>
+  </nav>
 
-    <div id="gov" class="tab-pane active">
-      <div class="table-wrapper">
-        <table class="tier-table" id="govTable">
-          <thead>
-            <tr>
-              <th onclick="sortTable(0, 'govTable')">Rank ↕</th>
-              <th onclick="sortTable(1, 'govTable')">Companion ↕</th>
-              <th onclick="sortTable(2, 'govTable')">Culture ↕</th>
-              <th onclick="sortTable(3, 'govTable')">Eng ↕</th>
-              <th onclick="sortTable(4, 'govTable')">Steward ↕</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1</td><td>The Scholar</td><td>Empire</td><td>136</td><td>127</td></tr>
-            <tr><td>2</td><td>The Knowing</td><td>Khuzait</td><td>81</td><td>113</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <header class="hero">
+    <h1>Complete Companion Database</h1>
+    <p style="color: #a0a0ab; max-width: 600px; margin: 0 auto;">Full raw data rankings across every role in Bannerlord.</p>
+  </header>
+
+  <main class="container">
+    <div class="tab-container" id="tab-buttons"></div>
+    <div id="tab-content"></div>
   </main>
 
   <script>
-    function openTab(id) {
+    const db = {
+      gov: {
+        title: "Governors",
+        cols: ["Rank ↕", "Companion ↕", "Culture ↕", "Eng ↕", "Steward ↕", "Medicine ↕", "Charm ↕", "Leadership ↕", "Reasoning"],
+        data: [
+          [1,"The Scholar","Empire",136,127,98,117,59,"The ultimate governor. Elite build speed, prosperity generation, and loyalty management in one package."],
+          [2,"The Knowing","Khuzait",81,113,108,101,81,"Perfectly balanced. High prosperity, excellent loyalty, and starts with enough Medicine to secure the hearth growth perk."],
+          [3,"The Surgeon","Empire",73,100,169,92,61,"His 169 Medicine unlocks massive loyalty, prosperity, and hearth growth perks instantly, backed by 100 Steward."],
+          [4,"The Engineer","Aserai",160,90,63,77,70,"The fastest builder in the game. Will max out a settlement's projects incredibly fast while maintaining good prosperity."],
+          [5,"The Wainwright","Vlandia",133,103,53,70,69,"Elite build speed and great prosperity. The absolute best choice for managing Vlandian fiefs."],
+          [6,"The Scholar","Aserai",127,78,94,80,30,"Excellent builder with high enough Medicine to reach the 100-level hearth perk quickly."],
+          [7,"The Spicevendor","Aserai",50,116,55,103,71,"Top-tier Steward for prosperity and high Charm for loyalty, with enough Engineering to help build speed slightly."],
+          [8,"The Prince","Aserai",0,118,64,147,157,"Zero build speed, but his 147 Charm and 157 Leadership ensure massive, cheap, garrisons."],
+          [9,"Fairhair","Battania",0,109,53,144,153,"Identical utility to The Prince, but for Battanian settlements. Elite loyalty and garrison management."],
+          [10,"Bitterdraught","Vlandia",0,73,155,25,58,"Poor loyalty manager, but his 155 Medicine gives instant access to the prosperity and hearth growth perks."],
+          [11,"The Healer","Battania",0,50,163,29,58,"Carried entirely by his 163 Medicine, allowing instant access to top-tier governor perks to offset low Steward."],
+          [12,"Willowbark","Sturgia",0,50,153,32,45,"The Sturgian equivalent of The Healer. Instant access to the +1 Prosperity/day Medicine perk."],
+          [13,"The She-Wolf","Khuzait",68,92,64,95,92,"Highly competent backup governor. Very balanced across build speed, prosperity, and loyalty."],
+          [14,"The Golden","Aserai",58,88,52,100,97,"Great loyalty and garrison manager with passable Steward for maintaining stable towns."],
+          [15,"The Grizzled","Vlandia",49,83,69,70,127,"Good Steward and excellent Leadership keeps Vlandian garrisons cheap and morale high."],
+          [16,"Frostbeard","Sturgia",46,89,58,64,64,"The best overall Sturgian choice for maintaining prosperity and slow-but-steady project building."],
+          [17,"The Shieldmaiden","Sturgia",43,72,81,102,41,"Sturgia lacks great administrators. Her 102 Charm makes her the safest bet to keep Sturgian loyalty positive."],
+          [18,"The Dispossessed","Empire",54,83,65,79,53,"A very solid mid-tier governor who provides a little bit of everything for Empire fiefs."],
+          [19,"The Hyena","Aserai",41,88,50,47,59,"Respectable Steward, but low Charm means he will struggle to keep recently captured towns loyal."],
+          [20,"The Loud","Vlandia",35,69,40,132,124,"Slow builder, but his elite Charm and Leadership will pacify angry Vlandian towns recently taken in sieges."],
+          [21,"The Wanderer","Aserai",0,80,67,67,67,"A completely average baseline. Won't excel, but won't ruin the settlement."],
+          [22,"The Fish","Sturgia",0,75,49,86,52,"Decent Steward and Charm makes him a usable stopgap for Sturgian castles."],
+          [23,"The Wanderer","Empire",37,73,45,48,59,"Passable Steward, but low Medicine and Charm limit his long-term effectiveness."],
+          [24,"The Hawk","Khuzait",0,72,59,50,63,"Average prosperity manager with no build speed."],
+          [25,"The Leopardess","Aserai",0,67,53,148,60,"Her 148 Charm makes her excellent at stopping rebellions, but low Steward hurts the town's food supply."],
+          [26,"The Outcast","Khuzait",0,67,40,126,52,"High Charm keeps loyalty up, but he provides nothing for prosperity or build speed."],
+          [27,"The Wanderer","Battania",0,65,52,55,60,"Mediocre across the board. Use only if desperate for a Battanian culture match."],
+          [28,"Ironeye","Khuzait",0,62,45,55,51,"Too old to level up, and his base stats are too low to be a dedicated governor."],
+          [29,"The Alone","Khuzait",0,58,80,115,47,"High Charm and decent Medicine, but 58 Steward will stall the settlement's growth."],
+          [30,"The Falcon","Aserai",0,57,59,50,68,"Below average in all necessary administrative fields."],
+          [31,"of The Wastes","Aserai",0,55,73,64,68,"Good Medicine, but terrible Steward."],
+          [32,"The Tracker","Vlandia",0,54,60,63,64,"Borderline unviable for administration due to low Steward."],
+          [33,"The Swift","Khuzait",0,52,61,99,57,"Good Charm, but his 52 Steward will cause food shortages in large towns."],
+          [34,"The Huntress","Vlandia",0,51,71,47,59,"Low Steward and bad Charm. A poor choice."],
+          [35,"The Bloodaxe","Sturgia",0,37,55,51,66,"We are now entering the pure combatants. Assigning him will actively harm town prosperity."],
+          [36,"Horsethief","Battania",0,77,36,148,56,"Great Charm, but 36 Medicine and zero Engineering makes him a highly flawed administrator."],
+          [37,"of The Hills","Vlandia",0,54,65,60,70,"Combat stats only."],
+          [38,"The Black","Vlandia",0,51,52,67,61,"Combat stats only."],
+          [39,"The Lucky","Sturgia",0,38,42,140,90,"His Charm/Leadership is entirely wasted on a 38 Steward rating. He cannot feed a garrison."],
+          [40,"The Ragged","Battania",0,42,58,93,93,"High Leadership, but no administrative capability."],
+          [41,"The Ragged","Khuzait",0,46,71,87,87,"Marginally better Medicine than the Battanian, but still a terrible governor."],
+          [42,"The Fatherless","Khuzait",0,48,59,78,78,"Purely a combat archer."],
+          [43,"of The Hills","Battania",0,39,68,47,47,"Will starve the town."],
+          [44,"The Shark","Vlandia",0,49,48,55,85,"Pure combatant."],
+          [45,"The Accursed","Sturgia",0,26,49,132,50,"His 26 Steward means the town will immediately begin starving and losing prosperity."],
+          [46,"The Silent","Empire",0,26,51,137,33,"Same as The Accursed. 26 Steward is fatal to a town's economy."],
+          [47,"The Robber","Empire",0,42,35,155,92,"Massive Charm, but 42 Steward and 35 Medicine makes him an economic liability."],
+          [48,"The Brave","Vlandia",0,46,41,82,107,"Pure combatant."],
+          [49,"The Exile","Empire",0,31,54,39,39,"Pure combatant."],
+          [50,"The Black","Empire",0,21,57,43,43,"21 Steward. Do not put him in charge of a settlement."],
+          [51,"The Smith","Vlandia",0,59,113,67,67,"Keep him in your party to forge weapons; he is wasted in a town."],
+          [52,"The Swordsman","Aserai",0,50,51,79,79,"Pure combatant."],
+          [53,"Blacktooth","Battania",0,36,50,47,47,"Pure combatant."],
+          [54,"The Butcher","Empire",0,46,41,30,30,"Pure combatant."],
+          [55,"The Mad","Khuzait",0,31,48,44,43,"Front-line berserker. No administrative skills."],
+          [56,"Breakskull","Sturgia",0,38,45,34,61,"Front-line berserker. No administrative skills."],
+          [57,"The Red","Battania",0,35,44,25,50,"Pure combatant."],
+          [58,"Barrelchest","Vlandia",0,50,58,65,95,"Pure combatant."],
+          [59,"Longknife","Sturgia",0,44,55,54,57,"Pure combatant."],
+          [60,"Cowthief","Battania",0,44,54,88,88,"Pure combatant."],
+          [61,"The Boar","Empire",0,28,48,28,34,"28 Steward and too old to level."],
+          [62,"Bellowsbreath","Vlandia",0,43,51,53,49,"Pure combatant."],
+          [63,"Coalbiter","Sturgia",0,48,65,31,61,"Pure combatant."],
+          [64,"The Bull","Empire",0,27,32,35,69,"27 Steward and 32 Medicine."],
+          [65,"Ironbelly","Battania",0,51,66,47,70,"Pure combatant."],
+          [66,"Empty-Pockets","Nord",0,0,0,0,0,"Blank stats in all administrative fields."],
+          [67,"Wave-Breaker","Nord",0,0,0,0,0,"Blank stats in all administrative fields."],
+          [68,"Trolldaughter","Nord",0,0,42,0,0,"Blank stats in all administrative fields."],
+          [69,"The Fisherman","Vlandia",0,0,56,0,0,"Blank stats in all administrative fields."],
+          [70,"The Shipwright","Empire",0,0,39,0,0,"Blank stats in all administrative fields."],
+          [71,"The Navigator","Aserai",0,0,48,0,0,"Blank stats in all administrative fields."],
+          [72,"The Restless","Nord",0,0,26,0,0,"Blank stats in all administrative fields."],
+          [73,"of The River","Nord",0,0,48,0,0,"Blank stats in all administrative fields."]
+        ]
+      },
+      party: {
+        title: "Party Leaders",
+        cols: ["Rank ↕", "Companion ↕", "Culture ↕", "Age ↕", "Level ↕", "Tactics ↕", "Steward ↕", "Medicine ↕", "Leadership ↕", "Scouting ↕", "Reasoning"],
+        data: [
+          [1,"The Prince","Aserai",21,20,128,118,64,157,77,"Unmatched starting base in both Tactics and Leadership, with high Steward. The ultimate AI general."],
+          [2,"Fairhair","Battania",25,18,115,109,53,153,66,"Nearly identical to The Prince. Elite Tactics and Leadership for auto-calc dominance and party size."],
+          [3,"The Knowing","Khuzait",28,17,93,113,108,81,87,"Perfectly balanced high-tier stats across every single party-leading category."],
+          [4,"The Scholar","Aserai",22,17,80,127,102,78,76,"Massive Steward and Medicine caps ensure maximum party size and troop survival."],
+          [5,"The Grizzled","Vlandia",27,19,118,83,69,127,79,"Exceptional Tactics and Leadership makes him a lethal auto-resolve combatant."],
+          [6,"The Golden","Aserai",20,19,94,88,58,97,100,"Strong Tactics, Leadership, and Scouting. Starts young enough to secure extra attribute points."],
+          [7,"The Grey Falcon","Khuzait",18,19,94,75,63,101,121,"Outstanding combat leader with high Scouting to outmaneuver enemy AI parties."],
+          [8,"The Loud","Vlandia",21,18,97,69,40,124,57,"High Tactics and Leadership give him a massive advantage in simulations."],
+          [9,"The She-Wolf","Khuzait",24,19,95,71,68,92,104,"Elite combat stats backed by excellent Tactics, Leadership, and Scouting."],
+          [10,"The Surgeon","Empire",30,16,42,100,169,61,48,"Carried heavily by his 169 Medicine and 100 Steward; his troops rarely die."],
+          [11,"The Engineer","Aserai",21,18,89,90,63,70,78,"Very solid Tactics and Steward foundation with room to grow by level 25."],
+          [12,"The Spicevendor","Aserai",24,17,57,116,55,71,86,"Top-tier Steward for party size, though Tactics are slightly below average."],
+          [13,"Bitterdraught","Vlandia",29,16,49,73,155,58,64,"Incredible Medicine for troop retention, but stalled by low starting Tactics."],
+          [14,"The Scholar","Empire",25,16,18,98,136,51,69,"Massive Medicine and Steward, but terrible base Tactics means high auto-calc losses."],
+          [15,"The Wanderer","Aserai",20,18,74,80,67,67,144,"The most balanced of the Wanderers; good party size and great map speed."],
+          [16,"The Healer","Battania",28,16,48,50,163,58,81,"Keeps troops alive flawlessly, but lacks the Tactics and Steward to lead massive armies."],
+          [17,"Willowbark","Sturgia",23,15,41,50,153,45,71,"Similar to The Healer; a pure medic who will struggle in AI vs AI auto-resolve."],
+          [18,"of The Wastes","Aserai",29,19,76,55,73,68,146,"High Scouting and decent Medicine/Tactics makes for a highly survivable AI party."],
+          [19,"The Tracker","Vlandia",23,18,81,54,60,64,159,"Excellent map speed and respectable Tactics will win him favorable engagements."],
+          [20,"The Swift","Khuzait",20,19,78,52,61,57,157,"High Scouting allows him to catch smaller parties and flee from larger ones."],
+          [21,"The Leopardess","Aserai",19,20,77,67,53,60,138,"Solid map movement and acceptable Tactics, but severely limited by age/level stall."],
+          [22,"The Wanderer","Battania",18,18,73,65,52,60,151,"Excellent scout leader with just enough Tactics to hold his own."],
+          [23,"The Wanderer","Empire",20,18,66,73,45,59,158,"Good map speed and decent Steward, but Tactics and Medicine are weak."],
+          [24,"The Huntress","Vlandia",21,19,72,51,71,59,137,"Great Scout and good Medicine, ensuring she escapes bad fights intact."],
+          [25,"The Outcast","Khuzait",19,19,76,67,40,52,132,"Competent scout and tactician, but troops will suffer heavy casualties."],
+          [26,"The Falcon","Aserai",20,18,71,57,59,68,127,"A highly average spread across all party-leading necessities."],
+          [27,"The Hyena","Aserai",22,19,60,88,50,59,134,"Respectable Steward rating for an otherwise combat-focused companion."],
+          [28,"The Dispossessed","Empire",23,17,55,83,65,53,118,"Good party size potential, but mediocre auto-resolve capability."],
+          [29,"The Fish","Sturgia",20,18,72,75,49,52,122,"A completely middle-of-the-road captain; won't excel, but won't immediately fail."],
+          [30,"The Hawk","Khuzait",22,18,75,72,59,63,115,"Acceptable baseline across the board, though outclassed by specialized leaders."],
+          [31,"The Alone","Khuzait",22,19,71,58,80,47,137,"Above-average Medicine for a scout, helping his party recover faster."],
+          [32,"Frostbeard","Sturgia",21,18,57,89,58,64,68,"Good Steward, but poor map speed and Tactics will result in him getting caught and beaten."],
+          [33,"The Shieldmaiden","Sturgia",24,17,45,72,81,41,123,"Decent Medicine, but her abysmal Tactics will ruin her in simulation battles."],
+          [34,"Ironeye","Khuzait",32,18,68,62,45,51,111,"Usable in a pinch, but his age (32) guarantees he won't level up much further."],
+          [35,"Horsethief","Battania",22,19,60,77,36,56,122,"Decent party size, but atrocious Medicine will lead to constant party wipes."],
+          [36,"The Bloodaxe","Sturgia",32,18,89,37,55,66,51,"Good Tactics, but terrible Steward means his party will be too small to survive."],
+          [37,"The Silent","Empire",22,18,55,26,51,33,146,"Incredible map speed, but completely lacks the skills to actually win fights."],
+          [38,"The Butcher","Empire",28,17,74,46,41,30,39,"Pure combatant. Very poor party leader."],
+          [39,"of The Hills","Vlandia",24,19,77,54,65,70,131,"Average scout, heavily lacking in Steward and Medicine."],
+          [40,"of The Hills","Battania",19,18,74,39,68,47,149,"Great map speed, but his party will be tiny due to sub-40 Steward."],
+          [41,"The Robber","Empire",19,18,47,42,35,92,127,"High Leadership, but ruined by terrible Tactics and Steward."],
+          [42,"The Accursed","Sturgia",20,17,55,26,49,50,125,"Combat-focused; lacks the INT/SOC base to lead armies."],
+          [43,"The Ragged","Battania",20,17,49,42,58,93,117,"High Leadership is wasted on a character with 42 Steward and 49 Tactics."],
+          [44,"The Ragged","Khuzait",20,18,52,46,71,87,116,"Slightly better Medicine than his Battanian counterpart, but still a bad leader."],
+          [45,"The Fatherless","Khuzait",18,18,64,48,59,78,125,"Too low across all critical fields; strictly a caravan guard or personal archer."],
+          [46,"The Black","Empire",18,19,60,21,57,43,144,"Very poor leader; strictly an aggressive combat specialist."],
+          [47,"The Black","Vlandia",20,19,75,51,52,61,121,"Slightly better than the Empire version, but still inadequate for leading."],
+          [48,"The Lucky","Sturgia",18,17,50,38,42,90,114,"High Leadership but terrible Tactics and Steward."],
+          [49,"The Exile","Empire",20,18,76,31,54,39,111,"Too few points in INT/SOC skills to be viable."],
+          [50,"The Brave","Vlandia",18,19,100,51,41,107,71,"Surprisingly high Tactics/Leadership for a combatant, but 51 Steward ruins his viability."],
+          [51,"The Smith","Vlandia",20,18,56,59,113,67,54,"High Medicine, but you want him in your party smithing, not leading armies."],
+          [52,"Blacktooth","Battania",18,18,76,36,50,47,74,"Pure combat beast; absolutely zero party leader utility."],
+          [53,"The Shark","Vlandia",24,19,93,49,48,85,68,"Okay Tactics, but party size is too small to matter."],
+          [54,"The Mad","Khuzait",18,18,68,31,48,43,72,"Built entirely for Vigor; terrible intelligence stats."],
+          [55,"Breakskull","Sturgia",22,17,83,38,45,61,46,"Same as The Mad; a front-line bruiser, not a general."],
+          [56,"The Red","Battania",24,18,82,33,44,50,51,"Massive Vigor stats; terrible at everything else."],
+          [57,"The Boar","Empire",33,18,94,28,48,34,40,"Too old to level, terrible Steward."],
+          [58,"Barrelchest","Vlandia",20,19,89,50,58,95,58,"Good Leadership, but 50 Steward means his party will be wiped out constantly."],
+          [59,"Longknife","Sturgia",22,18,71,44,55,57,119,"Pure combat stats; no INT/SOC focus."],
+          [60,"Cowthief","Battania",18,18,55,44,54,88,120,"No Tactics, no Steward; completely unqualified to lead."],
+          [61,"Bellowsbreath","Vlandia",21,17,61,43,51,59,114,"Smithing/Combat companion."],
+          [62,"Coalbiter","Sturgia",28,17,76,42,65,61,55,"Smithing companion; keep in your party."],
+          [63,"The Bull","Empire",24,17,79,27,32,69,35,"Abysmal Steward and Medicine."],
+          [64,"The Wainwright","Vlandia",21,18,61,103,35,69,79,"Engineer/Smith; not a party leader."],
+          [65,"The Swordsman","Aserai",32,18,80,50,51,79,64,"Too old, low Steward."],
+          [66,"Empty-Pockets","Nord",25,13,0,0,0,0,104,"Rogue/Scout; zero Tactics or Leadership."],
+          [67,"Wave-Breaker","Nord",28,14,46,0,0,0,45,"Zero Steward means base party size; will be destroyed instantly."],
+          [68,"Trolldaughter","Nord",27,13,0,0,42,0,0,"Completely barren INT/SOC stats."],
+          [69,"The Fisherman","Vlandia",22,13,0,0,56,0,0,"Zero Tactics, Steward, or Leadership."],
+          [70,"The Shipwright","Empire",28,12,0,0,39,0,0,"Zero Tactics, Steward, or Leadership."],
+          [71,"The Navigator","Aserai",28,12,0,0,48,0,0,"Zero Tactics, Steward, or Leadership."],
+          [72,"The Restless","Nord",24,11,0,0,26,0,0,"Zero Tactics, Steward, or Leadership."],
+          [73,"of The River","Nord",26,11,0,0,48,0,0,"Zero Tactics, Steward, or Leadership."]
+        ]
+      },
+      caravan: {
+        title: "Caravans",
+        cols: ["Rank ↕", "Companion ↕", "Culture ↕", "Trade ↕", "Scouting ↕", "Tactics ↕", "Reasoning"],
+        data: [
+          [1,"The Spicevendor","Aserai",158,86,57,"The undisputed best caravan leader. Unmatched Trade ensures maximum profit margins, and good Scouting keeps the caravan out of trouble."],
+          [2,"The Knowing","Khuzait",113,87,93,"Incredible balance. Extremely high profit generation combined with excellent survival and auto-resolve battle stats."],
+          [3,"The Engineer","Aserai",100,78,89,"Capable of generating top-tier profits while having the Tactics required to survive most ambushes by minor factions or bandits."],
+          [4,"The Prince","Aserai",97,77,128,"High Trade for great profits, backed by an elite Tactics score that will win almost any auto-calculated fight his caravan gets pulled into."],
+          [5,"The Scholar","Aserai",94,76,80,"A highly profitable merchant who is perfectly capable of spotting danger early and handling themselves if caught."],
+          [6,"Bitterdraught","Vlandia",92,64,49,"Highly profitable, though vulnerable to being caught. His 155 Medicine ensures that even if he loses troops in an ambush, they will likely recover quickly."],
+          [7,"The Golden","Aserai",84,70,94,"Solid merchant with great tactical ability, making him a very reliable, low-risk, high-reward caravan operator."],
+          [8,"Fairhair","Battania",84,66,115,"Generates excellent income and has the immense Tactics required to blast through bandit blockades in auto-resolve."],
+          [9,"The Dispossessed","Empire",83,118,55,"Excellent profit margins paired with high map vision, allowing him to easily outrun threats before they become a problem."],
+          [10,"The Wanderer","Aserai",80,144,74,"Highly profitable and effectively uncatchable. His massive Scouting ensures he will always dictate when and where he travels."],
+          [11,"The Alone","Khuzait",76,137,71,"A very strong baseline of Trade paired with elite map speed and enough Tactics to hold his own."],
+          [12,"The Fish","Sturgia",75,122,72,"A perfectly balanced mid-tier operator. Profitable, fast, and capable in a fight."],
+          [13,"The Swift","Khuzait",72,157,78,"Good profit generation with nearly peerless map vision. He will rarely, if ever, lose your initial investment to an ambush."],
+          [14,"of The Wastes","Aserai",72,146,76,"Functions identically to The Swift; very high survival rate with respectable daily returns."],
+          [15,"The Tracker","Vlandia",68,159,81,"The highest base Scouting on the list combined with good Tactics. While profits are slightly lower, his caravan is virtually indestructible."]
+        ]
+      },
+      vassal: {
+        title: "Vassals",
+        cols: ["Rank ↕", "Companion ↕", "Culture ↕", "Level ↕", "Charm ↕", "Leadership ↕", "Steward ↕", "Tactics ↕", "Medicine ↕", "Reasoning"],
+        data: [
+          [1,"The Prince","Aserai",20,147,157,118,128,64,"Unrivaled vassal. Massive Charm for influence/fief votes, combined with elite army-leading capabilities."],
+          [2,"Fairhair","Battania",18,144,153,109,115,53,"Nearly identical to The Prince. Will rapidly build influence and field large, highly successful armies."],
+          [3,"The Golden","Aserai",19,100,97,88,94,58,"Outstanding baseline across all necessary vassal stats. Young enough to naturally push these even higher."],
+          [4,"The Loud","Vlandia",18,132,124,69,97,40,"Elite Charm and Leadership guarantees high clan tier progression, though party size is slightly smaller initially."],
+          [5,"The Knowing","Khuzait",17,101,81,113,93,108,"The perfect all-rounder. Excellent influence gain, large party size, great survival, and high auto-resolve capability."],
+          [6,"The Scholar","Aserai",17,115,78,127,80,102,"Massive Steward and Charm ensures his clan will be influential and field huge parties that rarely die."],
+          [7,"The Grizzled","Vlandia",19,70,127,83,118,69,"Elite tactician and leader. Will win almost all AI vs AI engagements, though influence gain is average."],
+          [8,"The She-Wolf","Khuzait",19,85,92,71,95,68,"Very well-balanced warlord. Will comfortably maintain her fiefs and armies."],
+          [9,"The Spicevendor","Aserai",17,103,71,116,57,55,"Top-tier Steward means a massive party size, and high Charm builds influence fast to offset mediocre Tactics."],
+          [10,"The Grey Falcon","Khuzait",19,71,101,75,94,63,"Strong combat leader with enough Leadership and Tactics to reliably win engagements as a vassal."],
+          [11,"The Engineer","Aserai",18,77,70,90,89,63,"Highly competent across the board. Will manage fiefs well and field a reasonably strong army."],
+          [12,"The Surgeon","Empire",16,92,61,100,42,169,"Excellent Charm and Steward, but his terrible Tactics means his massive, unkillable army will lose auto-resolves."],
+          [13,"The Scholar","Empire",16,117,51,98,18,136,"Will gain immense influence and field large parties, but an 18 in Tactics means he needs to be babysat in wars."],
+          [14,"The Wanderer","Aserai",18,67,67,80,74,67,"The most balanced of the lower-tier leaders. No glaring weaknesses."],
+          [15,"The Dispossessed","Empire",17,79,53,83,55,65,"Good Steward and Charm will help him establish his clan quickly."],
+          [16,"The Hyena","Aserai",19,47,59,88,60,50,"Decent party size, but lack of Charm will make it hard for him to gain clan influence."],
+          [17,"The Fish","Sturgia",18,86,52,75,72,49,"Passable. Will function adequately as a minor vassal clan."],
+          [18,"The Hawk","Khuzait",18,50,63,72,75,59,"Capable of leading armies, but will struggle to gain political traction without Charm."],
+          [19,"The Leopardess","Aserai",20,148,60,67,77,53,"Amazing Charm, but her party size will be too small to make a major impact in wars."],
+          [20,"The Tracker","Vlandia",18,63,64,54,81,60,"Will win small skirmishes thanks to Tactics, but won't field enough troops to take fiefs."],
+          [21,"The Alone","Khuzait",19,115,47,58,71,80,"High Charm helps, but poor Leadership restricts his ability to form armies."],
+          [22,"The Wanderer","Battania",18,55,60,65,73,52,"Average tactician with a small party size."],
+          [23,"The Wanderer","Empire",18,48,59,73,66,45,"Average party size with poor auto-resolve capability."],
+          [24,"The Huntress","Vlandia",19,47,59,51,72,71,"Survives well, but zero political influence capability."],
+          [25,"The Outcast","Khuzait",19,126,52,67,76,40,"High Charm, but low Leadership and Medicine make his armies fragile."],
+          [26,"The Falcon","Aserai",18,50,68,57,71,59,"Underwhelming across the board."],
+          [27,"of The Wastes","Aserai",19,64,68,55,76,73,"Medicine and Tactics help, but terrible Steward severely limits his impact."],
+          [28,"The Healer","Battania",16,29,58,50,48,163,"Will struggle to maintain fiefs or field armies despite troops never dying."],
+          [29,"Bitterdraught","Vlandia",16,25,58,73,49,155,"Similar to The Healer, but with slightly better Steward and zero Charm."],
+          [30,"Willowbark","Sturgia",15,32,45,50,41,153,"Too low in Leadership/Tactics to be a viable independent lord."],
+          [31,"The Swift","Khuzait",19,99,57,52,78,61,"Good Charm, but his parties will be too small to accomplish anything."],
+          [32,"Frostbeard","Sturgia",18,64,64,89,57,58,"Decent Steward, but poor Tactics and Charm will keep his clan at the bottom."],
+          [33,"The Shieldmaiden","Sturgia",17,102,41,72,45,81,"Good Charm, but her armies will instantly die in auto-resolve due to 45 Tactics."],
+          [34,"Ironeye","Khuzait",18,55,51,62,68,45,"Too old to level, and stats are too low to compensate."],
+          [35,"The Bloodaxe","Sturgia",18,51,66,37,89,55,"Good tactician, but 37 Steward guarantees his party size is a non-factor."],
+          [36,"of The Hills","Vlandia",19,60,70,54,77,65,"Combat-focused. Lacks the INT/SOC stats to run a clan."],
+          [37,"Horsethief","Battania",19,148,56,77,60,36,"Amazing Charm, but 36 Medicine means his troops die instantly."],
+          [38,"of The Hills","Battania",18,52,47,39,74,68,"Abysmal Steward rating."],
+          [39,"The Robber","Empire",18,155,92,42,47,35,"Incredible Charm and Leadership completely wasted by 42 Steward and 47 Tactics."],
+          [40,"The Accursed","Sturgia",17,132,50,26,55,49,"26 Steward means he cannot lead a party."],
+          [41,"The Ragged","Battania",17,129,93,42,49,58,"Good Leadership wasted by terrible Steward and Tactics."],
+          [42,"The Ragged","Khuzait",18,131,87,46,52,71,"Marginally better than the Battanian, still completely unviable."],
+          [43,"The Lucky","Sturgia",17,140,90,38,50,42,"38 Steward ruins his high Charm/Leadership setup."],
+          [44,"The Silent","Empire",18,137,33,26,55,51,"26 Steward."],
+          [45,"The Fatherless","Khuzait",18,148,78,48,64,59,"48 Steward."],
+          [46,"The Black","Empire",19,153,43,21,60,57,"21 Steward."],
+          [47,"The Black","Vlandia",19,138,61,51,75,52,"Slightly better Steward, but still awful."],
+          [48,"The Exile","Empire",18,118,39,31,76,54,"31 Steward."],
+          [49,"The Brave","Vlandia",19,82,107,51,100,41,"Good Tactics/Leadership ruined by 46 Steward."],
+          [50,"The Shark","Vlandia",19,55,85,49,93,48,"49 Steward."],
+          [51,"The Smith","Vlandia",18,35,67,59,56,113,"Pure crafter."],
+          [52,"The Butcher","Empire",17,74,30,46,74,41,"Pure combatant."],
+          [53,"Blacktooth","Battania",18,88,47,36,76,50,"Pure combatant."],
+          [54,"The Mad","Khuzait",18,104,43,31,68,48,"Pure combatant."],
+          [55,"Breakskull","Sturgia",17,34,61,38,83,45,"Pure combatant."],
+          [56,"The Red","Battania",18,25,50,35,82,44,"Pure combatant."],
+          [57,"The Boar","Empire",18,28,34,28,94,48,"Pure combatant."],
+          [58,"Barrelchest","Vlandia",19,65,95,50,89,58,"Pure combatant."],
+          [59,"Longknife","Sturgia",18,102,57,44,71,55,"Pure combatant."],
+          [60,"Cowthief","Battania",18,137,88,44,55,54,"44 Steward."],
+          [61,"Bellowsbreath","Vlandia",17,49,59,43,61,51,"Crafter/Fighter."],
+          [62,"Coalbiter","Sturgia",17,31,61,48,76,65,"Crafter/Fighter."],
+          [63,"The Bull","Empire",17,35,69,27,79,32,"27 Steward."],
+          [64,"The Wainwright","Vlandia",18,70,69,103,61,35,"Low Tactics, Zero Charm."],
+          [65,"The Swordsman","Aserai",18,71,79,50,80,51,"50 Steward."],
+          [66,"Empty-Pockets","Nord",13,0,0,0,0,0,"Zero INT/SOC base stats."],
+          [67,"Wave-Breaker","Nord",14,0,0,0,46,0,"Zero INT/SOC base stats."],
+          [68,"Trolldaughter","Nord",13,0,0,0,0,42,"Zero INT/SOC base stats."],
+          [69,"The Fisherman","Vlandia",13,0,0,0,0,56,"Zero INT/SOC base stats."],
+          [70,"The Shipwright","Empire",12,0,0,0,0,39,"Zero INT/SOC base stats."],
+          [71,"The Navigator","Aserai",12,0,0,0,0,48,"Zero INT/SOC base stats."],
+          [72,"The Restless","Nord",11,0,0,0,0,26,"Zero INT/SOC base stats."],
+          [73,"of The River","Nord",11,0,0,0,0,48,"Zero INT/SOC base stats."]
+        ]
+      },
+      alley: {
+        title: "Alley Leaders",
+        cols: ["Rank ↕", "Companion ↕", "Culture ↕", "Age ↕", "Level ↕", "Roguery ↕", "Reasoning"],
+        data: [
+          [1,"The Robber","Empire",19,18,155,"The highest starting Roguery in the data. Young with great combat potential."],
+          [2,"The Silent","Empire",22,18,137,"Elite Roguery base. Extremely effective at squeezing profit out of urban crime."],
+          [3,"Horsethief","Battania",22,19,148,"Massive Roguery and strong combat stats. Perfect for Battanian backstreets."],
+          [4,"The Black","Empire",18,19,153,"Exceptional hybrid of top-tier Roguery and high-tier combat capability."],
+          [5,"The Mad","Khuzait",18,18,104,"Lower Roguery than the \"Tier 1\" criminals, but his elite combat stats make him unkillable in alley brawls."],
+          [6,"The Prince","Aserai",21,20,147,"Very high Roguery, though his personal combat ceiling is slightly lower than the brawlers."],
+          [7,"The Spicevendor","Aserai",24,17,103,"High base Roguery. A very profitable choice for Aserai cities."],
+          [8,"The Alone","Khuzait",22,19,115,"Solid middle-ground with good starting Roguery and Tier 3 combat."],
+          [9,"The Tracker","Vlandia",23,18,81,"Respectable Roguery for a Vlandian specialist with great fighting potential."],
+          [10,"of The Hills","Battania",19,18,52,"Lower Roguery, but very young with plenty of room to grow if the alley stays active."],
+          [11,"The Swift","Khuzait",20,19,99,"High map-scout stats that translate well into urban \"watching the street\" roles."],
+          [12,"The Knowing","Khuzait",28,17,101,"High starting Roguery, but his combat stats are average for high-risk brawls."],
+          [13,"The Hyena","Aserai",22,19,59,"Strong Aserai combatant who can reliably defend his turf."],
+          [14,"The Falcon","Aserai",20,18,50,"Balanced Aserai option with enough Roguery to be profitable."],
+          [15,"The Golden","Aserai",20,19,44,"Lower Roguery, but high combat skill ensures the alley isn't easily taken back."],
+          [16,"The Black","Vlandia",20,19,71,"Decent Vlandian thug; reliable in a fight."],
+          [17,"The Shark","Vlandia",24,19,80,"Strong Vlandian fighter with respectable starting Roguery."],
+          [18,"of The Wastes","Aserai",29,19,64,"Older, but has a solid starting Roguery base for an alley."],
+          [19,"The Accursed","Sturgia",20,17,37,"The best Sturgian criminal option due to high combat attributes."],
+          [20,"The She-Wolf","Khuzait",24,19,79,"Good Roguery base and lethal in a brawl."]
+        ]
+      },
+      combat: {
+        title: "Combat Specialists",
+        cols: ["Rank ↕", "Companion ↕", "Culture ↕", "Age ↕", "Level ↕", "Base V,C,E", "Pot. VCE ↕", "Ideal Breakdown", "Reasoning"],
+        data: [
+          [1,"The Mad","Khuzait",18,18,"V:5 C:3 E:4",22,"V:7 C:7 E:8","12 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [2,"The Boar","Empire",33,18,"V:5 C:3 E:4",22,"V:7 C:7 E:8","12 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [3,"The Red","Battania",24,18,"V:5 C:3 E:4",22,"V:7 C:7 E:8","12 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [4,"The Restless","Nord",24,11,"V:3 C:3 E:4",22,"V:7 C:7 E:8","10 base + 8 from levels (11 to 40) + 4 unspent perks."],
+          [5,"Barrelchest","Vlandia",20,19,"V:5 C:2 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [6,"The Bull","Empire",24,17,"V:5 C:2 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [7,"Bloodaxe","Sturgia",32,18,"V:4 C:3 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [8,"Longknife","Sturgia",22,18,"V:4 C:4 E:3",21,"V:7 C:7 E:7","11 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [9,"The Exile","Empire",20,18,"V:4 C:4 E:3",21,"V:7 C:7 E:7","11 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [10,"Blacktooth","Battania",18,18,"V:4 C:3 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [11,"The Accursed","Sturgia",20,17,"V:4 C:4 E:3",21,"V:7 C:7 E:7","11 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [12,"The Shark","Vlandia",24,19,"V:4 C:3 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [13,"of The Hills","Vlandia",24,19,"V:4 C:4 E:3",21,"V:7 C:7 E:7","11 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [14,"The Ill-Starred","Battania",21,18,"V:4 C:4 E:3",21,"V:7 C:7 E:7","11 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [15,"Breakskull","Sturgia",22,17,"V:4 C:3 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [16,"The Brave","Vlandia",18,19,"V:4 C:3 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [17,"The Hawk","Khuzait",22,18,"V:3 C:4 E:4",21,"V:7 C:7 E:7","11 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [18,"Wave-Breaker","Nord",28,14,"V:4 C:3 E:3",21,"V:7 C:7 E:7","10 base + 7 from levels (14 to 40) + 4 unspent perks."],
+          [19,"Empty-Pockets","Nord",25,13,"V:3 C:3 E:4",21,"V:7 C:7 E:7","10 base + 7 from levels (13 to 40) + 4 unspent perks."],
+          [20,"Trolldaughter","Nord",27,13,"V:3 C:4 E:3",21,"V:7 C:7 E:7","10 base + 7 from levels (13 to 40) + 4 unspent perks."],
+          [21,"The Fisherman","Vlandia",22,13,"V:3 C:4 E:3",21,"V:7 C:7 E:7","10 base + 7 from levels (13 to 40) + 4 unspent perks."],
+          [22,"of The River","Nord",26,11,"V:3 C:3 E:3",21,"V:7 C:7 E:7","9 base + 8 from levels (11 to 40) + 4 unspent perks."],
+          [23,"The Smith","Vlandia",20,18,"V:4 C:3 E:4",20,"V:7 C:7 E:6","11 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent)."],
+          [24,"The Shieldmaiden","Sturgia",24,17,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [25,"The Golden","Aserai",20,19,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [26,"The Black","Empire",18,19,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [27,"The Black","Vlandia",20,19,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [28,"The Butcher","Empire",28,17,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [29,"The Wanderer","Battania",18,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [30,"The Wanderer","Aserai",20,18,"V:3 C:3 E:4",20,"V:6 C:7 E:7","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [31,"of The Hills","Battania",19,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [32,"Ironeye","Khuzait",32,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [33,"The Silent","Empire",22,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [34,"Horsethief","Battania",22,19,"V:3 C:3 E:4",20,"V:6 C:7 E:7","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [35,"Frostbeard","Sturgia",21,18,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [36,"The Grizzled","Vlandia",27,19,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [37,"The Loud","Vlandia",21,18,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [38,"The She-Wolf","Khuzait",24,19,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [39,"The Hyena","Aserai",22,19,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [40,"The Robber","Empire",19,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [41,"The Swift","Khuzait",20,19,"V:3 C:3 E:4",20,"V:6 C:7 E:7","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [42,"The Grey Falcon","Khuzait",18,19,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [43,"The Huntress","Vlandia",21,19,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [44,"The Swordsman","Aserai",32,18,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [45,"The Alone","Khuzait",22,19,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [46,"Bellowsbreath","Vlandia",21,17,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [47,"Coalbiter","Sturgia",28,17,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [48,"The Falcon","Aserai",20,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [49,"The Tracker","Vlandia",23,18,"V:3 C:4 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [50,"Ironbelly","Battania",32,18,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [51,"The Dispossessed","Empire",23,17,"V:3 C:3 E:4",20,"V:6 C:7 E:7","10 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [52,"The Outcast","Khuzait",19,19,"V:4 C:3 E:3",20,"V:7 C:7 E:6","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [53,"The Shipwright","Empire",28,12,"V:3 C:3 E:3",20,"V:6 C:7 E:7","9 base + 7 from levels (12 to 40) + 4 unspent perks."],
+          [54,"The Navigator","Aserai",28,12,"V:3 C:3 E:3",20,"V:6 C:7 E:7","9 base + 7 from levels (12 to 40) + 4 unspent perks."],
+          [55,"of The Wastes","Aserai",29,19,"V:3 C:3 E:4",20,"V:6 C:7 E:7","10 base + 6 from levels (19 to 40) + 4 unspent perks."],
+          [56,"The Wainwright","Vlandia",21,18,"V:3 C:3 E:4",19,"V:6 C:6 E:7","10 base + 6 from levels (18 to 40) + 3 unspent perks (1 spent)."],
+          [57,"Cowthief","Battania",18,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [58,"The Fatherless","Khuzait",18,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [59,"The Fish","Sturgia",20,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [60,"The Lucky","Sturgia",18,17,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [61,"The Spicevendor","Aserai",24,17,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [62,"The Ragged","Battania",20,17,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [63,"The Ragged","Khuzait",20,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [64,"The Wanderer","Empire",20,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [65,"The Engineer","Aserai",21,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [66,"Fairhair","Battania",25,18,"V:3 C:3 E:3",19,"V:6 C:6 E:7","9 base + 6 from levels (18 to 40) + 4 unspent perks."],
+          [67,"Willowbark","Sturgia",23,15,"V:2 C:3 E:3",19,"V:6 C:6 E:7","8 base + 7 from levels (15 to 40) + 4 unspent perks."],
+          [68,"The Leopardess","Aserai",19,20,"V:4 C:3 E:3",19,"V:7 C:6 E:6","10 base + 5 from levels (20 to 40) + 4 unspent perks."],
+          [69,"The Scholar","Aserai",22,17,"V:2 C:3 E:3",18,"V:5 C:6 E:7","8 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [70,"The Prince","Aserai",21,20,"V:3 C:3 E:3",18,"V:6 C:6 E:6","9 base + 5 from levels (20 to 40) + 4 unspent perks."],
+          [71,"The Healer","Battania",28,16,"V:2 C:3 E:3",18,"V:5 C:6 E:7","8 base + 6 from levels (16 to 40) + 4 unspent perks."],
+          [72,"The Knowing","Khuzait",28,17,"V:2 C:3 E:3",18,"V:5 C:6 E:7","8 base + 6 from levels (17 to 40) + 4 unspent perks."],
+          [73,"Bitterdraught","Vlandia",29,16,"V:2 C:3 E:3",18,"V:5 C:6 E:7","8 base + 6 from levels (16 to 40) + 4 unspent perks."],
+          [74,"The Surgeon","Empire",30,16,"V:2 C:2 E:3",17,"V:5 C:5 E:7","7 base + 6 from levels (16 to 40) + 4 unspent perks."],
+          [75,"The Scholar","Empire",25,16,"V:2 C:2 E:2",16,"V:5 C:5 E:6","6 base + 6 from levels (16 to 40) + 4 unspent perks."]
+        ]
+      }
+    };
+
+    function buildTabs() {
+      const btnContainer = document.getElementById('tab-buttons');
+      const contentContainer = document.getElementById('tab-content');
+      let first = true;
+
+      for (const [key, section] of Object.entries(db)) {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${first ? 'active' : ''}`;
+        btn.innerText = section.title;
+        btn.onclick = (e) => switchTab(key, e.currentTarget);
+        btnContainer.appendChild(btn);
+
+        const pane = document.createElement('div');
+        pane.id = `tab-${key}`;
+        pane.className = `tab-pane ${first ? 'active' : ''}`;
+        
+        let tableHTML = `<div class="table-wrapper"><table class="tier-table" id="table-${key}"><thead><tr>`;
+        section.cols.forEach((col, index) => {
+          tableHTML += `<th onclick="sortTable(${index}, 'table-${key}')">${col}</th>`;
+        });
+        tableHTML += `</tr></thead><tbody>`;
+        
+        section.data.forEach(row => {
+          tableHTML += `<tr>`;
+          row.forEach(cell => { tableHTML += `<td>${cell}</td>`; });
+          tableHTML += `</tr>`;
+        });
+        
+        tableHTML += `</tbody></table></div>`;
+        pane.innerHTML = tableHTML;
+        contentContainer.appendChild(pane);
+        first = false;
+      }
+    }
+
+    function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      event.currentTarget.classList.add('active');
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+      btn.classList.add('active');
     }
 
     function sortTable(n, tableId) {
-      var table = document.getElementById(tableId);
-      var rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-      switching = true;
-      dir = "asc"; 
+      const table = document.getElementById(tableId);
+      let rows, switching = true, dir = "asc", switchcount = 0;
       while (switching) {
         switching = false;
         rows = table.rows;
-        for (i = 1; i < (rows.length - 1); i++) {
-          shouldSwitch = false;
-          x = rows[i].getElementsByTagName("TD")[n];
-          y = rows[i + 1].getElementsByTagName("TD")[n];
-          var xVal = isNaN(x.innerHTML) ? x.innerHTML.toLowerCase() : parseFloat(x.innerHTML);
-          var yVal = isNaN(y.innerHTML) ? y.innerHTML.toLowerCase() : parseFloat(y.innerHTML);
-          if (dir == "asc") { if (xVal > yVal) { shouldSwitch = true; break; } } 
-          else if (dir == "desc") { if (xVal < yVal) { shouldSwitch = true; break; } }
+        for (let i = 1; i < (rows.length - 1); i++) {
+          let shouldSwitch = false;
+          let x = rows[i].getElementsByTagName("TD")[n];
+          let y = rows[i + 1].getElementsByTagName("TD")[n];
+          let xVal = isNaN(x.innerHTML) ? x.innerHTML.toLowerCase() : parseFloat(x.innerHTML);
+          let yVal = isNaN(y.innerHTML) ? y.innerHTML.toLowerCase() : parseFloat(y.innerHTML);
+          if (dir == "asc" ? xVal > yVal : xVal < yVal) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount++;
+            break;
+          }
         }
-        if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount ++; } 
-        else { if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; } }
+        if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
       }
     }
+
+    window.onload = buildTabs;
   </script>
 </body>
 </html>
