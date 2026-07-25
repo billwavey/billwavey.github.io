@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Wavey's 2H Axe Grader</title>
+    <style>
+        :root {
+            --bg-main: #0b1120;
+            --bg-panel: #111827;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #f59e0b;
+            --border: #334155;
+            --s-tier: #a855f7;
+            --a-tier: #10b981;
+            --b-tier: #3b82f6;
+            --c-tier: #eab308;
+            --f-tier: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { background-color: var(--bg-main); color: var(--text-main); }
+
+        nav { background-color: #050505; border-bottom: 1px solid #2a2a35; padding: 0 30px; height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-logo { height: 40px; width: 40px; border-radius: 50%; background: #1f2937; margin-right: 15px; }
+        .nav-title { font-size: 20px; font-weight: 800; text-transform: uppercase; text-decoration: none; color: #ffffff; }
+
+        .container { max-width: 850px; width: 100%; margin: 30px auto; padding: 0 20px; }
+
+        header { text-align: center; margin-bottom: 30px; padding: 20px; background: var(--bg-panel); border-radius: 8px; border: 1px solid var(--border); }
+        header h1 { font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
+        header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 25px; }
+        .panel h2 { font-size: 1.1rem; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; color: var(--accent); }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
+        .input-group input { width: 100%; background: var(--bg-main); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 4px; font-size: 1rem; }
+        .input-group input:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+
+        .result-box { text-align: center; margin-bottom: 25px; }
+        .tier-grade { font-size: 5rem; font-weight: 900; line-height: 1; margin: 5px 0; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .overall-score { font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 10px; }
+        .tier-label { font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+
+        .score-breakdown { display: flex; gap: 15px; }
+        .score-card { flex: 1; background: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; padding: 15px; text-align: center; }
+        .score-card h3 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .score-card .val { font-size: 1.5rem; font-weight: bold; color: #fff; }
+
+        .tips-box { margin-top: 20px; padding: 15px; background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--accent); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .tips-box h3 { color: var(--accent); margin-bottom: 5px; font-size: 0.9rem; }
+        .tips-box ul { list-style-position: inside; margin-top: 5px; }
+        .bonus-text { font-size: 0.85rem; color: var(--accent); margin-top: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo"></div>
+        <a href="index.html" class="nav-title">Bill Wavey Tools</a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Bill Wavey's 2H Axe Grader</h1>
+            <p>Kinetic Momentum Engine (2H Axe Optimized)</p>
+        </header>
+
+        <div class="grid-layout">
+            <div class="panel">
+                <h2>Character Stats</h2>
+                <div class="input-group">
+                    <label>Two Handed Level (0-330)</label>
+                    <input type="number" id="c_level" value="166" min="0" max="330" oninput="calculateGrade()">
+                    <div id="bonusDisplay" class="bonus-text">Speed: +11.62% | Damage: +24.90%</div>
+                </div>
+
+                <h2 style="margin-top: 30px;">Weapon Stats</h2>
+                <div class="input-group"><label>Weight</label><input type="number" step="0.01" id="w_w" value="1.52" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Weapon Reach</label><input type="number" id="w_r" value="128" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Swing Speed</label><input type="number" id="w_ss" value="84" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Swing Damage</label><input type="number" id="w_sd" value="139" oninput="calculateGrade()"></div>
+                <div class="input-group"><label>Handling</label><input type="number" id="w_h" value="74" oninput="calculateGrade()"></div>
+            </div>
+
+            <div class="panel">
+                <h2>Overall Rating</h2>
+                <div class="result-box">
+                    <div class="tier-label">Executioner Tier</div>
+                    <div class="tier-grade" id="tierDisplay">S-</div>
+                    <div class="overall-score">Score: <span id="finalScoreDisplay">0</span></div>
+                </div>
+
+                <div class="score-breakdown">
+                    <div class="score-card"><h3>Vs Light</h3><div class="val" id="scoreLight">0</div></div>
+                    <div class="score-card"><h3>Vs Heavy</h3><div class="val" id="scoreHeavy">0</div></div>
+                </div>
+
+                <div class="tips-box">
+                    <h3>Tips</h3>
+                    <ul>
+                        <li><strong>Cleave Mechanics:</strong> Axes benefit greatly from reach (0.63 exponent) because it extends the swing arc to catch secondary targets.</li>
+                        <li><strong>Reach Collision:</strong> Exceeding 120 reach triggers geometric collision penalties that ruin cleave potential by snagging on hitboxes in dense crowds.</li>
+                        <li><strong>Damage Scaling:</strong> Axes have a lower damage exponent (1.14) than swords; overkill damage on the primary target is less valuable than hitting multiple troops.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PHYSICS = { 
+            scale: 25.03, 
+            armourPen: 0.01, 
+            dmgCurve: 1.14, 
+            reachCurve: 0.63, 
+            hndlCurve: 0.10, 
+            weightCurve: 0.01 
+        };
+        
+        const ARMOUR_LIGHT = 15.0; 
+        const ARMOUR_HEAVY = 55.0; 
+        
+        const MAX_KILLS_LIGHT = 40.0; 
+        const MAX_KILLS_HEAVY = 25.0; 
+
+        const LEVEL_SPD_MULT = 0.0007; 
+        const LEVEL_DMG_MULT = 0.0015;
+
+        function getBaseKills(sd, ss, h, r, w, armour, modSpd, modDmg) {
+            let rawSd = sd * modDmg; 
+            let effSd = Math.max(1.0, rawSd / (1.0 + (armour * PHYSICS.armourPen))); 
+            let collisionPenalty = Math.max(0.5, 1 - (Math.max(0, r - 120) / 100)); 
+
+            let termDmg = Math.pow(effSd / 100, PHYSICS.dmgCurve); 
+            let termReach = Math.pow(r / 100, PHYSICS.reachCurve); 
+            let termSpd = (ss * modSpd) / 100; 
+            let termHndl = Math.pow(h / 100, PHYSICS.hndlCurve); 
+            let termWeight = Math.pow(w / 1.5, PHYSICS.weightCurve); 
+            
+            return Math.max(1.0, PHYSICS.scale * termDmg * termReach * termSpd * termHndl * termWeight * collisionPenalty); 
+        }
+
+        function calculateGrade() {
+            let level = parseFloat(document.getElementById('c_level').value) || 0; 
+            let bonusSpdPct = level * 0.07; 
+            let bonusDmgPct = level * 0.15; 
+            let modSpd = 1.0 + (level * LEVEL_SPD_MULT); 
+            let modDmg = 1.0 + (level * LEVEL_DMG_MULT); 
+
+            document.getElementById('bonusDisplay').innerText = `Speed: +${bonusSpdPct.toFixed(2)}% | Damage: +${bonusDmgPct.toFixed(2)}%`; 
+
+            let sd = parseFloat(document.getElementById('w_sd').value) || 1; 
+            let ss = parseFloat(document.getElementById('w_ss').value) || 1; 
+            let h = parseFloat(document.getElementById('w_h').value) || 1; 
+            let r = parseFloat(document.getElementById('w_r').value) || 1; 
+            let w = parseFloat(document.getElementById('w_w').value) || 0.1; 
+
+            let killsLight = getBaseKills(sd, ss, h, r, w, ARMOUR_LIGHT, modSpd, modDmg); 
+            let killsHeavy = getBaseKills(sd, ss, h, r, w, ARMOUR_HEAVY, modSpd, modDmg); 
+
+            let sL = Math.max(0, Math.round((killsLight / MAX_KILLS_LIGHT) * 100)); 
+            let sH = Math.max(0, Math.round((killsHeavy / MAX_KILLS_HEAVY) * 100)); 
+            let final = Math.round((sL * 0.3) + (sH * 0.7)); 
+            
+            document.getElementById('scoreLight').innerText = sL; 
+            document.getElementById('scoreHeavy').innerText = sH; 
+            document.getElementById('finalScoreDisplay').innerText = final; 
+            
+            let tierData = [[110, 'S+'], [100, 'S'], [95, 'S-'], [90, 'A+'], [85, 'A'], [80, 'A-'], [70, 'B+'], [60, 'B'], [50, 'B-'], [45, 'C+'], [40, 'C'], [35, 'C-'], [25, 'D']];
+            let tier = 'F'; 
+            for(let t of tierData) { if(final >= t[0]) { tier = t[1]; break; } } 
+            
+            let tierEl = document.getElementById('tierDisplay'); 
+            tierEl.innerText = tier; 
+            tierEl.style.color = (final >= 95) ? 'var(--s-tier)' : (final >= 80) ? 'var(--a-tier)' : (final >= 50) ? 'var(--b-tier)' : (final >= 35) ? 'var(--c-tier)' : 'var(--f-tier)'; 
+        }
+        
+        calculateGrade(); 
+    </script>
+</body>
+</html>
