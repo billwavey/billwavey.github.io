@@ -72,7 +72,7 @@
     <div class="container">
         <header>
             <h1>Bill Wavey's 1H Sword Grader</h1>
-            <p>Kinetic Momentum Engine v2.9</p>
+            <p>Kinetic Momentum Engine (1H Optimized)</p>
         </header>
 
         <div class="grid-layout">
@@ -103,9 +103,9 @@
             <div class="panel">
                 <h2>Overall Rating</h2>
                 <div class="result-box">
-                    <div class="tier-label">Godsword Tier</div>
+                    <div class="tier-label">Arming Sword Tier</div>
                     <div class="tier-grade" id="tierDisplay">S-</div>
-                    <div class="overall-score">Score: <span id="finalScoreDisplay">0</span>/100</div>
+                    <div class="overall-score">Score: <span id="finalScoreDisplay">0</span></div>
                 </div>
 
                 <div class="score-breakdown">
@@ -127,10 +127,12 @@
 
     <script>
         const PHYSICS = { scale: 13.38, armourPen: 0.52, dmgCurve: 1.50, staggerCurve: 0.79, reachCurve: 0.76, hndlCurve: 0.91, weightCurve: 0.20, thrustPenaltyBase: 0.77, enemyHP: 100.0 };
-        const ARMOUR_LIGHT = 15.0, ARMOUR_HEAVY = 45.0;
         
-        const MAX_KILLS_LIGHT = 26.0; 
-        const MAX_KILLS_HEAVY = 20.0;
+        const ARMOUR_LIGHT = 15.0;
+        const ARMOUR_HEAVY = 55.0;
+        
+        const MAX_KILLS_LIGHT = 40.0; 
+        const MAX_KILLS_HEAVY = 25.0;
 
         const LEVEL_SPD_MULT = 0.0007; 
         const LEVEL_DMG_MULT = 0.0015;
@@ -163,21 +165,21 @@
             let td = hasThrust ? (parseFloat(document.getElementById('w_td').value) || 0) : 0;
             let ts = hasThrust ? (parseFloat(document.getElementById('w_ts').value) || 0) : 0;
 
-            let sL = Math.round((getBaseKills(sd, ss, h, r, w, td, ts, ARMOUR_LIGHT, hasThrust, modSpd, modDmg) / MAX_KILLS_LIGHT) * 100);
-            let sH = Math.round((getBaseKills(sd, ss, h, r, w, td, ts, ARMOUR_HEAVY, hasThrust, modSpd, modDmg) / MAX_KILLS_HEAVY) * 100);
+            let sL = Math.max(0, Math.round((getBaseKills(sd, ss, h, r, w, td, ts, ARMOUR_LIGHT, hasThrust, modSpd, modDmg) / MAX_KILLS_LIGHT) * 100));
+            let sH = Math.max(0, Math.round((getBaseKills(sd, ss, h, r, w, td, ts, ARMOUR_HEAVY, hasThrust, modSpd, modDmg) / MAX_KILLS_HEAVY) * 100));
             let final = Math.round((sL * 0.3) + (sH * 0.7));
             
             document.getElementById('scoreLight').innerText = sL; 
             document.getElementById('scoreHeavy').innerText = sH; 
             document.getElementById('finalScoreDisplay').innerText = final;
             
-            let tierData = [[86, 'S+'], [82, 'S'], [78, 'S-'], [74, 'A+'], [70, 'A'], [65, 'A-'], [60, 'B+'], [55, 'B'], [50, 'B-'], [45, 'C+'], [40, 'C'], [35, 'C-'], [25, 'D']];
+            let tierData = [[110, 'S+'], [100, 'S'], [95, 'S-'], [90, 'A+'], [85, 'A'], [80, 'A-'], [75, 'B+'], [70, 'B'], [65, 'B-'], [55, 'C+'], [45, 'C'], [35, 'C-'], [25, 'D']];
             let tier = 'F';
             for(let t of tierData) { if(final >= t[0]) { tier = t[1]; break; } }
             
             let tierEl = document.getElementById('tierDisplay'); 
             tierEl.innerText = tier; 
-            tierEl.style.color = (final >= 78) ? 'var(--s-tier)' : (final >= 65) ? 'var(--a-tier)' : (final >= 50) ? 'var(--b-tier)' : (final >= 35) ? 'var(--c-tier)' : 'var(--f-tier)';
+            tierEl.style.color = (final >= 95) ? 'var(--s-tier)' : (final >= 80) ? 'var(--a-tier)' : (final >= 65) ? 'var(--b-tier)' : (final >= 35) ? 'var(--c-tier)' : 'var(--f-tier)';
         }
         calculateGrade();
     </script>
